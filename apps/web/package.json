@@ -1,5 +1,5 @@
 {
-  "name": "mbtq-pinksync-client",
+  "name": "@mbtq/web",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -10,9 +10,11 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "interactjs": "^1.10.23",
-    "@axe-core/react": "^4.7.2",
-    "socket.io-client": "^4.7.4"
+    "@mbtq/quantum-core": "workspace:*",
+    "@mbtq/terminal-tools": "workspace:*",
+    "@mbtq/ai-agent": "workspace:*",
+    "@mbtq/codegen": "workspace:*",
+    "@mbtq/pinksync": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

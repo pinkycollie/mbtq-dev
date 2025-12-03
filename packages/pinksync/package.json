@@ -1,0 +1,25 @@
+{
+  "name": "@mbtq/pinksync",
+  "version": "1.0.0",
+  "main": "./src/index.tsx",
+  "types": "./src/index.tsx",
+  "exports": {
+    ".": "./src/index.tsx",
+    "./PinkSyncWidget": "./src/PinkSyncWidget.tsx"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "interactjs": "^1.10.23",
+    "socket.io-client": "^4.7.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "typescript": "^5.3.3"
+  }
+}
