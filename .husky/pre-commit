@@ -1,0 +1,17 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔍 Running accessibility checks before commit..."
+
+# Run linter
+npm run lint
+
+# Run tests
+npm test
+
+# Run accessibility check on example files
+if [ -d "examples" ]; then
+  npm run accessibility:check -- --file=examples/accessible-page.html || echo "⚠️  Accessibility issues found in examples"
+fi
+
+echo "✅ Pre-commit checks complete"
