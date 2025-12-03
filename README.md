@@ -1,4 +1,4 @@
-# 🌈 PinkSync Starter Kit for LGBTQ (mbtq.dev)
+# 🌈 MBTQ-dev Starter Kit for LGBTQ (mbtq.dev)
 
 A production-grade, real-time, drag-resize-accessible React starter for Deaf/Queer adaptive workspaces.
 
