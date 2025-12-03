@@ -5,8 +5,7 @@
  * Command-line interface for accessibility checking
  */
 
-import { AccessibilityChecker } from '../core/accessibility-checker';
-import { AriaValidator } from '../core/aria-validator';
+import { AccessibilityChecker, AccessibilityCheckResult, AccessibilityIssue } from '../core/accessibility-checker';
 import { ColorContrastChecker } from '../core/color-contrast-checker';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -71,7 +70,7 @@ class AccessibilityCLI {
   /**
    * Print text format report
    */
-  private printTextReport(result: any): void {
+  private printTextReport(result: AccessibilityCheckResult): void {
     console.log('═══════════════════════════════════════════════════════\n');
 
     if (result.passed) {
@@ -95,7 +94,7 @@ class AccessibilityCLI {
     if (result.errors.length > 0) {
       console.log('═══════════════════════════════════════════════════════');
       console.log('ERRORS:\n');
-      result.errors.forEach((error: any, index: number) => {
+      result.errors.forEach((error: AccessibilityIssue, index: number) => {
         console.log(`${index + 1}. [${error.severity.toUpperCase()}] ${error.message}`);
         console.log(`   WCAG: ${error.wcagLevel} - ${error.wcagCriteria}`);
         if (error.element && this.options.verbose) {
@@ -114,7 +113,7 @@ class AccessibilityCLI {
     if (result.warnings.length > 0) {
       console.log('═══════════════════════════════════════════════════════');
       console.log('WARNINGS:\n');
-      result.warnings.forEach((warning: any, index: number) => {
+      result.warnings.forEach((warning: AccessibilityIssue, index: number) => {
         console.log(`${index + 1}. [${warning.severity.toUpperCase()}] ${warning.message}`);
         console.log(`   WCAG: ${warning.wcagLevel} - ${warning.wcagCriteria}`);
         if (warning.suggestion) {

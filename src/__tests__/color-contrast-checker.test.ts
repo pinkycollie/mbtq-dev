@@ -121,8 +121,8 @@ describe('ColorContrastChecker', () => {
       const blue = ColorContrastChecker.checkContrast('#0066CC', '#FFFFFF', 16, false);
       expect(blue.passesAA).toBe(true);
 
-      // Success green on white
-      const green = ColorContrastChecker.checkContrast('#28A745', '#FFFFFF', 16, false);
+      // Success green on white - #28A745 has ~3:1 contrast, passes for large text
+      const green = ColorContrastChecker.checkContrast('#28A745', '#FFFFFF', 18, false);
       expect(green.passesAA).toBe(true);
 
       // Danger red on white
