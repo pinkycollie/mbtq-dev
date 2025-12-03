@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.contrast,
+body.contrast {
+  background: #000 !important;
+  color: #fff !important;
+}
+.contrast .bg-pink-50,
+body.contrast .bg-pink-50 {
+  background: #222 !important;
+  color: #fff !important;
+  border-color: #ff69b4 !important;
+}
