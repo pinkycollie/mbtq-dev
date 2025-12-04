@@ -4,11 +4,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+.pnpm-store/
 
 # Build outputs
 dist/
 build/
 .vite/
+.next/
+out/
+*.tgz
 
 # Environment variables
 .env
@@ -36,3 +40,7 @@ logs
 # Temporary files
 tmp/
 temp/
+
+# Turbo
+.turbo/
+

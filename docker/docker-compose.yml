@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.web
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../apps/web:/app/apps/web
+      - ../packages:/app/packages
+      - /app/node_modules
+    environment:
+      - VITE_SOCKET_SERVER_URL=http://localhost:4000
+    command: pnpm --filter @mbtq/web dev
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.server
+    ports:
+      - "4000:4000"
+    volumes:
+      - ../server:/app/server
+      - /app/server/node_modules
+    command: npm start
+    working_dir: /app/server
+
+  # Future: Add Rust/Deno services here
+  # rust-api:
+  #   build: ./rust
+  #   ports:
+  #     - "8080:8080"
+  
+  # deno-runtime:
+  #   image: denoland/deno:latest
+  #   ports:
+  #     - "8000:8000"
+  #   volumes:
+  #     - ./deno:/app
+  #   command: deno run --allow-net /app/main.ts
+
+networks:
+  default:
+    name: mbtq-quantum-network

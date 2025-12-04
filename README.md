@@ -1,204 +1,360 @@
-# 🌈 MBTQ-dev Starter Kit for LGBTQ (mbtq.dev)
+# 🌈 mbtq Quantum Dev - Framework-Agnostic Development Platform
 
-A production-grade, real-time, drag-resize-accessible React starter for Deaf/Queer adaptive workspaces.
+**Not another dev kit: This is culture, quantum agency, adaptive, inclusive.**
+
+A production-ready, quantum-inspired **framework-agnostic** development platform with AI agents, real-time collaboration, multi-language code generation, accessibility-first design, and radical inclusivity. Built by and for the Deaf, Queer, and Disabled communities.
 
 ## 💎 What Makes This Legendary?
 
-**This isn't just another UI kit.** This is a culture-first, accessibility-native, real-time collaborative development platform built by and for the LGBTQ+ and Deaf communities.
+This isn't just another UI kit or starter template. **mbtq Quantum Dev** is a complete, extensible development ecosystem with **pure React components** that work anywhere:
 
-### ✨ Core Features
+- 🎯 **Framework Agnostic** - Pure React packages work with Vite, Next.js, Remix, Astro, Gatsby, or any React framework
+- 🤖 **AI-Powered Development** - Conversational agents ready for OpenAI, Claude, Gemini, local Rust/Deno
+- 🖥️ **Quantum Terminal** - Web-based shell with Deno, Rust, and JavaScript runtime support
+- ✨ **Code Generation** - SaaS templates, Zod schemas, multi-language snippets (Rust, TypeScript, Deno, HTML)
+- 🔄 **Real-time Sync** - Drag-drop-resize widgets with Socket.IO multiuser collaboration
+- ♿ **Accessibility Native** - WCAG compliant, screen-reader optimized, high-contrast modes, axe-core integrated
+- 🎨 **Quantum Snippets** - Multi-language code library with drag-drop-copy-export
+- 🏗️ **Modular Monorepo** - Extensible architecture with workspace packages
+- 🐳 **Docker Ready** - Full containerization for dev and production
+- ⚡ **Turbo + pnpm** - Lightning-fast build system
 
-- **🎨 Movable, Resizable Widgets** - Built with Interact.js for smooth, intuitive drag-and-drop
-- **🔄 Real-time Multiuser Sync** - Socket.IO powered collaboration
-- **♿ Accessibility First** - WCAG compliant, screen-reader optimized, ARIA-enhanced
-- **🎭 High Contrast Toggle** - Adaptive visual modes for low vision users
-- **🔍 Built-in A11y Testing** - Integrated axe-core for automatic accessibility analysis
-- **🏳️‍🌈 Queer & Deaf Culture** - Visual alerts, manifesto, community-driven design
-- **⚡ Modern Tech Stack** - React 18, TypeScript, Vite, Tailwind CSS
-- **🔌 Modular Architecture** - Ready for DeafAuth, video, AI, and more plug-ins
+---
 
-## 🚀 Getting Started
+## 🏗️ Monorepo Architecture
+
+```
+mbtq-quantum-dev/
+├── apps/
+│   └── web/              # Framework-agnostic React + Vite UI
+│                         # (Easily adaptable to Next.js, Remix, Astro, etc.)
+├── packages/
+│   ├── quantum-core/     # Core widgets (A11yBar, QuantumSnippets)
+│   ├── terminal-tools/   # QuantumTerminal with multi-runtime support
+│   ├── ai-agent/         # QuantumAgentChat - conversational codegen
+│   ├── codegen/          # SaaS template generator, Zod schemas
+│   └── pinksync/         # Real-time drag/resize/sync widgets
+├── server/               # Socket.IO backend for real-time features
+├── docker/               # Docker compose and containerization
+├── scripts/              # Development automation
+├── pnpm-workspace.yaml   # Workspace configuration
+├── turbo.json            # Turbo build pipeline
+└── package.json          # Monorepo root
+```
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ 
-- npm or yarn
+- **Node.js 18+**
+- **pnpm 8+** (recommended) or npm
+- **Docker** (optional, for containerized development)
 
-### 1. Install Dependencies
+### Option 1: Local Development (Fastest)
 
-#### Client
 ```bash
-cd client
-npm install
+# Install pnpm if you don't have it
+npm install -g pnpm
+
+# Install all dependencies
+pnpm install
+
+# Start everything (server + web)
+./scripts/dev.sh
 ```
 
-#### Server
+Or start services individually:
+
 ```bash
+# Terminal 1: Start Socket.IO server
 cd server
 npm install
-```
-
-### 2. Start Backend
-
-```bash
-cd server
 npm start
+
+# Terminal 2: Start web app
+pnpm --filter @mbtq/web dev
 ```
 
-The server will start on `http://localhost:4000`
+The application will be available at:
+- **Web App**: http://localhost:5173
+- **Server**: http://localhost:4000
 
-### 3. Start Frontend
+### Option 2: Docker Development
 
 ```bash
-cd client
-npm run dev
+cd docker
+docker-compose up
 ```
 
-The client will start on `http://localhost:5173`
+---
 
-### 4. Open Your Browser
+## ✨ Core Features
 
-Navigate to [http://localhost:5173/](http://localhost:5173/)
+### 🤖 Quantum Agent Chat
 
-## 🏗️ Project Structure
+AI-powered conversational assistant that helps you:
+- Generate SaaS templates (dashboards, auth, landing pages)
+- Create Zod schemas for type-safe APIs
+- Write Rust, Deno, or TypeScript code
+- Automate terminal commands
+- Improve accessibility
 
-```
-mbtq-pinksync-starter-kit/
-├── client/                    # React frontend
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── PinkSyncWidget.tsx    # Draggable/resizable widget
-│   │   │   ├── A11yBar.tsx           # Accessibility controls
-│   │   │   └── Manifesto.tsx         # Community manifesto
-│   │   ├── App.tsx                   # Main application
-│   │   ├── main.tsx                  # Entry point
-│   │   └── index.css                 # Global styles
-│   ├── index.html
-│   └── package.json
-├── server/                    # Socket.IO backend
-│   ├── index.js              # Real-time sync server
-│   └── package.json
-├── vite.config.ts            # Vite configuration
-├── tailwind.config.js        # Tailwind + custom theme
-├── tsconfig.json             # TypeScript config
-└── README.md
-```
+**Ready for integration with:**
+- OpenAI GPT-4
+- Anthropic Claude
+- Google Gemini
+- Local Rust/Deno agents
 
-## 🎨 Technology Stack
+### 🖥️ Quantum Terminal
 
-### Frontend
-- **React 18** - Modern, component-based UI
-- **TypeScript** - Type-safe development
-- **Vite** - Lightning-fast build tool
-- **Tailwind CSS** - Utility-first styling with custom mbtq theme
-- **Interact.js** - Best-in-class drag and resize
-- **Socket.IO Client** - Real-time communication
-- **axe-core** - Automated accessibility testing
+Interactive web terminal with:
+- Theme customization (dark, light, quantum)
+- Command execution simulation
+- Deno runtime integration (ready)
+- Rust WASM support (ready)
+- AI agent integration hooks
 
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express** - Minimal web framework
-- **Socket.IO** - Real-time bidirectional communication
-- **CORS** - Cross-origin resource sharing
+**Commands:** `help`, `clear`, `theme`, `deno`, `rust`, `agent`, `quantum`, `whoami`, `date`
 
-## ♿ Accessibility Features
+### ✨ Quantum Snippets
 
-### Built-in Support
-- ✅ ARIA labels and roles
-- ✅ Keyboard navigation
-- ✅ Screen reader optimization
-- ✅ High contrast mode toggle
-- ✅ Focus management
-- ✅ Semantic HTML
-- ✅ Automated axe-core testing
+Multi-language code snippet library:
+- **Languages**: Zod, Rust, TypeScript, HTML, Deno
+- Drag-and-drop to use
+- Copy to clipboard
+- Add custom snippets
+- Export to SaaS templates
 
-### Accessibility Bar
-The bottom bar provides:
-- **High Contrast Toggle** - Switch between normal and high-contrast modes
-- **A11y Check** - Run automated accessibility analysis (results in console)
+### 🏗️ SaaS Template Generator
 
-## 🔄 Real-time Features
+Generate production-ready templates:
+- **Dashboard** - Analytics, stats, tables
+- **Authentication** - Login/signup forms
+- **Landing Page** - Hero, features, CTA
+- **REST API** - TypeScript + Zod validation
 
-### Sync Events
-- **Move** - Widget position updates broadcast to all connected clients
-- **Resize** - Widget dimension changes sync in real-time
-- **Visual Alerts** - Deaf-priority notifications system
+All templates are:
+- Tailwind CSS styled
+- Accessibility compliant
+- Mobile responsive
+- Copy/download ready
 
-### How It Works
-1. Client connects to Socket.IO server
-2. User interacts with widget (drag/resize)
-3. Events emit to server
-4. Server broadcasts to all other clients
-5. All clients update in real-time
+### 🌸 PinkSync Widgets
 
-## 🎭 The mbtq.dev Manifesto
+Real-time collaborative widgets:
+- Drag and drop positioning
+- Resize handles on all edges
+- Socket.IO real-time sync
+- Multi-user collaboration
+- Visual alerts for Deaf users
 
-Click the **Manifesto** button to view our community principles:
+### ♿ Accessibility Bar
 
-- Empower Deaf, Queer, Disabled creators with world-class tools
-- AI must serve culture, not erase it
-- Design has radical inclusivity baked in
-- Our code is Open—a community, not a product
-- If it doesn't make you smile, remix it until it does
+Built-in accessibility controls:
+- High contrast mode toggle
+- Automated axe-core testing
+- ARIA labels and roles
+- Keyboard navigation support
+- Screen reader optimization
 
-## 🔌 Extensibility
+---
 
-This starter kit is designed to be extended with:
+## 📦 Package Overview
 
-- **@mbtq.dev/deafauth** - Sign language video authentication
-- **@mbtq.dev/ai-gen** - AI-powered accessible code generation
-- **@mbtq.dev/video** - Accessible video chat
-- **GitHub HTML Import** - Import and preview HTML from repositories
-- **Figma Sync** - Real-time design collaboration
+### `@mbtq/quantum-core`
+Core UI components and accessibility features
+- `QuantumSnippets` - Code snippet manager
+- `A11yBar` - Accessibility controls
 
-## 🛠️ Development
+### `@mbtq/terminal-tools`
+Terminal and command-line interfaces
+- `QuantumTerminal` - Web-based terminal
 
-### Build for Production
+### `@mbtq/ai-agent`
+AI agent and conversational interfaces
+- `QuantumAgentChat` - AI assistant
+
+### `@mbtq/codegen`
+Code generation and templating
+- `SaaSTemplateGen` - Template generator
+
+### `@mbtq/pinksync`
+Real-time collaboration widgets
+- `PinkSyncWidget` - Drag/resize/sync component
+
+---
+
+## 🔧 Development
+
+### Build All Packages
 
 ```bash
-cd client
-npm run build
+pnpm build
 ```
 
-### Preview Production Build
+### Run Specific Package
 
 ```bash
-cd client
-npm run preview
+pnpm --filter @mbtq/web dev
+pnpm --filter @mbtq/quantum-core build
 ```
 
-### Environment Variables
+### Add New Package
 
-Create a `.env` file in the client directory:
-
-```env
-VITE_SOCKET_SERVER_URL=http://localhost:4000
+```bash
+mkdir -p packages/my-package/src
+cd packages/my-package
+# Create package.json
+# Add to pnpm-workspace.yaml (auto-detected)
 ```
+
+### Using Turbo
+
+```bash
+# Run dev across all packages
+turbo run dev
+
+# Build everything in parallel
+turbo run build
+
+# Lint all packages
+turbo run lint
+```
+
+---
+
+## 🐳 Docker
+
+### Development
+
+```bash
+cd docker
+docker-compose up
+```
+
+### Production Build
+
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+```
+
+---
 
 ## 🎨 Customization
 
 ### Theme Colors
 
-Edit `tailwind.config.js` to customize the color palette:
+Edit `apps/web/tailwind.config.js`:
 
 ```javascript
-colors: {
-  fuchsia: { /* your colors */ },
-  blue: { /* your colors */ },
-  pink: { /* your colors */ },
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        fuchsia: { /* custom shades */ },
+        blue: { /* custom shades */ },
+      }
+    }
+  }
 }
 ```
 
-### Adding Widgets
+### Add AI Backend
 
-Create new components in `client/src/components/` and import them in `App.tsx`:
+Connect to your preferred AI service in `packages/ai-agent/src/QuantumAgentChat.tsx`:
 
-```tsx
-import MyWidget from "./components/MyWidget";
-
-// In App.tsx
-<MyWidget socket={socket} />
+```typescript
+// Example: OpenAI integration
+const response = await fetch('https://api.openai.com/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    model: 'gpt-4',
+    messages: [{ role: 'user', content: userMessage }]
+  })
+});
 ```
+
+### Add Deno Runtime
+
+Create a Deno service:
+
+```typescript
+// server/deno-runtime.ts
+import { serve } from "https://deno.land/std/http/server.ts";
+
+serve((req) => {
+  return new Response("Quantum Deno Runtime!");
+}, { port: 8000 });
+```
+
+### Add Rust Backend
+
+Create a Rust API service with Actix-web or Rocket and integrate via HTTP or WASM.
+
+---
+
+## 🎯 Framework Agnostic Design
+
+The platform is **intentionally framework-agnostic**. All packages (`@mbtq/*`) are pure React components with zero framework dependencies:
+
+- ✅ **Current**: React + Vite (fast dev, optimized builds)
+- ✅ **Easy Migration**: Next.js, Remix, Astro, Gatsby, etc.
+- ✅ **Pure React**: Components work in any React environment
+- ✅ **No Lock-in**: Swap build tools or frameworks anytime
+
+### Migrating to Next.js (if desired)
+
+```bash
+# 1. Create Next.js app structure
+cd apps
+npx create-next-app@latest nextjs-app --typescript --tailwind
+cd nextjs-app
+
+# 2. Add workspace packages
+npm install @mbtq/quantum-core @mbtq/terminal-tools @mbtq/ai-agent @mbtq/codegen @mbtq/pinksync
+
+# 3. Import components in pages/index.tsx
+import { QuantumAgentChat } from '@mbtq/ai-agent';
+import { QuantumTerminal } from '@mbtq/terminal-tools';
+// ... use as normal React components
+```
+
+### Migrating to Remix, Astro, or Other Frameworks
+
+Same approach - install workspace packages and import as React components. The packages are framework-agnostic by design.
+
+---
+
+## 🔌 Extensibility
+
+This platform is designed to be extended with:
+
+- **@mbtq/deafauth** - Sign language video authentication
+- **@mbtq/video** - Accessible video chat
+- **@mbtq/github-html** - Import HTML from GitHub repos
+- **@mbtq/figma-sync** - Real-time design collaboration
+- **Custom AI agents** - Plug in any LLM or local model
+- **Rust/Deno modules** - Native performance services
+
+---
+
+## 🎭 The mbtq.dev Manifesto
+
+Click the **Manifesto** button in the app to view our community principles:
+
+- 🏳️‍🌈 Empower Deaf, Queer, Disabled creators with world-class tools
+- 🤖 AI must serve culture, not erase it
+- ♿ Design has radical inclusivity baked in
+- 🌐 Our code is Open—a community, not a product
+- ✨ If it doesn't make you smile, remix it until it does
+
+---
 
 ## 🤝 Contributing
 
@@ -212,20 +368,68 @@ PRs welcome! We especially encourage contributions from:
 ### Contribution Guidelines
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Test accessibility (run A11y Check)
-5. Submit a pull request
+4. Test accessibility (run A11y Check in the app)
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
-## 📝 License
+---
 
-Open source. See LICENSE for details.
+## 📝 Environment Variables
+
+Create `.env` files in relevant packages:
+
+### `apps/web/.env`
+
+```env
+VITE_SOCKET_SERVER_URL=http://localhost:4000
+VITE_AI_BACKEND_URL=https://api.your-ai-service.com
+```
+
+### `server/.env`
+
+```env
+PORT=4000
+CORS_ORIGIN=*
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run tests across all packages
+pnpm test
+
+# Run accessibility tests
+# (Open app and click "Run A11y Check")
+```
+
+---
+
+## 📚 Documentation
+
+- **Architecture**: See `/docs/architecture.md` (coming soon)
+- **API Reference**: See `/docs/api.md` (coming soon)
+- **Component Library**: See `/docs/components.md` (coming soon)
+
+---
 
 ## 🔗 Links
 
 - **Website**: [mbtq.dev](https://mbtq.dev)
 - **GitHub**: [github.com/pinkycollie/mbtq-dev](https://github.com/pinkycollie/mbtq-dev)
-- **Documentation**: Coming soon
+- **Issues**: [Report bugs or request features](https://github.com/pinkycollie/mbtq-dev/issues)
+
+---
+
+## 📄 License
+
+Open source. See LICENSE for details.
+
+---
 
 ## 💖 Acknowledgments
 
@@ -233,6 +437,25 @@ Built with love by the mbtq.dev community.
 
 Special thanks to all Deaf, Queer, and Disabled contributors who make this platform possible.
 
+**This is quantum. This is radical. This is inclusive. This is mbtq.dev.**
+
+---
+
+## 🌟 What's Next?
+
+- [ ] Add more AI agent backends (OpenAI, Claude, Gemini integration)
+- [ ] Implement Deno runtime execution
+- [ ] Add Rust WASM modules
+- [ ] Create more SaaS templates
+- [ ] Build VS Code extension
+- [ ] Add video conferencing with sign language support
+- [ ] Implement GitHub HTML import feature
+- [ ] Create Figma design sync
+- [ ] Add more accessibility features
+- [ ] Build mobile app
+
 ---
 
 **mbtq.dev © 2025. Community. Culture. Power.**
+
+**Not common. Not just code. A quantum revolution.** 🌈✨🚀
