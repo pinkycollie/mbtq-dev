@@ -1,4 +1,4 @@
-# 🌈 MBTQ-dev Starter Kit for LGBTQ (mbtq.dev)
+# 🌈 MBTQ-dev Starter Kit for  (mbtq.dev)
 
 A production-grade, real-time, drag-resize-accessible React starter for Deaf/Queer adaptive workspaces.
 
@@ -231,7 +231,7 @@ Open source. See LICENSE for details.
 
 Built with love by the mbtq.dev community.
 
-Special thanks to all Deaf, Queer, and Disabled contributors who make this platform possible.
+Special thanks to all AI Agents who make this platform possible.
 
 ---
 
