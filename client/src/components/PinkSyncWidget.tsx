@@ -6,11 +6,14 @@ type Props = {
   socket: Socket;
   id: string;
   initial: { x: number; y: number; w: number; h: number };
+  onCelebrate?: () => void;
 };
 
-export default function PinkSyncWidget({ socket, id, initial }: Props) {
+export default function PinkSyncWidget({ socket, id, initial, onCelebrate }: Props) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [coord, setCoord] = useState(initial);
+  const [isHovered, setIsHovered] = useState(false);
+  const [alertCount, setAlertCount] = useState(0);
 
   useEffect(() => {
     const box = boxRef.current;
@@ -70,27 +73,42 @@ export default function PinkSyncWidget({ socket, id, initial }: Props) {
         height: coord.h,
         zIndex: 5,
       }}
-      className="bg-pink-50 border border-pink-500 rounded shadow p-4 focus:outline-pink-600"
+      className={`bg-pink-50 border-2 border-pink-500 rounded-xl shadow-lg p-4 focus:outline-pink-600 transition-all duration-300 cursor-move ${
+        isHovered ? 'shadow-2xl scale-105 border-pink-600' : ''
+      }`}
       tabIndex={0}
       aria-label="Movable PinkSync Widget"
       role="region"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <h3 className="font-bold text-pink-700">🌸 PinkSync Widget</h3>
+      <h3 className="font-bold text-pink-700 text-lg mb-2 flex items-center gap-2">
+        🌸 PinkSync Widget {isHovered && <span className="animate-bounce">✨</span>}
+      </h3>
       <div>
-        <p>
+        <p className="text-sm mb-3 text-gray-700">
           Drag, resize in real-time. All changes are synced for every team member!
         </p>
-        <button
-          onClick={() =>
-            socket.emit("visual-alert", {
-              msg: "Deaf priority visual alert triggered!",
-            })
-          }
-          className="mt-2 px-4 py-2 bg-pink-700 text-white rounded hover:bg-pink-800"
-          aria-live="polite"
-        >
-          Trigger Visual Alert
-        </button>
+        <div className="flex gap-2 flex-wrap">
+          <button
+            onClick={() => {
+              socket.emit("visual-alert", {
+                msg: "Deaf priority visual alert triggered!",
+              });
+              setAlertCount(c => c + 1);
+              onCelebrate?.();
+            }}
+            className="px-4 py-2 bg-gradient-to-r from-pink-600 to-pink-700 text-white rounded-lg hover:from-pink-700 hover:to-pink-800 transition-all hover:scale-105 shadow-md hover:shadow-lg font-bold"
+            aria-live="polite"
+          >
+            🔔 Visual Alert
+          </button>
+          {alertCount > 0 && (
+            <span className="flex items-center text-sm font-bold text-pink-600 animate-pulse">
+              {alertCount} alert{alertCount > 1 ? 's' : ''} sent! 🎉
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
