@@ -50,7 +50,7 @@ export class WebhookService {
       const webhookPayload: WebhookPayload = {
         event: webhookEvent.event,
         data: webhookEvent.payload,
-        timestamp: new Date().toISOString(),
+        timestamp: webhookEvent.createdAt.toISOString(),
       };
 
       const response = await axios.post(webhookEvent.url, webhookPayload, {
