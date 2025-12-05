@@ -36,3 +36,7 @@ logs
 # Temporary files
 tmp/
 temp/
+
+# Prisma
+server/node_modules/.prisma/
+server/generated/
