@@ -46,7 +46,7 @@ jobs:
       - name: Build React app
         run: |
           cd client
-          npm run build
+          npm run build -- --base=/mbtq-dev/app/
 
       - name: Copy React app to deploy/app
         run: |
