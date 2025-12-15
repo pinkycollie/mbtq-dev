@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
 interface CaptionConfig {
   fontSize: 'small' | 'medium' | 'large';
@@ -11,18 +11,19 @@ interface CaptionWidgetProps {
   captions?: string[];
 }
 
-/**
- * CaptionWidget - Real-time caption display for deaf accessibility
- * Supports both video captions and live transcription
- */
-export default function CaptionWidget({ videoElement, captions = [] }: CaptionWidgetProps) {
+// Currently unused but kept for future implementation
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
+// Currently unused but kept for future implementation
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function CaptionWidget(_props: CaptionWidgetProps) {
   const [config, setConfig] = useState<CaptionConfig>({
     fontSize: 'medium',
     backgroundColor: 'black',
     position: 'bottom',
   });
   const [isVisible, setIsVisible] = useState(true);
-  const [currentCaption, setCurrentCaption] = useState('');
+  const [currentCaption] = useState('');
 
   const fontSizeClasses = {
     small: 'text-sm',
