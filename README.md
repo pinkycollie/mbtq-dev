@@ -5,6 +5,7 @@
 > 🌐 **Live Demo**: [https://pinkycollie.github.io/mbtq-dev/](https://pinkycollie.github.io/mbtq-dev/)
 > 
 > 📖 **Documentation**: 
+> - [Architecture Overview](./ARCHITECTURE.md) - System architecture and design
 > - [Deployment Guide](./DEPLOYMENT.md) - Complete production deployment guide
 > - [Security Policy](./SECURITY.md) - Security best practices and policies
 > - [Testing Guide](./TESTING.md) - Testing strategy and practices
