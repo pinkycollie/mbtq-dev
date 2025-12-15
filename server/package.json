@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "type": "commonjs",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "node index.js"
   },
   "dependencies": {
     "express": "^4.22.1",
     "socket.io": "^4.8.1",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "dotenv": "^16.4.7"
   }
 }
