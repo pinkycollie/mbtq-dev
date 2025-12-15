@@ -5,6 +5,12 @@
 > 🌐 **Live Demo**: [https://pinkycollie.github.io/mbtq-dev/](https://pinkycollie.github.io/mbtq-dev/)
 > 
 > 📖 **Documentation**: 
+> - [Architecture Overview](./ARCHITECTURE.md) - System architecture and design
+> - [Deployment Guide](./DEPLOYMENT.md) - Complete production deployment guide
+> - [Security Policy](./SECURITY.md) - Security best practices and policies
+> - [Testing Guide](./TESTING.md) - Testing strategy and practices
+> - [API Integration Guide](./API.md) - Integrating third-party APIs
+> - [Contributing Guide](./CONTRIBUTING.md) - How to contribute
 > - [Backend Connector Guide](./BACKEND_CONNECTOR_GUIDE.md) - Complete Supabase & API integration guide
 > - [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md) - Deploy your own instance
 > - [LLM Integration Guide](./llm-deno-supabase.md) - Advanced AI integration patterns
@@ -20,6 +26,9 @@
 - ♿ Accessibility-first development
 - 📚 Teaching developers to find and integrate APIs
 - 🎨 Production-ready starter kits
+- 🐳 Docker containerization and deployment
+- 🔒 Security best practices and CI/CD pipelines
+- 🧪 Comprehensive testing infrastructure
 
 ## 💎 What Makes This Platform Unique?
 
@@ -47,8 +56,10 @@
 
 #### ♿ Accessibility First
 - **WCAG Compliant** - Screen-reader optimized, ARIA-enhanced
-- **Visual Alerts** - Deaf-friendly notification systems
+- **Visual Notifications** - Deaf-friendly notification system (no audio cues)
+- **Caption Widget** - Real-time captioning support for video content
 - **High Contrast Toggle** - Adaptive visual modes for low vision users
+- **Keyboard Navigation** - Full keyboard accessibility
 - **Built-in A11y Testing** - Integrated axe-core for automatic accessibility analysis
 
 #### 🏳️‍🌈 Community & Culture
@@ -117,17 +128,36 @@ mbtq-pinksync-starter-kit/
 ├── client/                    # React frontend
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── PinkSyncWidget.tsx    # Draggable/resizable widget
-│   │   │   ├── A11yBar.tsx           # Accessibility controls
-│   │   │   └── Manifesto.tsx         # Community manifesto
-│   │   ├── App.tsx                   # Main application
-│   │   ├── main.tsx                  # Entry point
-│   │   └── index.css                 # Global styles
-│   ├── index.html
+│   │   │   ├── PinkSyncWidget.tsx           # Draggable/resizable widget
+│   │   │   ├── A11yBar.tsx                  # Accessibility controls
+│   │   │   ├── Manifesto.tsx                # Community manifesto
+│   │   │   ├── VisualNotificationSystem.tsx # Deaf-accessible notifications
+│   │   │   ├── CaptionWidget.tsx            # Real-time captions
+│   │   │   └── __tests__/                   # Component tests
+│   │   ├── test/
+│   │   │   └── setup.ts                     # Test configuration
+│   │   ├── App.tsx                          # Main application
+│   │   ├── main.tsx                         # Entry point
+│   │   └── index.css                        # Global styles
+│   ├── Dockerfile                           # Client Docker config
+│   ├── nginx.conf                           # Nginx production config
+│   ├── vitest.config.ts                     # Test configuration
 │   └── package.json
 ├── server/                    # Socket.IO backend
-│   ├── index.js              # Real-time sync server
+│   ├── index.js              # Real-time sync server with security
+│   ├── Dockerfile            # Server Docker config
 │   └── package.json
+├── .github/
+│   ├── workflows/
+│   │   ├── ci.yml            # CI/CD pipeline
+│   │   └── deploy.yml        # GitHub Pages deployment
+│   └── dependabot.yml        # Automated dependency updates
+├── docker-compose.yml         # Multi-container orchestration
+├── DEPLOYMENT.md             # Production deployment guide
+├── SECURITY.md               # Security policies
+├── TESTING.md                # Testing guide
+├── API.md                    # API integration guide
+├── CONTRIBUTING.md           # Contribution guidelines
 ├── vite.config.ts            # Vite configuration
 ├── tailwind.config.js        # Tailwind + custom theme
 ├── tsconfig.json             # TypeScript config
@@ -144,12 +174,24 @@ mbtq-pinksync-starter-kit/
 - **Interact.js** - Best-in-class drag and resize
 - **Socket.IO Client** - Real-time communication
 - **axe-core** - Automated accessibility testing
+- **Vitest** - Fast unit test framework
+- **React Testing Library** - Component testing
 
 ### Backend
 - **Node.js** - JavaScript runtime
 - **Express** - Minimal web framework
 - **Socket.IO** - Real-time bidirectional communication
+- **Helmet** - Security headers middleware
+- **express-rate-limit** - Rate limiting protection
+- **dotenv** - Environment configuration
 - **CORS** - Cross-origin resource sharing
+
+### DevOps & Deployment
+- **Docker** - Containerization
+- **Docker Compose** - Multi-container orchestration
+- **Nginx** - Production web server
+- **GitHub Actions** - CI/CD automation
+- **Dependabot** - Automated dependency updates
 
 ## ♿ Accessibility Features
 
@@ -157,10 +199,18 @@ mbtq-pinksync-starter-kit/
 - ✅ ARIA labels and roles
 - ✅ Keyboard navigation
 - ✅ Screen reader optimization
+- ✅ Visual notifications (no audio cues)
+- ✅ Caption widget for video content
 - ✅ High contrast mode toggle
 - ✅ Focus management
 - ✅ Semantic HTML
 - ✅ Automated axe-core testing
+
+### Deaf-Specific Features
+- **Visual Notification System** - All alerts are visual, no audio cues
+- **Caption Widget** - Real-time caption display with customizable styling
+- **Sign Language Ready** - Components ready for sign language API integration
+- **Video Communication Support** - Optimized for video-based communication
 
 ### Accessibility Bar
 The bottom bar provides:
@@ -180,6 +230,48 @@ The bottom bar provides:
 3. Events emit to server
 4. Server broadcasts to all other clients
 5. All clients update in real-time
+
+---
+
+## 🚀 Production Features
+
+### Security
+- ✅ **Helmet.js** - Security headers (XSS, clickjacking protection)
+- ✅ **Rate Limiting** - Prevent API abuse
+- ✅ **CORS Configuration** - Secure cross-origin requests
+- ✅ **Environment Variables** - Secure credential management
+- ✅ **Input Validation** - Prevent injection attacks
+- ✅ **No Secrets in Code** - Best practices enforced
+
+### CI/CD Pipeline
+- ✅ **Automated Testing** - Unit and integration tests on every commit
+- ✅ **Type Checking** - TypeScript validation
+- ✅ **Security Scanning** - npm audit for vulnerabilities
+- ✅ **Build Verification** - Ensure builds succeed
+- ✅ **Accessibility Checks** - Automated a11y testing
+- ✅ **Automated Deployment** - GitHub Actions workflow
+
+### Testing
+- ✅ **Unit Tests** - Vitest + React Testing Library
+- ✅ **Component Tests** - Test user interactions
+- ✅ **Accessibility Tests** - axe-core integration
+- ✅ **Test Coverage** - Track code coverage
+- ✅ **CI Integration** - Tests run on every PR
+
+### Docker Support
+- ✅ **Client Dockerfile** - Nginx-based production container
+- ✅ **Server Dockerfile** - Node.js production container
+- ✅ **Docker Compose** - Multi-container orchestration
+- ✅ **Health Checks** - Container health monitoring
+- ✅ **Optimized Images** - Alpine-based for small footprint
+
+### Monitoring & Observability
+- ✅ **Health Endpoints** - `/health` for monitoring
+- ✅ **Structured Logging** - Environment-aware logging
+- ✅ **Error Tracking Ready** - Sentry integration prepared
+- ✅ **Performance Monitoring** - Ready for analytics integration
+
+---
 
 ## 🎭 The mbtq.dev Manifesto
 
