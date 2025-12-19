@@ -3,6 +3,7 @@ import { useState } from "react";
 export default function A11yBar() {
   const [contrast, setContrast] = useState(false);
   const [checkCount, setCheckCount] = useState(0);
+  const [showBadges, setShowBadges] = useState(false);
 
   const runAxeCheck = async () => {
     try {
@@ -31,8 +32,8 @@ export default function A11yBar() {
       aria-label="Accessibility Controls"
     >
       <div className="flex items-center gap-2">
-        <span className="text-xl">♿</span>
-        <span className="font-bold">Accessibility Mode</span>
+        <span className="text-xl">🦻</span>
+        <span className="font-bold">Hearing & Accessibility</span>
         {checkCount > 0 && (
           <span 
             className="bg-green-500 text-white px-2 py-1 rounded-full text-xs animate-pulse"
@@ -41,6 +42,30 @@ export default function A11yBar() {
           >
             {checkCount} check{checkCount > 1 ? 's' : ''} ✓
           </span>
+        )}
+        <button
+          onClick={() => setShowBadges(!showBadges)}
+          className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold hover:from-indigo-600 hover:to-purple-600 transition-all hover:scale-105 shadow-md"
+          aria-expanded={showBadges}
+          aria-label="Toggle accessibility features badges"
+        >
+          🏅 Features
+        </button>
+        {showBadges && (
+          <div className="flex gap-2 ml-2 animate-fade-in">
+            <span className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-sm" title="Visual notifications for deaf users">
+              👁️ Visual Alerts
+            </span>
+            <span className="bg-purple-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-sm" title="Real-time captioning support">
+              💬 Captions
+            </span>
+            <span className="bg-pink-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-sm" title="High contrast mode">
+              🌙 Contrast
+            </span>
+            <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-sm" title="Accessibility checking tools">
+              🔍 A11y Check
+            </span>
+          </div>
         )}
       </div>
       <div className="flex gap-3">
