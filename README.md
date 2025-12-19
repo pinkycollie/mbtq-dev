@@ -1,5 +1,13 @@
 # 🌈 MBTQ.dev - AI-Powered Full-Stack Development Platform
 
+[![CI/CD Pipeline](https://github.com/pinkycollie/mbtq-dev/actions/workflows/ci.yml/badge.svg)](https://github.com/pinkycollie/mbtq-dev/actions/workflows/ci.yml)
+[![Deploy to GitHub Pages](https://github.com/pinkycollie/mbtq-dev/actions/workflows/deploy.yml/badge.svg)](https://github.com/pinkycollie/mbtq-dev/actions/workflows/deploy.yml)
+[![License](https://img.shields.io/badge/license-Open%20Source-blue.svg)](https://github.com/pinkycollie/mbtq-dev)
+[![React](https://img.shields.io/badge/React-18.3.1-blue?logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Accessibility](https://img.shields.io/badge/A11y-WCAG%20Compliant-green?logo=accessibility)](https://www.w3.org/WAI/WCAG21/quickref/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 **A transparent, open-source generative AI development platform** that teaches and guides developers to build full-stack applications with modern tools like Supabase, Next.js, and React.
 
 > 🌐 **Live Demo**: [https://pinkycollie.github.io/mbtq-dev/](https://pinkycollie.github.io/mbtq-dev/)

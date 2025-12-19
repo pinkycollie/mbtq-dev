@@ -26,14 +26,19 @@ describe('A11yBar Component', () => {
     const user = userEvent.setup()
     render(<A11yBar />)
     
-    // Tab to first button
+    // Tab to first button (Features button)
     await user.tab()
     const buttons = screen.getAllByRole('button')
-    const highContrastButton = buttons.find(btn => btn.textContent?.includes('High Contrast'))
+    const featuresButton = buttons.find(btn => btn.textContent?.includes('Features'))
     
+    expect(featuresButton).toHaveFocus()
+    
+    // Tab to second button (High Contrast)
+    await user.tab()
+    const highContrastButton = buttons.find(btn => btn.textContent?.includes('High Contrast'))
     expect(highContrastButton).toHaveFocus()
     
-    // Tab to second button
+    // Tab to third button (A11y Check)
     await user.tab()
     const a11yCheckButton = buttons.find(btn => btn.textContent?.includes('A11y Check'))
     expect(a11yCheckButton).toHaveFocus()
@@ -41,8 +46,29 @@ describe('A11yBar Component', () => {
 
   it('renders all required elements', () => {
     render(<A11yBar />)
-    expect(screen.getByText(/accessibility mode/i)).toBeInTheDocument()
+    expect(screen.getByText(/hearing & accessibility/i)).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /high contrast/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /a11y check/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /features/i })).toBeInTheDocument()
+  })
+
+  it('toggles badges when features button is clicked', async () => {
+    const user = userEvent.setup()
+    render(<A11yBar />)
+    
+    const featuresButton = screen.getByRole('button', { name: /features/i })
+    
+    // Badges should not be visible initially
+    expect(screen.queryByText(/visual alerts/i)).not.toBeInTheDocument()
+    
+    // Click to show badges
+    await user.click(featuresButton)
+    expect(screen.getByText(/visual alerts/i)).toBeInTheDocument()
+    expect(screen.getByText(/captions/i)).toBeInTheDocument()
+    expect(screen.getByTitle(/high contrast mode/i)).toBeInTheDocument()
+    
+    // Click again to hide badges
+    await user.click(featuresButton)
+    expect(screen.queryByText(/visual alerts/i)).not.toBeInTheDocument()
   })
 })
