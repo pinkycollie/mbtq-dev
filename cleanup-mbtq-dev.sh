@@ -37,9 +37,9 @@ echo "✓ Documentation removed"
 # Restore original landing page
 echo "🏠 Restoring original landing page..."
 if [ -f "index.html.backup" ]; then
-    mv index.html index.html.vr-backup
-    mv index.html.backup index.html
-    echo "✓ Landing page restored (VR version backed up as index.html.vr-backup)"
+    mv index.html index.html.vr
+    cp index.html.backup index.html
+    echo "✓ Landing page restored (VR version saved as index.html.vr)"
 else
     echo "⚠ Warning: index.html.backup not found, keeping current index.html"
 fi
