@@ -18,6 +18,7 @@
 > - [Security Policy](./SECURITY.md) - Security best practices and policies
 > - [Testing Guide](./TESTING.md) - Testing strategy and practices
 > - [API Integration Guide](./API.md) - Integrating third-party APIs
+> - [Git Manager Guide](./GIT_MANAGER.md) - Advanced Git commands and workflows
 > - [Contributing Guide](./CONTRIBUTING.md) - How to contribute
 > - [Backend Connector Guide](./BACKEND_CONNECTOR_GUIDE.md) - Complete Supabase & API integration guide
 > - [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md) - Deploy your own instance
