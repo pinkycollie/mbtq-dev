@@ -136,6 +136,11 @@ push_changes() {
     print_success "Tag pushed: $tag"
 }
 
+# Get repository name from git remote
+get_repo_name() {
+    git remote get-url origin | sed 's/.*github.com[:/]\(.*\)\.git/\1/'
+}
+
 # Show usage
 show_usage() {
     cat << EOF
@@ -307,11 +312,12 @@ main() {
         echo "     - Mark as pre-release (not deployed to production)"
     fi
     echo ""
+    local repo_name=$(get_repo_name)
     print_info "View release progress:"
-    echo "  https://github.com/$(git remote get-url origin | sed 's/.*github.com[:/]\(.*\)\.git/\1/')/actions"
+    echo "  https://github.com/$repo_name/actions"
     echo ""
     print_info "Create release notes on GitHub:"
-    echo "  https://github.com/$(git remote get-url origin | sed 's/.*github.com[:/]\(.*\)\.git/\1/')/releases/new?tag=$new_tag"
+    echo "  https://github.com/$repo_name/releases/new?tag=$new_tag"
     echo ""
 }
 

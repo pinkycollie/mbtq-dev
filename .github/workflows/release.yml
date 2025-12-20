@@ -32,14 +32,14 @@ jobs:
           else
             VERSION="${{ github.ref_name }}"
           fi
-          
+
           # Validate semantic version format
           if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9\.\-]+)?$ ]]; then
             echo "❌ Invalid version format: $VERSION"
             echo "Expected format: v1.0.0, v1.0.0-alpha, v1.0.0-beta.1, etc."
             exit 1
           fi
-          
+
           echo "✅ Valid version: $VERSION"
 
   test:
@@ -99,8 +99,11 @@ jobs:
 
       - name: Run security audit
         run: |
-          cd client && npm audit --audit-level=moderate || true
-          cd ../server && npm audit --audit-level=moderate || true
+          echo "Running security audit for client..."
+          cd client && npm audit --audit-level=moderate
+          echo "Running security audit for server..."
+          cd ../server && npm audit --audit-level=moderate
+        continue-on-error: false
 
   build:
     name: Build Release
@@ -153,7 +156,7 @@ jobs:
             VERSION="${{ github.ref_name }}"
           fi
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          
+
           # Determine if pre-release
           if [[ "$VERSION" =~ (alpha|beta|rc) ]]; then
             echo "prerelease=true" >> $GITHUB_OUTPUT
@@ -177,10 +180,10 @@ jobs:
         id: release_notes
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          
+
           # Get previous tag
           PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
-          
+
           # Generate notes
           if [ -z "$PREV_TAG" ]; then
             NOTES="Initial release of MBTQ.dev platform"
@@ -190,7 +193,7 @@ jobs:
             NOTES+="$(git log $PREV_TAG..HEAD --pretty=format:'- %s (%h)' --no-merges)\n\n"
             NOTES+="**Full Changelog**: https://github.com/${{ github.repository }}/compare/$PREV_TAG...$VERSION"
           fi
-          
+
           echo "notes<<EOF" >> $GITHUB_OUTPUT
           echo -e "$NOTES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
