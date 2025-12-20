@@ -15,6 +15,8 @@
 > 📖 **Documentation**: 
 > - [Architecture Overview](./ARCHITECTURE.md) - System architecture and design
 > - [Deployment Guide](./DEPLOYMENT.md) - Complete production deployment guide
+> - [Auto DevOps Guide](./AUTO_DEVOPS.md) - 🚀 Automated deployment and updates
+> - [Release Management](./RELEASES.md) - 🏷️ Semantic versioning and tagging
 > - [Security Policy](./SECURITY.md) - Security best practices and policies
 > - [Testing Guide](./TESTING.md) - Testing strategy and practices
 > - [API Integration Guide](./API.md) - Integrating third-party APIs
