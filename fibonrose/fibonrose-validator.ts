@@ -128,7 +128,6 @@ export class FibonroseValidator {
    */
   static generateProgressReport(task: FibonroseTask): string {
     const percentage = this.getCompletionPercentage(task);
-    const confirmedMilestones = task.milestones.filter(m => m.confirmed);
     
     let report = `📊 Fibonrose Progress Report\n\n`;
     report += `Task: ${task.title}\n`;
