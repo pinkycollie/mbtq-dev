@@ -13,9 +13,13 @@
 > 🌐 **Live Demo**: [https://pinkycollie.github.io/mbtq-dev/](https://pinkycollie.github.io/mbtq-dev/)
 > 
 > 📖 **Documentation**: 
+> - [Quick Start for Non-Developers](./QUICK_START_GUIDE.md) - 🎯 **Start here if you're new!**
+> - [Connect Your Repository](./REPOSITORY_INTEGRATION.md) - 🔗 Integrate MBTQ.dev with your project
 > - [AI Agent Guide](./docs/AI-AGENT-GUIDE.md) - 🤖 Meet Quinn, your AI development assistant with Fibonrose task validation
 > - [Architecture Overview](./ARCHITECTURE.md) - System architecture and design
 > - [Deployment Guide](./DEPLOYMENT.md) - Complete production deployment guide
+> - [Auto DevOps Guide](./AUTO_DEVOPS.md) - 🚀 Automated deployment and updates
+> - [Release Management](./RELEASES.md) - 🏷️ Semantic versioning and tagging
 > - [Security Policy](./SECURITY.md) - Security best practices and policies
 > - [Testing Guide](./TESTING.md) - Testing strategy and practices
 > - [API Integration Guide](./API.md) - Integrating third-party APIs
