@@ -13,7 +13,7 @@
   "dependencies": {
     "@axe-core/react": "^4.11.0",
     "interactjs": "^1.10.27",
-    "lucide-react": "^0.562.0",
+    "lucide-react": "^0.563.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "socket.io-client": "^4.8.1"
