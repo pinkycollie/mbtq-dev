@@ -257,7 +257,7 @@ server {
   listen 443 ssl http2;
   server_name ai.mbtq.dev;
   
-  ssl_certificate /etc/letsencrypt/live/mbtquniverse.com/fullchain.pem;
+  ssl_certificate /etc/letsencrypt/live/mbtq.dev/fullchain.pem;
   ssl_certificate_key /etc/letsencrypt/live/mbtq.dev/privkey.pem;
   
   # Cloudflare Real IP
