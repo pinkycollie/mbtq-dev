@@ -246,8 +246,8 @@ serve(async (req) => {
 ```nginx
 # /etc/nginx/sites-available/mbtq-ai
 upstream deno_backend {
-  server deno-edge-1.mbtq.com;
-  server deno-edge-2.mbtq.com;
+  server deno-edge-1.mbtq.dev;
+  server deno-edge-2.mbtq.dev;
 }
 
 # Rate limiting per user (prevents abuse)
@@ -255,10 +255,10 @@ limit_req_zone $binary_remote_addr zone=mbtq_api:10m rate=10r/s;
 
 server {
   listen 443 ssl http2;
-  server_name ai.mbtquniverse.com;
+  server_name ai.mbtq.dev;
   
   ssl_certificate /etc/letsencrypt/live/mbtquniverse.com/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/mbtquniverse.com/privkey.pem;
+  ssl_certificate_key /etc/letsencrypt/live/mbtq.dev/privkey.pem;
   
   # Cloudflare Real IP
   set_real_ip_from 173.245.48.0/20;
@@ -274,7 +274,7 @@ server {
     proxy_cache_bypass $http_upgrade;
     
     # CORS for MBTQ ecosystem
-    add_header 'Access-Control-Allow-Origin' 'https://mbtquniverse.com';
+    add_header 'Access-Control-Allow-Origin' 'https://mbtq.dev';
     add_header 'Access-Control-Allow-Credentials' 'true';
   }
 }
@@ -399,7 +399,7 @@ jobs:
       
       - name: Update Fibonrose Logs
         run: |
-          curl -X POST https://ai.mbtquniverse.com/api/deployment \
+          curl -X POST https://ai.mbtq.dev/api/deployment \
             -H "Authorization: Bearer ${{ secrets.FIBONROSE_API_KEY }}" \
             -d '{"event": "ai_system_deployed", "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"}'
 ```
@@ -534,7 +534,7 @@ async function runLoadTest(
 
 // Run test
 const results = await runLoadTest(
-  'https://ai.mbtquniverse.com/api/ai',
+  'https://ai.mbtq.dev/api/ai',
   100, // 100 concurrent users
   300  // 5 minutes
 );
@@ -772,7 +772,7 @@ supabase functions deploy generate-prompt
 const { data, error } = await supabase.auth.signInWithOAuth({
   provider: 'deaf_auth', // Custom provider
   options: {
-    redirectTo: 'https://mbtquniverse.com/auth/callback'
+    redirectTo: 'https://mbtq.dev/auth/callback'
   }
 });
 ```
