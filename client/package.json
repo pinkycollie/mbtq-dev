@@ -11,7 +11,7 @@
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@axe-core/react": "^4.11.0",
+    "@axe-core/react": "^4.11.1",
     "interactjs": "^1.10.27",
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",
