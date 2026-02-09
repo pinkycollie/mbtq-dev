@@ -193,7 +193,7 @@ The repository includes a GitHub Actions workflow that:
 
 ### Issue Template
 
-When Quinn creates a Fibonrose task, the issue will include:
+When Developer Magician creates a Fibonrose task, the issue will include:
 
 ```markdown
 ## Task Title
