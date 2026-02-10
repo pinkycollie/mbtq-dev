@@ -1,12 +1,22 @@
-# This workflow uses actions that are not certified by GitHub.
-#{
-  "name": "mbtq-dev",
-  "version": "1.0.0",
-  "scripts": {
-    "build": "deno task build",
-    "test": "deno test"
-  }
-}
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
-      - name: Run tests
-        run: deno test -A
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+
+      - name: Build Site
+        run: deno task build
+
+      - name: Deploy to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Publish
+        uses: actions/deploy-pages@v4
