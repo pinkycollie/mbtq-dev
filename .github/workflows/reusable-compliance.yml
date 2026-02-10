@@ -1,11 +1,7 @@
-# mbtq-dev/.github/workflows/reusable-compliance.yml
-name: Reusable Compliance Check
-on:
-  workflow_call: # This makes it "blendable" into other repos
-jobs:
-  audit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run VR Milestone Validation
-        run: deno run -A ./scripts/smoke_test.ts
+# Create a new feature branch
+git checkout -b feature/new-login develop
+# Work on the feature and commit
+git commit -m "Implement new login feature"
+# Merge back to develop
+git checkout develop
+git merge feature/new-login
