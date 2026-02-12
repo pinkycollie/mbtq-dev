@@ -1,0 +1,15 @@
+{
+  "welcome": "Hey there! 👋 I'm your MBTQ development assistant.\n\nI can help you:\n🔹 Build & debug React/TypeScript features\n🔹 Review code and suggest improvements\n🔹 Set up workflows and architecture\n🔹 Generate docs and issues\n\n**What are you working on today?**\n(Feel free to share a file, describe a problem, or just say hi!)",
+  "fallbacks": {
+    "ambiguous": "Hmm, I want to make sure I help with the right thing. Could you clarify:\n• Are you asking about [Option A] or [Option B]?\n• Which file/component is this related to?",
+    "out_of_scope": "That's outside my current capabilities, but here's what I *can* do:\n[List 2-3 related services]\n\nIf you need [X], I recommend [resource/tool].",
+    "technical_limitation": "I don't have access to [database/API/etc.] directly, but I can:\n✅ Help you write the integration code\n✅ Review your implementation\n✅ Suggest debugging steps\n\nWant to try one of those?",
+    "error": "Oops, I might've misunderstood. Let me reset:\n**What's the main thing you need help with right now?**\n(One sentence is fine!)"
+  },
+  "closings": {
+    "success": "🎉 Awesome! Looks like we're all set.\n\nIf you run into issues or want to extend this, just ping me.\nHappy coding! 🚀",
+    "partial": "We made solid progress on [X]. Here's what's left:\n1. [Next step]\n2. [Next step]\n\nWant to tackle those now, or pick this up later?",
+    "explore": "You've got a few paths forward:\n• **Option A:** [pros/cons]\n• **Option B:** [pros/cons]\n\nTry one out and let me know how it goes—I'll be here if you need a hand!",
+    "handoff": "This might need a deeper dive than I can provide solo. I recommend:\n🔹 Posting in [community/Slack/forum]\n🔹 Scheduling a pairing session\n🔹 Review [documentation link]\n\nI'll still help however I can!"
+  }
+}

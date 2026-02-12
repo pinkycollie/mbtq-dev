@@ -9,6 +9,7 @@ pnpm-debug.log*
 dist/
 build/
 .vite/
+deploy/
 
 # Environment variables
 .env
