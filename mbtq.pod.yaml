@@ -1,0 +1,26 @@
+kind: MBTQ_Sovereign_Pod
+version: 1.0.0
+metadata:
+  id: partner-alpha-001
+  owner: "DeafAuth_Verified_ID"
+  status: "COMPILED" # IDEA -> VALIDATED -> COMPILED -> MANAGED
+
+handshake_protocol:
+  auth: DeafAuth_Rust_WASM
+  gateway: PinkSync_Deno_Edge
+  trust: Fibonrose_Evidence_v1
+
+compliance_rules:
+  no_voice_mandate: true
+  visual_pulse_enabled: true
+  max_latency_ms: 250
+
+economic_engine:
+  currency: USDC_STABLECOIN
+  split: 40_30_20_10 # Operator, Partner, Infra, DAO
+  settlement: Stripe_Connect_Express
+
+deployment:
+  target: Google_Cloud_Run
+  region: us-central1
+  scaling: scale-to-zero
