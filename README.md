@@ -424,7 +424,6 @@ import MyWidget from "./components/MyWidget";
 PRs welcome! We especially encourage contributions from:
 
 - Deaf and Hard of Hearing developers
-- LGBTQ+ community members
 - Accessibility experts
 - Anyone passionate about inclusive technology
 
