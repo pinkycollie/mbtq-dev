@@ -25,18 +25,19 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version-file: .nvmrc
+          cache: "npm"
           cache-dependency-path: client/package-lock.json
 
       - name: Setup deployment directory
         run: |
           mkdir -p deploy
 
-      - name: Copy root landing page and 404
+      - name: Copy root landing page, 404, and legal pages
         run: |
           cp index.html deploy/
           cp 404.html deploy/
+          cp terms-of-service.html deploy/
 
       - name: Install client dependencies
         run: |
