@@ -6,9 +6,48 @@ on:
   pull_request:
 
 jobs:
+  build:
+    name: Build & Test (Vite)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: "npm"
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install client dependencies
+        working-directory: client
+        run: npm ci
+
+      - name: Install fibonrose dependencies
+        working-directory: fibonrose
+        run: npm install
+
+      - name: Lint client
+        working-directory: client
+        run: npx tsc --noEmit
+
+      - name: Build client
+        working-directory: client
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Run client tests
+        working-directory: client
+        run: npm test -- --run
+
+      - name: Run fibonrose tests
+        working-directory: fibonrose
+        run: npm test
+
   deno:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
