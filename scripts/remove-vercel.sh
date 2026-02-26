@@ -1,4 +1,3 @@
-I'll create a complete cross-repo cleanup script that removes all Vercel-related files and configurations from every repository in your MBTQ.dev ecosystem. This will be a safe, comprehensive sweep.
 
 🧹 Complete Vercel Removal Script
 
@@ -348,4 +347,3 @@ After running this script, your repositories will be Vercel-free. You can now:
 
 The script creates a clean slate across all your repos. No more Vercel billing surprises, no more locked accounts, no more "pay to update" nonsense.
 
-Your MBTQ.dev ecosystem is now free and clear! Want help setting up the Cloudflare Pages deployment next?
