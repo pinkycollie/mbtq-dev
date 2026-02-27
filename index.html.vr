@@ -223,124 +223,118 @@
     <div class="container">
         <header>
             <h1>🌈 MBTQ.dev</h1>
-            <p class="subtitle">The #1 AI Platform for VR Workforce Agencies</p>
-            <p class="subtitle">Empowering Vocational Rehabilitation, LGBTQ+, and Deaf Services</p>
-            <span class="badge">♿ Accessibility First • 🤟 Deaf-First Design • 🏳️‍🌈 LGBTQ+ Inclusive</span>
+            <p class="subtitle">AI-Powered Full-Stack Development Platform</p>
+            <p class="subtitle">Generative AI Platform for Building with Supabase & Modern Frameworks</p>
+            <span class="badge">🚀 Built by Community, Powered by AI</span>
         </header>
 
         <main class="main-content">
             <div class="notice-box">
-                <h2>🎯 Transform Your Agency Operations</h2>
-                <p><strong>Welcome to MBTQ.dev VR Agency Platform:</strong> The premier AI-powered solution for vocational rehabilitation agencies, LGBTQ+ organizations, and Deaf services providers. Built accessibility-first for the communities we serve.</p>
-                <p style="margin-top: 1rem;"><strong>Current Focus:</strong> AI-powered case management, intelligent job matching, automated RSA-911 reporting, and comprehensive accessibility features designed specifically for VR workforce agencies.</p>
+                <h2>📢 Platform Evolution Notice</h2>
+                <p><strong>Important Update:</strong> MBTQ.dev was originally created as a platform to help deaf entrepreneurs with idea validation, building, growth, and management. These core business features have now been migrated to the <strong>BUSINESS MAGICIAN</strong> platform powered by 360 Magicians (Generative AI).</p>
+                <p style="margin-top: 1rem;"><strong>Current Focus:</strong> MBTQ.dev now serves as a transparent, open-source generative AI development platform that teaches and guides developers to build full-stack applications with modern tools.</p>
             </div>
 
             <section>
-                <h2 style="text-align: center; margin-bottom: 2rem; color: #667eea;">✨ Comprehensive Platform Features</h2>
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #667eea;">✨ What MBTQ.dev Offers Today</h2>
                 
                 <div class="features">
                     <div class="feature-card">
-                        <div class="feature-icon">📊</div>
-                        <h3>Agency Dashboard</h3>
-                        <p>Real-time case statistics, role-based views for admins, supervisors, counselors, and clients. Activity feeds with visual notifications. Fully accessible with ARIA labels and keyboard navigation.</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">📁</div>
-                        <h3>Case Management</h3>
-                        <p>Complete case lifecycle management with intake forms, service tracking, IPE support, and document management. ASL video upload capability for client statements.</p>
-                    </div>
-
-                    <div class="feature-card">
                         <div class="feature-icon">🤖</div>
-                        <h3>AI Job Matching</h3>
-                        <p>Intelligent matching algorithm considering skills, accessibility requirements, Deaf-friendly workplaces, and LGBTQ+ inclusive employer database integration.</p>
+                        <h3>Generative AI Integration</h3>
+                        <p>Learn how to integrate AI models (GPT-4, Claude, Gemini) into your full-stack applications with best practices and examples.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔌</div>
+                        <h3>Supabase Backend</h3>
+                        <p>Complete guides for connecting your frontend to Supabase - authentication, real-time database, storage, and edge functions.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Modern Frameworks</h3>
+                        <p>Examples and starter kits using Next.js, React, and other modern frameworks for rapid development.</p>
                     </div>
 
                     <div class="feature-card">
                         <div class="feature-icon">♿</div>
                         <h3>Accessibility First</h3>
-                        <p>WCAG 2.1 AA compliant, Deaf-first design with visual-only notifications, keyboard navigation, screen reader optimization, and high contrast mode support.</p>
+                        <p>WCAG-compliant components, screen reader optimization, and deaf/queer-friendly design patterns built into every template.</p>
                     </div>
 
                     <div class="feature-card">
                         <div class="feature-icon">📚</div>
-                        <h3>Automated Reporting</h3>
-                        <p>RSA-911 compliant report generation, outcome summaries, quarterly statistics. Export to multiple formats (PDF, CSV, accessible HTML).</p>
+                        <h3>API Discovery</h3>
+                        <p>Learn how to find, integrate, and work with third-party APIs to enhance your applications.</p>
                     </div>
 
                     <div class="feature-card">
                         <div class="feature-icon">🎨</div>
-                        <h3>Multi-Tenant Support</h3>
-                        <p>White-label ready with agency branding support. Serve VR agencies, LGBTQ+ organizations, and Deaf services with one platform.</p>
+                        <h3>Full-Stack Templates</h3>
+                        <p>Production-ready templates with authentication, database, and API integrations already configured.</p>
                     </div>
                 </div>
             </section>
 
             <div class="migration-info">
-                <h2>🏢 Built for Your Agency</h2>
-                <p>Streamline your operations with AI-powered automation designed specifically for vocational rehabilitation workforce agencies.</p>
+                <h2>🎯 Business Features → BUSINESS MAGICIAN Platform</h2>
+                <p>Looking for business idea validation, market analysis, and entrepreneurship tools specifically designed for deaf entrepreneurs? These features are now available on the <strong>BUSINESS MAGICIAN</strong> platform, powered by 360 Magicians AI agents.</p>
                 <ul style="margin-top: 1rem; margin-left: 2rem;">
-                    <li>✓ Multi-tenant agency dashboard with role-based access</li>
-                    <li>✓ Comprehensive case management from intake to closure</li>
-                    <li>✓ AI-powered job matching with accessibility considerations</li>
-                    <li>✓ Automated eligibility screening and document checklists</li>
-                    <li>✓ RSA-911 compliant reporting and outcome tracking</li>
-                    <li>✓ Deaf-first design with visual notifications and ASL support</li>
-                    <li>✓ LGBTQ+ inclusive data collection and employer matching</li>
-                    <li>✓ Full WCAG 2.1 AA accessibility compliance</li>
+                    <li>✓ Idea Validation & Market Research</li>
+                    <li>✓ Business Plan Generation</li>
+                    <li>✓ Growth Strategy Planning</li>
+                    <li>✓ Managed Services for Entrepreneurs</li>
                 </ul>
             </div>
 
             <section>
-                <h2 style="text-align: center; margin-bottom: 2rem; color: #667eea;">🚀 Get Started with MBTQ.dev</h2>
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #667eea;">🚀 Quick Start with Supabase</h2>
                 
                 <div class="code-section">
-                    <pre># Access the VR Agency Platform Dashboard
-# Visit: https://pinkycollie.github.io/mbtq-dev/app/
+                    <pre># 1. Install Supabase Client
+npm install @supabase/supabase-js
 
-# For Agencies - Quick Integration
-1. Review the database schema in docs/database-schema.md
-2. Set up your Supabase backend with row-level security
-3. Configure environment variables
-4. Deploy the agency dashboard
+# 2. Initialize in your app
+import { createClient } from '@supabase/supabase-js'
 
-# Key Features:
-- Multi-tenant agency support with branding
-- Role-based access (Admin, Supervisor, Counselor, Client)
-- Real-time case tracking and updates
-- AI-powered job matching algorithm
-- Automated RSA-911 report generation
-- Full accessibility compliance (WCAG 2.1 AA)
+const supabase = createClient(
+  'YOUR_SUPABASE_URL',
+  'YOUR_SUPABASE_ANON_KEY'
+)
 
-# Built with:
-- React 18 + TypeScript
-- Supabase for backend
-- Tailwind CSS for styling
-- Recharts for accessible data visualization
-- React Hook Form + Zod for validation</pre>
+# 3. Start building!
+// Authentication
+await supabase.auth.signUp({ email, password })
+
+// Database queries
+const { data } = await supabase.from('users').select('*')
+
+// Real-time subscriptions
+supabase.channel('public:posts')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, 
+    payload => console.log(payload)
+  )
+  .subscribe()</pre>
                 </div>
             </section>
 
             <div class="cta-buttons">
                 <a href="/mbtq-dev/app/" class="btn btn-primary">
-                    🚀 Launch Agency Dashboard
+                    🚀 Launch React App
                 </a>
                 <a href="https://github.com/pinkycollie/mbtq-dev" class="btn btn-primary" target="_blank">
-                    📖 View Documentation
+                    📖 View Documentation on GitHub
                 </a>
-                <a href="https://github.com/pinkycollie/mbtq-dev/blob/main/docs/database-schema.md" class="btn btn-secondary" target="_blank">
-                    🗄️ Database Schema
+                <a href="https://github.com/pinkycollie/mbtq-dev/blob/main/llm-deno-supabase.md" class="btn btn-secondary" target="_blank">
+                    🎓 Read Full AI Integration Guide
                 </a>
             </div>
         </main>
 
         <footer>
-            <p><strong>MBTQ.dev VR Agency Platform</strong> © 2025 | Community. Culture. Power. 💜</p>
-            <p style="margin-top: 1rem;">Open Source • Accessibility First • AI-Powered • Built for VR Agencies</p>
-            <p style="margin-top: 0.5rem;">
-                ♿ WCAG 2.1 AA Compliant • 🤟 Deaf-First Design • 🏳️‍🌈 LGBTQ+ Inclusive
-            </p>
+            <p><strong>MBTQ.dev</strong> © 2025 | Community. Culture. Power. 💜</p>
+            <p style="margin-top: 1rem;">Open Source • Accessibility First • AI-Powered</p>
             <p style="margin-top: 0.5rem;">
                 <a href="https://github.com/pinkycollie/mbtq-dev" style="color: #667eea; text-decoration: none; font-weight: 600;">
                     ⭐ Star on GitHub
