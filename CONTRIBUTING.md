@@ -407,6 +407,109 @@ Unacceptable behavior includes:
 
 ---
 
+## 🏷️ Release Process
+
+### For Maintainers
+
+When creating a new release, follow these steps:
+
+#### Using the Release Script (Recommended)
+
+```bash
+# Patch release (bug fixes)
+./scripts/release.sh patch
+
+# Minor release (new features)
+./scripts/release.sh minor
+
+# Major release (breaking changes)
+./scripts/release.sh major
+
+# Pre-release versions
+./scripts/release.sh minor -p beta      # v1.1.0-beta
+./scripts/release.sh patch -p alpha     # v1.0.1-alpha
+./scripts/release.sh minor -p rc.1      # v1.1.0-rc.1
+
+# Dry run (see what would happen)
+./scripts/release.sh minor -d
+
+# Custom version
+./scripts/release.sh custom 2.5.0
+```
+
+The script will:
+1. ✅ Validate git working directory is clean
+2. ✅ Update version in `package.json` files
+3. ✅ Commit version changes
+4. ✅ Create git tag (e.g., `v1.1.0`)
+5. ✅ Push changes and tag to GitHub
+6. ✅ Trigger automatic release workflow
+
+#### Manual Release Process
+
+If you prefer to create releases manually:
+
+```bash
+# 1. Update versions
+cd client && npm version minor && cd ..
+cd server && npm version minor && cd ..
+
+# 2. Commit changes
+git add client/package.json server/package.json
+git commit -m "chore: bump version to v1.1.0"
+
+# 3. Create and push tag
+git tag -a v1.1.0 -m "Release v1.1.0"
+git push && git push --tags
+```
+
+#### After Tagging
+
+Once a tag is pushed:
+1. GitHub Actions automatically runs the release workflow
+2. Tests are executed
+3. Security scans are performed
+4. Build artifacts are created
+5. GitHub release is created
+6. Production deployment happens (for stable releases)
+
+#### Writing Release Notes
+
+On GitHub, go to Releases and edit the auto-generated release:
+
+**Good Release Notes Include:**
+- ✨ New features
+- 🐛 Bug fixes
+- 🔧 Improvements
+- ⚠️ Breaking changes (if any)
+- 📦 Upgrade instructions
+- 🙏 Contributor acknowledgments
+
+**Example:**
+```markdown
+## What's New in v1.1.0
+
+### ✨ New Features
+- Added AI-powered code generation (#123)
+- Real-time collaboration improvements (#124)
+
+### 🐛 Bug Fixes
+- Fixed login authentication issue (#125)
+
+### 🔧 Improvements
+- Better error handling
+- Performance improvements
+
+### 🙏 Contributors
+Thanks to @user1, @user2 for their contributions!
+```
+
+For more details, see:
+- 📖 [RELEASES.md](./RELEASES.md) - Complete guide to semantic versioning and releases
+- 🤖 [AUTO_DEVOPS.md](./AUTO_DEVOPS.md) - Automated deployment and DevOps guide
+
+---
+
 ## 🎉 Recognition
 
 Contributors will be:

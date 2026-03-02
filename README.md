@@ -8,20 +8,27 @@
 [![Accessibility](https://img.shields.io/badge/A11y-WCAG%20Compliant-green?logo=accessibility)](https://www.w3.org/WAI/WCAG21/quickref/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-**A transparent, open-source generative AI development platform** that teaches and guides developers to build full-stack applications with modern tools like Supabase, Next.js, and React.
+**A transparent generative AI development starter** that powers  full-stack applications with modern tools for visual design creation and communication 
 
 > 🌐 **Live Demo**: [https://pinkycollie.github.io/mbtq-dev/](https://pinkycollie.github.io/mbtq-dev/)
 > 
 > 📖 **Documentation**: 
+> - [Quick Start for Non-Developers](./QUICK_START_GUIDE.md) - 🎯 **Start here if you're new!**
+> - [Connect Your Repository](./REPOSITORY_INTEGRATION.md) - 🔗 Integrate MBTQ.dev with your project
+> - [AI Agent Guide](./docs/AI-AGENT-GUIDE.md) - 🤖 Meet Quinn, your AI development assistant with Fibonrose task validation
 > - [Architecture Overview](./ARCHITECTURE.md) - System architecture and design
 > - [Deployment Guide](./DEPLOYMENT.md) - Complete production deployment guide
+> - [Auto DevOps Guide](./AUTO_DEVOPS.md) - 🚀 Automated deployment and updates
+> - [Release Management](./RELEASES.md) - 🏷️ Semantic versioning and tagging
 > - [Security Policy](./SECURITY.md) - Security best practices and policies
 > - [Testing Guide](./TESTING.md) - Testing strategy and practices
 > - [API Integration Guide](./API.md) - Integrating third-party APIs
+> - [Git Manager Guide](./GIT_MANAGER.md) - Advanced Git commands and workflows
 > - [Contributing Guide](./CONTRIBUTING.md) - How to contribute
 > - [Backend Connector Guide](./BACKEND_CONNECTOR_GUIDE.md) - Complete Supabase & API integration guide
 > - [GitHub Pages Setup](./GITHUB_PAGES_SETUP.md) - Deploy your own instance
 > - [LLM Integration Guide](./llm-deno-supabase.md) - Advanced AI integration patterns
+> - **MBTQ Ecosystem** – [Developer-Magician API](https://github.com/pinkycollie/Developer-Magician) (Deaf-first accessibility validation), [PinkFlow](https://github.com/pinkycollie/pinkflow) (test automation & ecosystem)
 
 ## 📢 Platform Evolution
 
@@ -75,6 +82,69 @@
 - **Open Source** - Transparent development, community contributions welcome
 - **Educational Focus** - Teach and guide, not just provide solutions
 
+## 🤖 AI Development Assistant (Quinn)
+
+Meet **Quinn**, your MBTQ development assistant powered by the **Fibonrose Task Validation System**.
+
+### What is Quinn?
+
+Quinn is an AI agent specifically designed to help you build and maintain the MBTQ platform. Quinn provides:
+
+- 🏗️ **Code Architecture Guidance** - Get expert advice on structuring your code
+- ⚡ **Feature Implementation** - Step-by-step assistance building new features
+- 🐛 **Debugging Assistance** - Help diagnosing and fixing issues
+- 📝 **PR Review & Suggestions** - Automated code review with actionable feedback
+- 📚 **Documentation Generation** - Auto-generate docs from your code
+- ✅ **Best Practices Consultation** - Ensure you're following React/TypeScript standards
+
+### 🌹 Fibonrose Task Validation System
+
+**Fibonrose** ensures tasks are truly complete, not just marked as "done". It combines:
+- **Fibonacci sequence** for proportional validation based on complexity
+- **Evidence-based completion** with verifiable checkpoints
+- **Progressive confidence** as each milestone is confirmed
+
+#### How It Works:
+
+1. **Task Creation** - Quinn assesses complexity (0-9) and creates Fibonacci-based checkpoints
+2. **Progress Tracking** - Confirm milestones with evidence (commits, tests, screenshots)
+3. **Completion Validation** - Only complete when ALL checkpoints are verified
+
+#### Example:
+
+```markdown
+Task: Add loading spinner component (Complexity 3)
+
+🌹 Fibonrose Checklist:
+- [x] Checkpoint 1: Component created (commit: abc123)
+- [x] Checkpoint 2: Styled and responsive (screenshot: spinner.png)
+- [x] Checkpoint 3: Tests passing (coverage: 100%)
+
+Status: ✅ COMPLETE - All confirmations validated!
+```
+
+#### Task Complexity Levels:
+
+| Complexity | Confirmations | Example |
+|-----------|---------------|---------|
+| 0-1 | 1 | Fix typo, update docs |
+| 2 | 2 | Add component prop, update config |
+| 3 | 3 | Create UI component, add API endpoint |
+| 4 | 5 | Implement feature with tests |
+| 5 | 8 | Build complete feature |
+| 6+ | 13+ | Major architectural changes |
+
+### Getting Started with Quinn
+
+1. **Create an issue** describing your task or question
+2. **Quinn responds** with guidance and creates a Fibonrose checklist if applicable
+3. **Confirm checkpoints** as you complete them with evidence
+4. **Task validated** automatically when all confirmations are in
+
+📖 **Full Guide**: [AI Agent Guide](./docs/AI-AGENT-GUIDE.md)
+
+---
+
 ## 🚀 Getting Started
 
 ### Quick Start Options
@@ -87,7 +157,7 @@ Next.js provides better performance, SEO, and full-stack capabilities. See our [
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+ (see [`.nvmrc`](.nvmrc))
 - npm or yarn
 - A Supabase account (free tier available at [supabase.com](https://supabase.com))
 
@@ -251,13 +321,13 @@ The bottom bar provides:
 - ✅ **Input Validation** - Prevent injection attacks
 - ✅ **No Secrets in Code** - Best practices enforced
 
-### CI/CD Pipeline
-- ✅ **Automated Testing** - Unit and integration tests on every commit
-- ✅ **Type Checking** - TypeScript validation
-- ✅ **Security Scanning** - npm audit for vulnerabilities
-- ✅ **Build Verification** - Ensure builds succeed
-- ✅ **Accessibility Checks** - Automated a11y testing
-- ✅ **Automated Deployment** - GitHub Actions workflow
+### CI/CD Pipeline (Build & Deploy)
+- ✅ **Build (CI)** – On every push/PR: Node 20 (from `.nvmrc`), Vite client build, client + fibonrose tests, Deno checks. [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+- ✅ **Deploy** – On push to `main`: build client and deploy to GitHub Pages. [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+- ✅ **Release** – On version tags: test, security audit, build artifact, GitHub Release. [`.github/workflows/release.yml`](.github/workflows/release.yml)
+- ✅ **Type Checking** - TypeScript validation in CI
+- ✅ **Security Scanning** - npm audit in release workflow
+- ✅ **Vite template** – Same stack idea as [MBTQ-dev/vite-react-template](https://github.com/MBTQ-dev/vite-react-template) (React + Vite); this repo uses GitHub Pages instead of Cloudflare Workers.
 
 ### Testing
 - ✅ **Unit Tests** - Vitest + React Testing Library
@@ -350,12 +420,37 @@ import MyWidget from "./components/MyWidget";
 <MyWidget socket={socket} />
 ```
 
+## 🔗 MBTQ Ecosystem & Developer-Magician API
+
+MBTQ.dev is part of a Deaf-first ecosystem. For **accessibility validation beyond WCAG** (ASL flow, visual-first, audio-bypass), use the **Developer-Magician** service and its API.
+
+| Resource | Description |
+|----------|-------------|
+| **[Developer-Magician](https://github.com/pinkycollie/Developer-Magician)** | Deaf-first accessibility validator (FastAPI + Next.js). **API** for validating UIs, reporting to Fibonrose, and integrating with DeafAUTH / 360Magicians. |
+| **[PinkFlow](https://github.com/pinkycollie/pinkflow)** | Deaf-first innovation ecosystem: test suites, webapp (model testing, captions), and orchestration (DeafAuth, FibonRose, PinkSync). |
+
+### Developer-Magician API (FastAPI)
+
+When the Developer-Magician backend is running (e.g. locally on port 8000 or via Vercel), use the **`/api/py/`** base path:
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/py/health` | GET | Health check and feature list |
+| `/api/py/ecosystem-status` | GET | MBTQ ecosystem integration status |
+| `/api/py/workflows/ci-cd-story` | GET | CI/CD workflow as educational journey |
+| `/api/py/learn/ci-cd-basics` | GET | CI/CD fundamentals |
+| `/api/py/toast/workflow-feedback` | POST | Educational toast messages (`stage`, `status`) |
+| `/api/py/deafauth-validate` | POST | Validate auth flow accessibility (body: `auth_flow_url`) |
+| `/api/py/fibonrose-report` | POST | Report accessibility scores to Fibonrose (body: `url`, `deaf_score`, `asl_compatible`) |
+| `/api/py/ai-validate` | POST | AI-triggered validation (header: `X-Magician-Role: accessibility-auditor`) |
+
+**Live app**: [pinkycollie.github.io/Developer-Magician](https://pinkycollie.github.io/Developer-Magician/) (static). Full API requires running the FastAPI server (see [Developer-Magician README](https://github.com/pinkycollie/Developer-Magician#-developer-magician-api)).
+
 ## 🤝 Contributing
 
 PRs welcome! We especially encourage contributions from:
 
 - Deaf and Hard of Hearing developers
-- LGBTQ+ community members
 - Accessibility experts
 - Anyone passionate about inclusive technology
 

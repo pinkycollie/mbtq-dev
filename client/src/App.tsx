@@ -3,6 +3,8 @@ import { io } from "socket.io-client";
 import PinkSyncWidget from "./components/PinkSyncWidget";
 import A11yBar from "./components/A11yBar";
 import Manifesto from "./components/Manifesto";
+import MBTQDevGenerator from "./components/MBTQDevGenerator";
+import { SignVisualSystem } from "./components/SignVisualSystem";
 
 const socket = io(import.meta.env.VITE_SOCKET_SERVER_URL || "http://localhost:4000");
 
@@ -33,6 +35,8 @@ const FloatingEmoji = ({ emoji, delay }: { emoji: string; delay: number }) => {
 
 export default function App() {
   const [showManifesto, setShowManifesto] = useState(false);
+  const [showGenerator, setShowGenerator] = useState(false);
+  const [showSignSystem, setShowSignSystem] = useState(false);
   const [celebration, setCelebration] = useState(false);
   const [theme, setTheme] = useState<'rainbow' | 'sunset' | 'ocean'>('rainbow');
   
@@ -100,6 +104,15 @@ export default function App() {
           </select>
           <button
             onClick={() => {
+              setShowGenerator(s => !s);
+              triggerCelebration();
+            }}
+            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full hover:from-purple-700 hover:to-pink-700 focus:outline-purple-700 transition-all hover:scale-110 font-bold shadow-lg hover:shadow-xl"
+          >
+            {showGenerator ? "Dashboard 🏠" : "Generator 🚀"}
+          </button>
+          <button
+            onClick={() => {
               setShowManifesto(s => !s);
               triggerCelebration();
             }}
@@ -107,18 +120,34 @@ export default function App() {
           >
             {showManifesto ? "Hide 👋" : "Manifesto ✨"}
           </button>
+          <button
+            onClick={() => {
+              setShowSignSystem(s => !s);
+              setShowGenerator(false);
+              triggerCelebration();
+            }}
+            className="px-4 py-2 bg-gradient-to-r from-gray-700 to-purple-700 text-white rounded-full hover:from-gray-800 hover:to-purple-800 focus:outline-purple-700 transition-all hover:scale-110 font-bold shadow-lg hover:shadow-xl"
+          >
+            {showSignSystem ? "Dashboard 🏠" : "Sign System 🤟"}
+          </button>
         </div>
       </header>
       {showManifesto && <Manifesto />}
-      <main className="relative mx-auto max-w-7xl pt-12 flex flex-col gap-16 min-h-[80vh]">
-        <PinkSyncWidget
-          socket={socket}
-          id="main"
-          initial={{ x: 100, y: 80, w: 420, h: 220 }}
-          onCelebrate={triggerCelebration}
-        />
-        {/* Plug in other community widgets here (DeafAuth, GithubHTML, etc.) */}
-      </main>
+      {showSignSystem ? (
+        <SignVisualSystem />
+      ) : showGenerator ? (
+        <MBTQDevGenerator />
+      ) : (
+        <main className="relative mx-auto max-w-7xl pt-12 flex flex-col gap-16 min-h-[80vh]">
+          <PinkSyncWidget
+            socket={socket}
+            id="main"
+            initial={{ x: 100, y: 80, w: 420, h: 220 }}
+            onCelebrate={triggerCelebration}
+          />
+          {/* Plug in other community widgets here (DeafAuth, GithubHTML, etc.) */}
+        </main>
+      )}
       <A11yBar />
       <footer className="text-center p-5 bg-white/90 backdrop-blur-sm text-fuchsia-700 font-bold hover:bg-fuchsia-50 transition-all">
         mbtq.dev · Community. Culture. Power. 💜{" "}
