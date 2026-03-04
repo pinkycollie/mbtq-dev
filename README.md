@@ -8,7 +8,7 @@
 [![Accessibility](https://img.shields.io/badge/A11y-WCAG%20Compliant-green?logo=accessibility)](https://www.w3.org/WAI/WCAG21/quickref/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-**A transparent, open-source generative AI development starter** that teaches and guides developers to build full-stack applications with modern tools like Supabase, Next.js, and React.
+**A transparent generative AI development starter** that powers  full-stack applications with modern tools for visual design creation and communication 
 
 > 🌐 **Live Demo**: [https://pinkycollie.github.io/mbtq-dev/](https://pinkycollie.github.io/mbtq-dev/)
 > 
@@ -52,7 +52,7 @@
 - Generative AI guidance for building full-stack applications
 - Transparent documentation and open-source philosophy
 
-### ✨ Core Features
+A production-grade, real-time, drag-resize-accessible React starter for Deaf/Queer adaptive workspaces with integrated Content Fulfillment API.
 
 #### 🤖 Generative AI Integration
 - **AI-Powered Development** - Learn to integrate GPT-4, Claude, and Gemini into your apps
@@ -141,9 +141,30 @@ Status: ✅ COMPLETE - All confirmations validated!
 3. **Confirm checkpoints** as you complete them with evidence
 4. **Task validated** automatically when all confirmations are in
 
-📖 **Full Guide**: [AI Agent Guide](./docs/AI-AGENT-GUIDE.md)
+- **🎨 Movable, Resizable Widgets** - Built with Interact.js for smooth, intuitive drag-and-drop
+- **🔄 Real-time Multiuser Sync** - Socket.IO powered collaboration
+- **♿ Accessibility First** - WCAG compliant, screen-reader optimized, ARIA-enhanced
+- **🎭 High Contrast Toggle** - Adaptive visual modes for low vision users
+- **🔍 Built-in A11y Testing** - Integrated axe-core for automatic accessibility analysis
+- **🏳️‍🌈 Queer & Deaf Culture** - Visual alerts, manifesto, community-driven design
+- **⚡ Modern Tech Stack** - React 18, TypeScript, Vite, Tailwind CSS
+- **🔌 Modular Architecture** - Ready for DeafAuth, video, AI, and more plug-ins
+- **🎯 Content Fulfillment API** - Full-stack API for video requests and creator fulfillment
 
----
+## 🏗️ Architecture
+
+### Frontend (`client/`)
+React-based UI with real-time collaboration and accessibility features.
+
+### Backend API (`server/`)
+TypeScript REST API with:
+- PostgreSQL database with Prisma ORM
+- API key authentication
+- Webhook system for notifications
+- Creator matching algorithm
+- Complete OpenAPI documentation
+
+See [Server README](./server/README.md) for detailed API documentation.
 
 ## 🚀 Getting Started
 
@@ -181,10 +202,14 @@ npm install
 
 ```bash
 cd server
-npm start
+npm install
+npm run prisma:generate  # Generate Prisma client
+npm run dev              # Start development server
 ```
 
 The server will start on `http://localhost:4000`
+
+For production deployment, see [Server Deployment Guide](./server/DEPLOYMENT.md).
 
 ### 3. Start Frontend
 
@@ -258,6 +283,7 @@ mbtq-pinksync-starter-kit/
 ### Backend
 - **Node.js** - JavaScript runtime
 - **Express** - Minimal web framework
+- **TypeScript** - Type-safe development
 - **Socket.IO** - Real-time bidirectional communication
 - **Helmet** - Security headers middleware
 - **express-rate-limit** - Rate limiting protection
@@ -370,6 +396,49 @@ This starter kit is designed to be extended with:
 - **@mbtq.dev/video** - Accessible video chat
 - **GitHub HTML Import** - Import and preview HTML from repositories
 - **Figma Sync** - Real-time design collaboration
+
+## 🎯 Content Fulfillment API
+
+The backend includes a complete API for managing video requests and creator fulfillment:
+
+### Key Features
+- **Request Management** - Create and track video requests
+- **Creator Bidding** - Creators can bid on requests
+- **Project Fulfillment** - Track project completion
+- **Webhook Notifications** - Real-time status updates
+- **API Key Authentication** - Secure access control
+- **Auto-matching** - Smart creator matching algorithm
+
+### API Documentation
+- [Server README](./server/README.md) - Complete API guide
+- [OpenAPI Spec](./server/openapi.yaml) - API specifications
+- [Deployment Guide](./server/DEPLOYMENT.md) - Production deployment
+
+### Quick API Examples
+
+**Create a video request:**
+```bash
+curl -X POST http://localhost:4000/api/requests \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-api-key" \
+  -d '{
+    "title": "ASL Video for Product Launch",
+    "description": "Need ASL interpretation...",
+    "serviceType": "sign-language",
+    "requirements": {"skills": ["ASL"]},
+    "budget": 500
+  }'
+```
+
+**Register webhook:**
+```bash
+curl -X POST http://localhost:4000/api/webhooks/register \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-api-key" \
+  -d '{"webhookUrl": "https://your-site.com/webhook"}'
+```
+
+See [server/README.md](./server/README.md) for complete documentation.
 
 ## 🛠️ Development
 
