@@ -1,0 +1,171 @@
+name: Fibonrose Task Validator
+
+on:
+  issue_comment:
+    types: [created, edited]
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  validate-fibonrose:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'fibonrose') || contains(github.event.comment.body, 'Confirm checkpoint')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Parse Fibonrose confirmation
+        id: parse
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = context.issue.number;
+            const commentBody = context.payload.comment?.body || '';
+            
+            // Parse confirmation pattern: "Confirm checkpoint X: [evidence]"
+            const confirmPattern = /confirm\s+checkpoint\s+(\d+):?\s*(.+)/gi;
+            const matches = [...commentBody.matchAll(confirmPattern)];
+            
+            if (matches.length === 0) {
+              console.log('No confirmation pattern found in comment');
+              return;
+            }
+            
+            // Get issue body to find existing checklist
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber
+            });
+            
+            let issueBody = issue.data.body || '';
+            let updated = false;
+            
+            // Process each confirmation
+            for (const match of matches) {
+              const checkpointNum = match[1];
+              const evidence = match[2].trim();
+              
+              // Update checklist in issue body
+              const checkpointPattern = new RegExp(
+                `- \\[[ ]\\] \\*\\*Checkpoint ${checkpointNum}:\\*\\*(.+)`,
+                'i'
+              );
+              
+              if (checkpointPattern.test(issueBody)) {
+                issueBody = issueBody.replace(
+                  checkpointPattern,
+                  `- [x] **Checkpoint ${checkpointNum}:**$1\n  📝 _Confirmed: ${evidence}_`
+                );
+                updated = true;
+              }
+            }
+            
+            // Update issue if changes were made
+            if (updated) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: issueBody
+              });
+              
+              // Check if all checkpoints are confirmed
+              const totalCheckpoints = (issueBody.match(/- \[[ x]\] \*\*Checkpoint \d+:/g) || []).length;
+              const confirmedCheckpoints = (issueBody.match(/- \[x\] \*\*Checkpoint \d+:/g) || []).length;
+              
+              // Generate progress comment
+              let progressComment = `### 📊 Fibonrose Progress Update\n\n`;
+              progressComment += `✅ **${confirmedCheckpoints}/${totalCheckpoints}** checkpoints confirmed\n`;
+              progressComment += `📈 **Progress:** ${Math.round((confirmedCheckpoints/totalCheckpoints) * 100)}%\n\n`;
+              
+              if (confirmedCheckpoints === totalCheckpoints) {
+                progressComment += `🎉 **ALL CONFIRMATIONS COMPLETE!**\n\n`;
+                progressComment += `This task has been validated through the Fibonrose sequence.\n`;
+                progressComment += `Ready to close this issue! 🚀\n\n`;
+                progressComment += `_Automated by Fibonrose Task Validator_`;
+                
+                // Add completion label
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  labels: ['fibonrose:completed']
+                });
+              } else {
+                const remaining = totalCheckpoints - confirmedCheckpoints;
+                progressComment += `⏳ **${remaining} confirmation(s) remaining**\n\n`;
+                progressComment += `Keep up the great work! 💪\n\n`;
+                progressComment += `_Automated by Fibonrose Task Validator_`;
+              }
+              
+              // Post progress comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: progressComment
+              });
+              
+              console.log(`Updated ${matches.length} checkpoint(s) for issue #${issueNumber}`);
+            }
+
+      - name: Add Fibonrose labels
+        if: github.event.action == 'opened' && contains(github.event.issue.body, 'Fibonrose Confirmation Checklist')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['fibonrose', 'fibonrose:pending']
+            });
+
+  notify-completion:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'fibonrose:completed')
+    
+    steps:
+      - name: Notify on completion
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+            
+            // Check if already notified
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            });
+            
+            const alreadyNotified = comments.data.some(
+              comment => comment.body.includes('Task validated through Fibonrose!')
+            );
+            
+            if (!alreadyNotified) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `### 🌹 Task Completion Notification\n\n` +
+                      `**Congratulations!** This task has been fully validated through the Fibonrose sequence.\n\n` +
+                      `All checkpoints have been confirmed with evidence. This issue can now be safely closed.\n\n` +
+                      `Great work! 🎉🚀`
+              });
+            }

@@ -1,0 +1,22 @@
+{
+  "name": "fibonrose-validator",
+  "version": "1.0.0",
+  "description": "Fibonacci-inspired task validation system for ensuring actual task completion",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "keywords": [
+    "task-validation",
+    "fibonacci",
+    "project-management",
+    "github-integration"
+  ],
+  "author": "MBTQ Development Team",
+  "license": "MIT",
+  "devDependencies": {
+    "vitest": "^2.1.8"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "core_services": [
+    "Code Architecture Guidance",
+    "Feature Implementation",
+    "Debugging Assistance",
+    "PR Review & Suggestions",
+    "Documentation Generation",
+    "Best Practices Consultation",
+    "Dependency Management",
+    "Workflow Automation"
+  ],
+  "out_of_scope": [
+    "Manage billing/subscriptions for third-party services",
+    "Write production-critical code without human review",
+    "Make unilateral architectural decisions",
+    "Perform ops tasks (server config, database admin)"
+  ]
+}
