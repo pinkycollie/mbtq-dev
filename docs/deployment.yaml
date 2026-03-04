@@ -1,0 +1,13 @@
+name: pinky-cloud-function
+entryPoint: hello Deaf World
+runtime: nodejs22
+sourceDirectory: ./Projects/PinkSync_Interface
+
+events:
+  - http
+  # To deploy this function from Google Cloud Storage, specify the sourceArchiveUrl field.
+  # Example:
+  # sourceArchiveUrl: gs://<your-bucket-name>/<your-source-archive>.zip
+  #
+  # Replace <your-bucket-name> and <your-source-archive> with your actual bucket and archive names.
+  # For more details, see: https://cloud.google.com/functions/docs/deploying/filesystem#deploying_from_a_storage_bucket
