@@ -4,6 +4,7 @@ import PinkSyncWidget from "./components/PinkSyncWidget";
 import A11yBar from "./components/A11yBar";
 import Manifesto from "./components/Manifesto";
 import MBTQDevGenerator from "./components/MBTQDevGenerator";
+import { SignVisualSystem } from "./components/SignVisualSystem";
 
 const socket = io(import.meta.env.VITE_SOCKET_SERVER_URL || "http://localhost:4000");
 
@@ -35,6 +36,7 @@ const FloatingEmoji = ({ emoji, delay }: { emoji: string; delay: number }) => {
 export default function App() {
   const [showManifesto, setShowManifesto] = useState(false);
   const [showGenerator, setShowGenerator] = useState(false);
+  const [showSignSystem, setShowSignSystem] = useState(false);
   const [celebration, setCelebration] = useState(false);
   const [theme, setTheme] = useState<'rainbow' | 'sunset' | 'ocean'>('rainbow');
   
@@ -118,10 +120,22 @@ export default function App() {
           >
             {showManifesto ? "Hide 👋" : "Manifesto ✨"}
           </button>
+          <button
+            onClick={() => {
+              setShowSignSystem(s => !s);
+              setShowGenerator(false);
+              triggerCelebration();
+            }}
+            className="px-4 py-2 bg-gradient-to-r from-gray-700 to-purple-700 text-white rounded-full hover:from-gray-800 hover:to-purple-800 focus:outline-purple-700 transition-all hover:scale-110 font-bold shadow-lg hover:shadow-xl"
+          >
+            {showSignSystem ? "Dashboard 🏠" : "Sign System 🤟"}
+          </button>
         </div>
       </header>
       {showManifesto && <Manifesto />}
-      {showGenerator ? (
+      {showSignSystem ? (
+        <SignVisualSystem />
+      ) : showGenerator ? (
         <MBTQDevGenerator />
       ) : (
         <main className="relative mx-auto max-w-7xl pt-12 flex flex-col gap-16 min-h-[80vh]">
