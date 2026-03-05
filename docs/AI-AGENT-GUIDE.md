@@ -1,4 +1,4 @@
-# 🤖 AI Agent Guide - MBTQ Development Assistant (Quinn)
+# 🤖 MagicianCore Guide - Introducing Developer Magician
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -17,7 +17,7 @@
 
 **Quinn** is your MBTQ development assistant, an AI agent designed to help you build and maintain the MBTQ platform with React, TypeScript, and modern web technologies.
 
-### What Quinn Can Help With:
+### What Developer Magician Can Help With:
 - 🏗️ Code architecture guidance
 - ⚡ Feature implementation
 - 🐛 Debugging assistance
@@ -27,7 +27,7 @@
 - 📦 Dependency management
 - 🔄 Workflow automation
 
-### Quinn's Personality:
+### Developer Magician's Personality:
 - **Curious & Proactive** – Asks clarifying questions before jumping to solutions
 - **Precise but Friendly** – Balances technical accuracy with approachable language
 - **Context-Aware** – Remembers your project stack and patterns
@@ -38,13 +38,13 @@
 
 ## Getting Started
 
-### Interacting with Quinn
+### Interacting with Developer Magician
 
 #### Via GitHub Issues:
 1. Create a new issue in the repository
 2. Describe your problem or feature request
-3. Quinn will respond with questions, suggestions, or implementation guidance
-4. For tasks, Quinn will create a Fibonrose validation checklist
+3. Developer Magician will respond with questions, suggestions, or implementation guidance
+4. For tasks, Dev will create a Fibonrose validation checklist
 
 #### Via Pull Requests:
 1. Create a PR with your changes
@@ -76,7 +76,7 @@ Fibonrose solves this by requiring:
 
 ### How It Works
 
-1. **Task Creation**: Quinn assesses task complexity (0-9) and creates Fibonacci-based confirmation checkpoints
+1. **Task Creation**: Developer Magician assesses task complexity (0-9) and creates Fibonacci-based confirmation checkpoints
 2. **Progress Tracking**: As you work, you confirm milestones with evidence
 3. **Completion Validation**: Only when ALL checkpoints are confirmed is the task truly complete
 
@@ -193,7 +193,7 @@ The repository includes a GitHub Actions workflow that:
 
 ### Issue Template
 
-When Quinn creates a Fibonrose task, the issue will include:
+When Developer Magician creates a Fibonrose task, the issue will include:
 
 ```markdown
 ## Task Title
@@ -322,7 +322,7 @@ Confirm checkpoint 1: Updated 5 broken links in README.md (lines 23, 45, 67, 89,
    - Quinn can provide guidance
    - Better to ask than to skip verification
 
-### For Quinn (The AI Agent)
+### For Developer Magician
 
 1. **Assess Complexity Accurately**
    - Consider all aspects of the task
@@ -349,7 +349,7 @@ Confirm checkpoint 1: Updated 5 broken links in README.md (lines 23, 45, 67, 89,
 ## FAQ
 
 ### Q: What if I disagree with the complexity level?
-**A:** Comment on the issue and explain why you think it should be different. Quinn will reassess and adjust if appropriate.
+**A:** Comment on the issue and explain why you think it should be different. Developer Magician will reassess and adjust if appropriate.
 
 ### Q: Can I change checkpoints after the task is created?
 **A:** Yes, if the scope changes. Comment on the issue explaining what changed and why new checkpoints are needed.
@@ -366,7 +366,7 @@ Confirm checkpoint 3: [evidence]
 **A:** Yes, every checkpoint requires evidence. This ensures accountability and provides an audit trail.
 
 ### Q: What if I can't provide evidence for a checkpoint?
-**A:** Discuss with Quinn. Either find alternative evidence or the checkpoint definition may need adjustment.
+**A:** Discuss with Developer Magician. Either find alternative evidence or the checkpoint definition may need adjustment.
 
 ### Q: Can tasks be completed without Fibonrose validation?
 **A:** Small fixes and documentation updates may skip formal validation, but feature work should always use Fibonrose.
@@ -375,7 +375,7 @@ Confirm checkpoint 3: [evidence]
 **A:** Use GitHub issue labels like `fibonrose:pending`, `fibonrose:confirming`, `fibonrose:completed` for easy filtering.
 
 ### Q: What happens if I mark a task complete without confirming all checkpoints?
-**A:** The task will be reopened by Quinn or a team member. All checkpoints must be confirmed for true completion.
+**A:** The task will be reopened by DDeveloper Magician or a team member. All checkpoints must be confirmed for true completion.
 
 ---
 
@@ -400,7 +400,7 @@ Confirm checkpoint 3: [evidence]
 
 ## Getting Help
 
-Need assistance with Fibonrose or Quinn?
+Need assistance with Fibonrose or Developer Magician?
 
 1. **Check this guide first** - Most questions are answered here
 2. **Comment on your issue** - Quinn monitors all issue activity
