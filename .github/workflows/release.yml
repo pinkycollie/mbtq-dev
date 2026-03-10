@@ -53,7 +53,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version-file: .nvmrc
           cache: 'npm'
           cache-dependency-path: |
             client/package-lock.json
@@ -69,7 +69,7 @@ jobs:
 
       - name: Run client tests
         working-directory: ./client
-        run: npm test
+        run: npm test -- --run
 
       - name: Run type checking
         working-directory: ./client
@@ -86,7 +86,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version-file: .nvmrc
           cache: 'npm'
           cache-dependency-path: |
             client/package-lock.json
@@ -116,7 +116,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version-file: .nvmrc
           cache: 'npm'
           cache-dependency-path: client/package-lock.json
 
@@ -236,7 +236,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version-file: .nvmrc
 
       - name: Install dependencies
         working-directory: ./client
