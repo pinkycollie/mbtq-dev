@@ -1,0 +1,626 @@
+openapi: 3.0.3
+info:
+  title: MBTQ Content Fulfillment API
+  description: |
+    API for managing video requests and creator fulfillment between `videos.mbtq.dev` and `creators.pinksync.io`.
+    
+    This API enables:
+    - Corporate clients to submit video requests
+    - Creators to bid on and fulfill requests
+    - Bi-directional webhook notifications
+    - Real-time status updates
+    
+    ## Authentication
+    API key-based authentication using the `X-API-Key` header.
+    
+  version: 1.0.0
+  contact:
+    name: MBTQ.dev Support
+    url: https://mbtq.dev
+    email: support@mbtq.dev
+
+servers:
+  - url: http://localhost:4000
+    description: Development server
+  - url: https://api.videos.mbtq.dev
+    description: Production server
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key for authentication
+      
+  schemas:
+    Request:
+      type: object
+      required:
+        - title
+        - description
+        - requirements
+        - serviceType
+      properties:
+        id:
+          type: string
+          description: Unique identifier
+        title:
+          type: string
+          description: Request title
+        description:
+          type: string
+          description: Detailed description
+        requirements:
+          type: object
+          description: JSON object with specific requirements
+          properties:
+            skills:
+              type: array
+              items:
+                type: string
+              example: ["ASL", "video-editing"]
+        serviceType:
+          type: string
+          description: Type of service requested
+          enum: ["sign-language", "captioning", "video-editing", "translation"]
+        budget:
+          type: number
+          format: float
+          description: Budget in USD
+        deadline:
+          type: string
+          format: date-time
+          description: Deadline for completion
+        status:
+          type: string
+          enum: ["PENDING", "OPEN_FOR_BIDS", "BID_ACCEPTED", "IN_PROGRESS", "COMPLETED", "CANCELLED"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          
+    Bid:
+      type: object
+      required:
+        - requestId
+        - creatorId
+        - amount
+        - proposal
+      properties:
+        id:
+          type: string
+        requestId:
+          type: string
+        creatorId:
+          type: string
+        amount:
+          type: number
+          format: float
+        proposal:
+          type: string
+        estimatedDays:
+          type: integer
+        status:
+          type: string
+          enum: ["PENDING", "ACCEPTED", "REJECTED", "WITHDRAWN"]
+        createdAt:
+          type: string
+          format: date-time
+          
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        requestId:
+          type: string
+        creatorId:
+          type: string
+        status:
+          type: string
+          enum: ["IN_PROGRESS", "SUBMITTED", "APPROVED", "REVISION_REQUIRED", "CANCELLED"]
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+        deliverableUrl:
+          type: string
+          format: uri
+        notes:
+          type: string
+          
+    WebhookEvent:
+      type: object
+      properties:
+        event:
+          type: string
+          description: Event type
+          example: "request.status_changed"
+        data:
+          type: object
+          description: Event payload
+        timestamp:
+          type: string
+          format: date-time
+          
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+
+paths:
+  /:
+    get:
+      summary: API Health Check
+      description: Check if the API is running
+      responses:
+        '200':
+          description: API is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  version:
+                    type: string
+                  endpoints:
+                    type: object
+                    
+  /api/requests:
+    post:
+      summary: Create a new video request
+      description: Corporate clients submit video requests
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+      responses:
+        '201':
+          description: Request created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Request'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+    get:
+      summary: Get all requests
+      description: Get all requests for the authenticated company
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ["PENDING", "OPEN_FOR_BIDS", "BID_ACCEPTED", "IN_PROGRESS", "COMPLETED", "CANCELLED"]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: List of requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Request'
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      limit:
+                        type: integer
+                      total:
+                        type: integer
+                      pages:
+                        type: integer
+                        
+  /api/requests/{id}:
+    get:
+      summary: Get request by ID
+      description: Get a specific request with all details
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Request details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Request'
+        '404':
+          description: Request not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /api/requests/{id}/status:
+    patch:
+      summary: Update request status
+      description: Update the status of a request
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  enum: ["PENDING", "OPEN_FOR_BIDS", "BID_ACCEPTED", "IN_PROGRESS", "COMPLETED", "CANCELLED"]
+                notes:
+                  type: string
+      responses:
+        '200':
+          description: Status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Request'
+                    
+  /api/requests/{id}/accept-bid:
+    post:
+      summary: Accept a bid
+      description: Accept a creator's bid for a request
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - bidId
+              properties:
+                bidId:
+                  type: string
+      responses:
+        '200':
+          description: Bid accepted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+                    properties:
+                      request:
+                        $ref: '#/components/schemas/Request'
+                      project:
+                        $ref: '#/components/schemas/Project'
+                        
+  /api/webhooks/register:
+    post:
+      summary: Register webhook URL
+      description: Register or update webhook URL for receiving notifications
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - webhookUrl
+              properties:
+                webhookUrl:
+                  type: string
+                  format: uri
+                  example: "https://videos.mbtq.dev/webhooks/mbtq"
+      responses:
+        '200':
+          description: Webhook registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      webhookUrl:
+                        type: string
+                        
+    delete:
+      summary: Remove webhook URL
+      description: Remove webhook URL for the authenticated company
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Webhook removed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                    
+  /api/webhooks/events:
+    get:
+      summary: Get webhook events
+      description: Get webhook events for the authenticated company
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ["PENDING", "SUCCESS", "FAILED", "CANCELLED"]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: List of webhook events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WebhookEvent'
+                      
+  /api/webhooks/test:
+    post:
+      summary: Test webhook delivery
+      description: Send a test webhook to verify configuration
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Test webhook sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    $ref: '#/components/schemas/WebhookEvent'
+                    
+  /api/creators/requests/available:
+    get:
+      summary: Get available requests for creators
+      description: Get requests that are open for bidding
+      parameters:
+        - name: serviceType
+          in: query
+          schema:
+            type: string
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: List of available requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Request'
+                      
+  /api/creators/bids:
+    post:
+      summary: Submit a bid
+      description: Creator submits a bid for a request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bid'
+      responses:
+        '201':
+          description: Bid created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Bid'
+                    
+  /api/creators/projects/{id}/submit:
+    post:
+      summary: Submit completed project
+      description: Creator submits completed work
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - deliverableUrl
+              properties:
+                deliverableUrl:
+                  type: string
+                  format: uri
+                notes:
+                  type: string
+      responses:
+        '200':
+          description: Project submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Project'
+                    
+  /api/creators/match/{requestId}:
+    get:
+      summary: Find matching creators
+      description: Find creators that match the requirements of a request using the stored function
+      parameters:
+        - name: requestId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of matching creators
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        creator_id:
+                          type: string
+                        creator_name:
+                          type: string
+                        creator_email:
+                          type: string
+                        creator_skills:
+                          type: array
+                          items:
+                            type: string
+                        rating:
+                          type: number
+                        completed_projects:
+                          type: integer
+                        match_score:
+                          type: integer
+                          description: Number of matching skills
