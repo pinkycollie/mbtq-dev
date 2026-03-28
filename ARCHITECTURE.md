@@ -494,3 +494,13 @@ Video/Audio Content
 **Last Updated**: 2025-12-15
 
 For implementation details, see the respective documentation files.
+
+## 🌐 Network & Infrastructure Endpoints
+
+### Database (Postgres)
+- **Pathway API**: `db.hhgmgvhrmebkiscphirp.supabase.co`
+- **PinkSync API**: `db.ubvtrnhabtlpznqbuzrx.supabase.co`
+
+### Storage & S3
+- **Pathway S3**: `https://hhgmgvhrmebkiscphirp.supabase.co/storage/v1/s3`
+- **PinkSync S3**: `https://ubvtrnhabtlpznqbuzrx.supabase.co/storage/v1/s3`
