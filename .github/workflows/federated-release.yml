@@ -1,7 +1,7 @@
 name: Federated Release Orchestrator
 
 on:
-  push:
+  workflow_dispatch:
     tags:
       - 'v*'
 

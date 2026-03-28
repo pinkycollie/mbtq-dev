@@ -1,7 +1,7 @@
 name: Deploy Federated Platform
 
 on:
-  push:
+  workflow_dispatch:
     branches:
       - main
   workflow_dispatch:

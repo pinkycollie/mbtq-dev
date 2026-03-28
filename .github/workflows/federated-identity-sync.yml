@@ -1,7 +1,7 @@
 name: Federated Identity Sync
 
 on:
-  push:
+  workflow_dispatch:
     paths:
       - 'core/auth/**'
   workflow_dispatch:

@@ -1,10 +1,7 @@
-name: Deno-Led Automation
+name: Deno-Led Automation (Manual Trigger Only)
 
 on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main, develop]
+  workflow_dispatch:
 
 jobs:
   run-tasks:
@@ -18,8 +15,7 @@ jobs:
         with:
           deno-version: v1.x
 
-      - name: Run Federated Lint
-        run: deno task lint
-
-      - name: Run Federated Tests
-        run: deno task test
+      - name: Run Unified Tasks
+        run: |
+          deno task lint
+          deno task test
