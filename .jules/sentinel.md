@@ -1,0 +1,4 @@
+## 2024-05-20 - Server-Side Request Forgery (SSRF) via Webhook Registration
+**Vulnerability:** The `/api/webhooks/register` endpoint accepted any valid URL for webhook registration, without restricting internal network ranges (localhost, 127.0.0.1, 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) or AWS metadata endpoints (169.254.169.254).
+**Learning:** This codebase uses webhooks to notify clients, meaning the server actively sends HTTP requests to user-provided URLs. Unvalidated URLs allow an attacker to probe internal networks, access restricted internal APIs, or exfiltrate cloud metadata credentials.
+**Prevention:** Webhook URLs must be explicitly validated before being stored. Validate the protocol (http/https) and parse the URL to extract the hostname. Explicitly block loopback addresses, metadata IPs, and internal IP ranges using regex or IP utility libraries before accepting the webhook URL.

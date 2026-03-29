@@ -24,11 +24,38 @@ router.post('/register', authenticateApiKey, async (req: AuthRequest, res: Respo
 
     // Validate URL format
     try {
-      new URL(webhookUrl);
-    } catch {
+      const url = new URL(webhookUrl);
+
+      // Prevent SSRF attacks
+      if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+        throw new Error('Invalid protocol');
+      }
+
+      // Check for blocked hostnames/IPs
+      const blockedHosts = [
+        'localhost',
+        '127.0.0.1',
+        '0.0.0.0',
+        '::1',
+        '169.254.169.254', // AWS metadata
+      ];
+
+      if (blockedHosts.includes(url.hostname)) {
+        throw new Error('Blocked host');
+      }
+
+      // Regex for private/internal IP ranges (IPv4)
+      // Only block if the hostname is actually an IP address matching these ranges
+      const privateIpRegex = /^(10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|192\.168\.|127\.|169\.254\.)/;
+      const isIpAddress = /^(\d{1,3}\.){3}\d{1,3}$/.test(url.hostname);
+      if (isIpAddress && privateIpRegex.test(url.hostname)) {
+        throw new Error('Internal IPs are not allowed');
+      }
+
+    } catch (e) {
       res.status(400).json({
         error: 'Bad Request',
-        message: 'Invalid webhook URL format',
+        message: 'Invalid webhook URL format or restricted host',
       });
       return;
     }
