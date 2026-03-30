@@ -1,0 +1,4 @@
+## 2024-05-30 - Prevent SSRF in User-Provided Webhooks
+**Vulnerability:** The webhook registration endpoint (`/api/webhooks/register`) allowed any valid URL to be registered, exposing an SSRF (Server-Side Request Forgery) vulnerability. An attacker could register a URL pointing to internal services (e.g., `http://localhost:8080/admin`, `http://169.254.169.254/latest/meta-data/`) to port scan or access cloud metadata.
+**Learning:** External integration points, particularly webhooks, require strict validation of the target URL to ensure they are external, preventing the application server from making unintended internal HTTP requests.
+**Prevention:** Always parse and strictly validate user-provided URLs before accepting them for server-side requests. Enforce `http:`/`https:` protocols, and explicitly deny requests to loopback addresses (`localhost`, `127.0.0.1`, `0.0.0.0`), local domains (`.local`, `.internal`), and cloud metadata IP addresses (`169.254.169.254`).
