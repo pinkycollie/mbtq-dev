@@ -21,6 +21,10 @@ interface Output {
   endpoints: string[];
 }
 
+const appTypes = ['webapp', 'api', 'fullstack'];
+const authTypes = ['deafauth', 'oauth', 'custom'];
+const deployTypes = ['docker', 'railway', 'fly.io', 'cloudflare'];
+
 const MBTQDevGenerator = () => {
   const [prompt, setPrompt] = useState('');
   const [config, setConfig] = useState<Config>({
@@ -31,10 +35,6 @@ const MBTQDevGenerator = () => {
   });
   const [generating, setGenerating] = useState(false);
   const [output, setOutput] = useState<Output | null>(null);
-
-  const appTypes = ['webapp', 'api', 'fullstack'];
-  const authTypes = ['deafauth', 'oauth', 'custom'];
-  const deployTypes = ['docker', 'railway', 'fly.io', 'cloudflare'];
 
   const generateApp = async () => {
     setGenerating(true);

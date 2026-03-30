@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import { io } from "socket.io-client";
 import PinkSyncWidget from "./components/PinkSyncWidget";
 import A11yBar from "./components/A11yBar";
@@ -9,7 +9,7 @@ import { SignVisualSystem } from "./components/SignVisualSystem";
 const socket = io(import.meta.env.VITE_SOCKET_SERVER_URL || "http://localhost:4000");
 
 // Floating emoji particles
-const FloatingEmoji = ({ emoji, delay }: { emoji: string; delay: number }) => {
+const FloatingEmoji = memo(({ emoji, delay }: { emoji: string; delay: number }) => {
   const [position, setPosition] = useState({ x: Math.random() * 100, y: 100 });
   
   useEffect(() => {
@@ -31,7 +31,7 @@ const FloatingEmoji = ({ emoji, delay }: { emoji: string; delay: number }) => {
       {emoji}
     </div>
   );
-};
+});
 
 export default function App() {
   const [showManifesto, setShowManifesto] = useState(false);
