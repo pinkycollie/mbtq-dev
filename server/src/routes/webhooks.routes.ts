@@ -22,13 +22,35 @@ router.post('/register', authenticateApiKey, async (req: AuthRequest, res: Respo
       return;
     }
 
-    // Validate URL format
+    // Validate URL format and prevent SSRF
     try {
-      new URL(webhookUrl);
-    } catch {
+      const parsedUrl = new URL(webhookUrl);
+
+      // Restrict protocols
+      if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+        throw new Error('Invalid protocol');
+      }
+
+      // Block local and internal hostnames
+      const hostname = parsedUrl.hostname.toLowerCase();
+      const forbiddenHostnames = [
+        'localhost',
+        '127.0.0.1',
+        '0.0.0.0',
+        '169.254.169.254'
+      ];
+
+      if (
+        forbiddenHostnames.includes(hostname) ||
+        hostname.endsWith('.local') ||
+        hostname.endsWith('.internal')
+      ) {
+        throw new Error('Forbidden hostname');
+      }
+    } catch (e: any) {
       res.status(400).json({
         error: 'Bad Request',
-        message: 'Invalid webhook URL format',
+        message: 'Invalid or forbidden webhook URL',
       });
       return;
     }
