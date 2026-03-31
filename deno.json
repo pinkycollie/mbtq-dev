@@ -1,0 +1,26 @@
+{
+  "tasks": {
+    "dev": "deno run -A --watch client/src/main.tsx",
+    "test": "deno test -A --unstable fibonrose/",
+    "lint": "deno lint",
+    "format": "deno fmt",
+    "factory:status": "deno run -A scripts/factory-status.ts",
+    "federate": "deno run -A scripts/federate-all.ts",
+    "compliance": "deno run -A scripts/compliance-check.ts",
+    "gate": "deno run -A scripts/fibonrose-gate.ts",
+    "build:client": "cd client && npm run build",
+    "build:server": "cd server && npm run build",
+    "docker:build": "gcloud builds submit --config cloudbuild.yaml .",
+    "pipeline:full": "deno task lint && deno task test && deno task compliance && deno task gate 3",
+    "cleanup:branches": "deno run -A scripts/audit-branches.ts"
+  },
+  "lint": {
+    "include": ["client/src/", "server/src/", "fibonrose/", "scripts/"]
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "singleQuote": true
+  }
+}

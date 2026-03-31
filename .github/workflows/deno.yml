@@ -1,22 +1,21 @@
-  deploy:
-    needs: ci
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+name: Deno-Led Automation (Manual Trigger Only)
 
+on:
+  workflow_dispatch:
+
+jobs:
+  run-tasks:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Deno
         uses: denoland/setup-deno@v1
-
-      - name: Build Site
-        run: deno task build
-
-      - name: Deploy to GitHub Pages
-        uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          deno-version: v1.x
 
-      - name: Publish
-        uses: actions/deploy-pages@v4
+      - name: Run Unified Tasks
+        run: |
+          deno task lint
+          deno task test
