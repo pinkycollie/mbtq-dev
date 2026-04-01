@@ -326,48 +326,52 @@ router.post('/:id/accept-bid', authenticateApiKey, async (req: AuthRequest, res:
       return;
     }
 
-    // Update bid status to accepted
-    await prisma.bid.update({
-      where: { id: bidId },
-      data: { status: 'ACCEPTED' },
-    });
-
-    // Reject other bids
-    await prisma.bid.updateMany({
-      where: {
-        requestId: id,
-        id: { not: bidId },
-        status: 'PENDING',
-      },
-      data: { status: 'REJECTED' },
-    });
-
-    // Update request status
     const oldStatus = request.status;
-    await prisma.request.update({
-      where: { id },
-      data: { status: 'BID_ACCEPTED' },
-    });
 
-    // Create project
-    const project = await prisma.project.create({
-      data: {
-        requestId: id,
-        creatorId: bid.creatorId,
-        status: 'IN_PROGRESS',
-      },
-    });
-
-    // Log status change
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: id,
-        oldStatus,
-        newStatus: 'BID_ACCEPTED',
-        changedBy: companyId,
-        notes: `Accepted bid from creator ${bid.creatorId}`,
-      },
-    });
+    // ⚡ Bolt Optimization: Database Transaction Batching
+    // 💡 What: Batched 5 sequential database writes into a single Prisma transaction.
+    // 🎯 Why: Previously, accepting a bid required 5 separate roundtrips to the database, creating unnecessary latency and risking partial updates if one query failed.
+    // 📊 Impact: Reduces database roundtrips from 5 to 1, improving endpoint latency and ensuring data consistency.
+    // 🔬 Measurement: Measure the response time of the POST /api/requests/:id/accept-bid endpoint before and after this change.
+    const [project] = await prisma.$transaction([
+      // Create project first so we can return it
+      prisma.project.create({
+        data: {
+          requestId: id,
+          creatorId: bid.creatorId,
+          status: 'IN_PROGRESS',
+        },
+      }),
+      // Update bid status to accepted
+      prisma.bid.update({
+        where: { id: bidId },
+        data: { status: 'ACCEPTED' },
+      }),
+      // Reject other bids
+      prisma.bid.updateMany({
+        where: {
+          requestId: id,
+          id: { not: bidId },
+          status: 'PENDING',
+        },
+        data: { status: 'REJECTED' },
+      }),
+      // Update request status
+      prisma.request.update({
+        where: { id },
+        data: { status: 'BID_ACCEPTED' },
+      }),
+      // Log status change
+      prisma.requestStatusLog.create({
+        data: {
+          requestId: id,
+          oldStatus,
+          newStatus: 'BID_ACCEPTED',
+          changedBy: companyId,
+          notes: `Accepted bid from creator ${bid.creatorId}`,
+        },
+      }),
+    ]);
 
     // Send webhook notification
     await WebhookService.notifyRequestStatusChange(id, oldStatus, 'BID_ACCEPTED');
