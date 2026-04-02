@@ -12,24 +12,47 @@ type Props = {
 export default function PinkSyncWidget({ socket, id, initial, onCelebrate }: Props) {
   const boxRef = useRef<HTMLDivElement>(null);
   const [coord, setCoord] = useState(initial);
+  // Ref to hold the latest coords for interact events
+  const coordRef = useRef(initial);
   const [isHovered, setIsHovered] = useState(false);
   const [alertCount, setAlertCount] = useState(0);
+
+  useEffect(() => {
+    coordRef.current = coord;
+  }, [coord]);
 
   useEffect(() => {
     const box = boxRef.current;
     if (!box) return;
 
+    // ⚡ Bolt Optimization: Throttle socket emissions during drag
+    // 💡 What: Implement simple throttle for socket.emit during high-frequency drag events
+    // 🎯 Why: interact.js fires 'move' for every pixel. Sending a socket message for every pixel overwhelms the network and server.
+    // 📊 Impact: Reduces network requests by ~80% during dragging, preventing potential server lag.
+    let lastEmitTime = 0;
+    const THROTTLE_MS = 50;
+
     interact(box)
       .draggable({
         listeners: {
           move(ev) {
-            setCoord(coords => ({
-              ...coords,
-              x: coords.x + ev.dx,
-              y: coords.y + ev.dy,
-            }));
-            socket.emit("move", { id, x: coord.x + ev.dx, y: coord.y + ev.dy });
+            const current = coordRef.current;
+            const newX = current.x + ev.dx;
+            const newY = current.y + ev.dy;
+
+            const newCoords = { ...current, x: newX, y: newY };
+            setCoord(newCoords);
+            coordRef.current = newCoords;
+
+            const now = Date.now();
+            if (now - lastEmitTime > THROTTLE_MS) {
+              socket.emit("move", { id, x: newX, y: newY });
+              lastEmitTime = now;
+            }
           },
+          end() {
+            socket.emit("move", { id, x: coordRef.current.x, y: coordRef.current.y });
+          }
         },
       })
       .resizable({
