@@ -33,17 +33,29 @@ router.post('/register', authenticateApiKey, async (req: AuthRequest, res: Respo
 
       // Block local and internal hostnames
       const hostname = parsedUrl.hostname.toLowerCase();
-      const forbiddenHostnames = [
-        'localhost',
-        '127.0.0.1',
-        '0.0.0.0',
-        '169.254.169.254'
-      ];
+
+      // Comprehensive SSRF protection: block IP formats and internal ranges
+      const isFullIpRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+      const isShortenedIpRegex = /^([0-9]{1,3}\.){1,2}[0-9]{1,3}$/;
+      const isIpv6Regex = /^\[?(?:[0-9a-fA-F]*:[0-9a-fA-F]*)+\]?$/;
+      const isNumericIpRegex = /^[0-9]+$|^0x[0-9a-fA-F]+$/;
+
+      const isLoopbackOrPrivate = /^(127\.|10\.|172\.(1[6-9]|2[0-9]|3[0-1])\.|192\.168\.|169\.254\.|0\.0\.0\.0)/;
+
+      const forbiddenHostnames = ['localhost'];
 
       if (
         forbiddenHostnames.includes(hostname) ||
         hostname.endsWith('.local') ||
-        hostname.endsWith('.internal')
+        hostname.endsWith('.internal') ||
+        (isFullIpRegex.test(hostname) && isLoopbackOrPrivate.test(hostname)) ||
+        // Block shortened IPs like 127.1 that might resolve to loopback
+        isShortenedIpRegex.test(hostname) ||
+        // Block raw decimal/hex/octal IP formats that might resolve to loopback/private
+        isNumericIpRegex.test(hostname) ||
+        // Block IPv6 formats
+        isIpv6Regex.test(hostname) ||
+        hostname === '[::1]' || hostname === '::1'
       ) {
         throw new Error('Forbidden hostname');
       }
