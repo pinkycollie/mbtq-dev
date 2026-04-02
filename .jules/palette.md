@@ -1,0 +1,3 @@
+## 2024-04-02 - Form Labels and Character Limits
+**Learning:** In React components like `MBTQDevGenerator.tsx`, textareas handling potentially long inputs lacked explicit constraints and visual indicators, which can frustrate users who might type too much.
+**Action:** Always associate `<label>` with `<input>` or `<textarea>` using `htmlFor` and `id`, and add a character counter (`maxLength` + visual count) to improve UX and prevent silent validation failures.
