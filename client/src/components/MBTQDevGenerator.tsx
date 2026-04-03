@@ -92,10 +92,11 @@ const MBTQDevGenerator = () => {
             
             {/* Prompt Input */}
             <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-lg p-6">
-              <label className="block text-sm font-medium mb-3 text-slate-300">
+              <label htmlFor="prompt" className="block text-sm font-medium mb-3 text-slate-300">
                 Describe Your App
               </label>
               <textarea
+                id="prompt"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="e.g., Job board for Deaf designers with video portfolios..."
@@ -196,6 +197,7 @@ const MBTQDevGenerator = () => {
             <button
               onClick={generateApp}
               disabled={!prompt || generating}
+              title={!prompt ? "Please describe your app first" : generating ? "Magicians are working..." : "Generate your stack"}
               className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
               {generating ? (

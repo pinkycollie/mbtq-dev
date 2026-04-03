@@ -1,0 +1,3 @@
+## 2024-05-18 - Form Accessibility and Disabled State Communication
+**Learning:** In text-heavy input interfaces (like the app generator prompt), users and screen readers benefit significantly when labels are explicitly associated with textareas via `htmlFor` and `id`, as it allows clicking the label to focus the input. Additionally, disabled buttons without explanation cause friction; utilizing `title` attributes conditionally based on the state provides immediate, contextual feedback without needing separate UI elements.
+**Action:** Always verify form inputs have proper `id` and `htmlFor` associations. When disabling a call-to-action button, consider adding a dynamic `title` attribute to explain the disabled state or current background process.
