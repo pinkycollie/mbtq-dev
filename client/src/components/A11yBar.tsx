@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 
-export default function A11yBar() {
+function A11yBar() {
   const [contrast, setContrast] = useState(false);
   const [checkCount, setCheckCount] = useState(0);
   const [showBadges, setShowBadges] = useState(false);
@@ -89,3 +89,9 @@ export default function A11yBar() {
     </div>
   );
 }
+
+// ⚡ Bolt Optimization: Memoize A11yBar component
+// 💡 What: Wrapped A11yBar export with React.memo()
+// 🎯 Why: Prevents unnecessary re-renders when parent state (like App theme) changes, since this component has its own complex internal state but takes no props.
+// 📊 Impact: Eliminates re-renders of the accessibility bar when global theme changes or animations trigger in App.tsx.
+export default memo(A11yBar);
