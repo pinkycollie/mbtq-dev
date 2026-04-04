@@ -1,7 +1,11 @@
 import { Router, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { authenticateApiKey, AuthRequest } from '../middleware/auth';
+import dns from 'dns';
+import { promisify } from 'util';
+import ipaddr from 'ipaddr.js';
 
+const lookup = promisify(dns.lookup);
 const router = Router();
 const prisma = new PrismaClient();
 
@@ -33,19 +37,17 @@ router.post('/register', authenticateApiKey, async (req: AuthRequest, res: Respo
 
       // Block local and internal hostnames using robust validation to prevent SSRF
       const hostname = parsedUrl.hostname.toLowerCase();
-      const cleanIp = hostname.replace(/^\[|\]$/g, '');
-
-      const ipv4Regex = /^(127\.\d+\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+|192\.168\.\d+\.\d+|169\.254\.\d+\.\d+|0\.\d+\.\d+\.\d+)$/;
-      const ipv6Regex = /^((::1)|(::)|(fc|fd)[0-9a-f]{2}:.*|(fe[89ab][0-9a-f]:.*)|(::ffff:.*))$/i;
-
-      if (
-        hostname === 'localhost' ||
-        hostname.endsWith('.local') ||
-        hostname.endsWith('.internal') ||
-        ipv4Regex.test(cleanIp) ||
-        ipv6Regex.test(cleanIp)
-      ) {
+      if (hostname === 'localhost' || hostname.endsWith('.local') || hostname.endsWith('.internal')) {
         throw new Error('Forbidden hostname');
+      }
+
+      // DNS lookup to prevent IP obfuscation bypass (e.g. decimal IPs like 2130706433)
+      const { address } = await lookup(hostname);
+      const parsedIp = ipaddr.process(address);
+      const range = parsedIp.range();
+
+      if (['private', 'loopback', 'linkLocal', 'unspecified', 'carrierGradeNat', 'broadcast'].includes(range)) {
+        throw new Error('Forbidden IP range');
       }
     } catch (e: any) {
       res.status(400).json({
