@@ -1,3 +1,6 @@
 ## 2024-05-18 - Avoid aria-live on interactive triggers
 **Learning:** `aria-live` should be placed on a container element that exists in the DOM before the dynamic content is added or changed, rather than on the interactive element (like a button) that triggers the change. Screen readers monitor the `aria-live` region for changes, so if the region itself is added dynamically or if the attribute is on the trigger, the new content may not be announced correctly.
 **Action:** Always wrap dynamic text or status updates in a dedicated `div` or `span` with `aria-live="polite"` (and often `aria-atomic="true"`) that is always present in the DOM, separate from the button that causes the update.
+## 2024-04-04 - Semantic Form Grouping
+**Learning:** Developers often mistakenly wrap non-input grouped custom elements (like a list of custom toggle buttons acting as radio buttons) with a `<label>` element. This creates confusing screen reader experiences.
+**Action:** Replace `<label>` elements associated with custom input groups with generic elements (like `<div>` or `<span>`) assigned an `id`, and link them using `aria-labelledby` on the `role="group"` container.
