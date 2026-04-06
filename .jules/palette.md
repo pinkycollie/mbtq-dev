@@ -1,3 +1,7 @@
 ## 2024-05-18 - Avoid aria-live on interactive triggers
 **Learning:** `aria-live` should be placed on a container element that exists in the DOM before the dynamic content is added or changed, rather than on the interactive element (like a button) that triggers the change. Screen readers monitor the `aria-live` region for changes, so if the region itself is added dynamically or if the attribute is on the trigger, the new content may not be announced correctly.
 **Action:** Always wrap dynamic text or status updates in a dedicated `div` or `span` with `aria-live="polite"` (and often `aria-atomic="true"`) that is always present in the DOM, separate from the button that causes the update.
+
+## 2024-05-19 - Accessible dynamically populating scrollable regions
+**Learning:** Scrollable regions that dynamically populate with content (like an Action Log) need specific aria roles, states, and properties to be accessible for screen reader and keyboard users. Without an explicit tab index and aria label, users can get stuck or easily lose context.
+**Action:** When creating a scrollable logging or activity area, ensure the container has `tabIndex={0}`, `role="region"`, `aria-labelledby` linking to a visible title, a visually clear empty state, visible focus indicators (e.g. `focus-visible:ring-2`), and `aria-live="polite"` applied to the inner wrapper where elements are dynamically injected.
