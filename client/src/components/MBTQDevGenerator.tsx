@@ -92,14 +92,22 @@ const MBTQDevGenerator = () => {
             
             {/* Prompt Input */}
             <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-lg p-6">
-              <label className="block text-sm font-medium mb-3 text-slate-300">
-                Describe Your App
-              </label>
+              <div className="flex justify-between items-end mb-3">
+                <label htmlFor="app-description" className="block text-sm font-medium text-slate-300">
+                  Describe Your App <span className="text-pink-500" aria-hidden="true">*</span>
+                  <span className="sr-only"> (Required)</span>
+                </label>
+                <span className="text-xs text-slate-500" aria-live="polite">
+                  {prompt.length === 0 ? "Required to generate" : `${prompt.length} characters`}
+                </span>
+              </div>
               <textarea
+                id="app-description"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="e.g., Job board for Deaf designers with video portfolios..."
                 className="w-full h-32 bg-slate-950 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                required
               />
             </div>
 
