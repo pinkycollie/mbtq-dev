@@ -1,5 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios';
+import dns from 'dns';
+import ipaddr from 'ipaddr.js';
+import http from 'http';
+import https from 'https';
 
 const prisma = new PrismaClient();
 
@@ -53,6 +57,52 @@ export class WebhookService {
         timestamp: webhookEvent.createdAt.toISOString(),
       };
 
+      // Security: Prevent SSRF including DNS rebinding by validating the IP at connection time.
+      const lookupFunc = (
+        hostname: string,
+        options: dns.LookupOneOptions,
+        callback: (err: NodeJS.ErrnoException | null, address: string, family: number) => void
+      ) => {
+        dns.lookup(hostname, options, (err, address, family) => {
+          if (err) {
+            return callback(err, address, family);
+          }
+
+          if (!ipaddr.isValid(address)) {
+            return callback(new Error('Invalid IP address resolved'), address, family);
+          }
+
+          const parsedIp = ipaddr.parse(address);
+          const range = parsedIp.range();
+
+          // Block common private, loopback, and internal network ranges
+          const forbiddenRanges = [
+            'private',
+            'loopback',
+            'linkLocal',
+            'uniqueLocal',
+            'ipv4Mapped',
+            'rfc6052',
+            'rfc6145',
+            'rfc6145',
+            'broadcast',
+            'multicast',
+            'carrierGradeNat',
+            'reserved',
+            'unspecified'
+          ];
+
+          if (forbiddenRanges.includes(range)) {
+            return callback(new Error(`SSRF Prevention: Webhook destination resolves to a forbidden internal IP range (${range})`), address, family);
+          }
+
+          callback(null, address, family);
+        });
+      };
+
+      const httpAgent = new http.Agent({ lookup: lookupFunc as any });
+      const httpsAgent = new https.Agent({ lookup: lookupFunc as any });
+
       const response = await axios.post(webhookEvent.url, webhookPayload, {
         headers: {
           'Content-Type': 'application/json',
@@ -60,6 +110,8 @@ export class WebhookService {
         },
         timeout: 10000, // 10 second timeout
         maxRedirects: 0, // Security: Prevent SSRF via HTTP redirects
+        httpAgent,
+        httpsAgent,
       });
 
       // Update webhook event as successful
