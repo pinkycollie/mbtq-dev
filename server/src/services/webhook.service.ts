@@ -1,7 +1,63 @@
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios';
+import * as dns from 'dns';
+import * as http from 'http';
+import * as https from 'https';
+import ipaddr from 'ipaddr.js';
 
 const prisma = new PrismaClient();
+
+const safeLookup = (
+  hostname: string,
+  options: dns.LookupOptions,
+  callback: (err: NodeJS.ErrnoException | null, address: any, family: number) => void
+) => {
+  dns.lookup(hostname, options, (err, address, family) => {
+    if (err) {
+      return callback(err, address, family);
+    }
+
+    const addrs = Array.isArray(address) ? address : [{ address, family }];
+
+    for (const addr of addrs) {
+      try {
+        const parsedIp = ipaddr.parse(addr.address);
+        const range = parsedIp.range();
+
+        const forbiddenRanges = [
+          'loopback',
+          'private',
+          'linkLocal',
+          'uniqueLocal',
+          'multicast',
+          'broadcast',
+          'carrierGradeNat',
+          'unspecified',
+          'reserved',
+        ];
+
+        if (forbiddenRanges.includes(range) || addr.address === '0.0.0.0') {
+          return callback(
+            new Error(`SSRF Prevention: Cannot connect to internal IP ${addr.address}`),
+            address,
+            family
+          );
+        }
+      } catch (e) {
+        return callback(
+          new Error(`SSRF Prevention: Invalid IP address ${addr.address}`),
+          address,
+          family
+        );
+      }
+    }
+
+    callback(null, address, family);
+  });
+};
+
+const httpAgent = new http.Agent({ lookup: safeLookup });
+const httpsAgent = new https.Agent({ lookup: safeLookup });
 
 export interface WebhookPayload {
   event: string;
@@ -60,6 +116,8 @@ export class WebhookService {
         },
         timeout: 10000, // 10 second timeout
         maxRedirects: 0, // Security: Prevent SSRF via HTTP redirects
+        httpAgent,
+        httpsAgent,
       });
 
       // Update webhook event as successful
