@@ -7,7 +7,8 @@ export class StateEventBus {
   emit(event: AgentStateEvent): void {
     const eventWithTimestamp = {
       ...event,
-      timestamp: event.timestamp || Date.now()
+      timestamp: event.timestamp || Date.now(),
+      id: event.id || crypto.randomUUID()
     };
     this.listeners.forEach(listener => listener(eventWithTimestamp));
   }
