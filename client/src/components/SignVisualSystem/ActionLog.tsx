@@ -14,7 +14,7 @@ export const ActionLog: React.FC<ActionLogProps> = ({ events }) => {
         {events.map((event, idx) => {
           const semantic = STATE_SEMANTICS[event.current];
           return (
-            <div key={idx} className="flex items-start gap-3 text-sm">
+            <div key={event.id || idx} className="flex items-start gap-3 text-sm">
               <span className={`${semantic.color} w-2 h-2 rounded-full mt-1.5 flex-shrink-0`} />
               <div className="flex-1">
                 <span className="text-gray-300 font-medium">{semantic.visual}</span>
