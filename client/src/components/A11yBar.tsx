@@ -34,18 +34,19 @@ export default function A11yBar() {
       <div className="flex items-center gap-2">
         <span className="text-xl">🦻</span>
         <span className="font-bold">Hearing & Accessibility</span>
-        {checkCount > 0 && (
-          <span 
-            className="bg-green-500 text-white px-2 py-1 rounded-full text-xs animate-pulse"
-            role="status"
-            aria-label={`${checkCount} accessibility ${checkCount > 1 ? 'checks' : 'check'} completed successfully`}
-          >
-            {checkCount} check{checkCount > 1 ? 's' : ''} ✓
-          </span>
-        )}
+        <div aria-live="polite" aria-atomic="true">
+          {checkCount > 0 && (
+            <span
+              className="bg-green-500 text-white px-2 py-1 rounded-full text-xs animate-pulse inline-block"
+              aria-label={`${checkCount} accessibility ${checkCount > 1 ? 'checks' : 'check'} completed successfully`}
+            >
+              {checkCount} check{checkCount > 1 ? 's' : ''} ✓
+            </span>
+          )}
+        </div>
         <button
           onClick={() => setShowBadges(!showBadges)}
-          className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold hover:from-indigo-600 hover:to-purple-600 transition-all hover:scale-105 shadow-md"
+          className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold hover:from-indigo-600 hover:to-purple-600 transition-all hover:scale-105 shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
           aria-expanded={showBadges}
           aria-label="Toggle accessibility features badges"
         >
@@ -71,7 +72,7 @@ export default function A11yBar() {
       <div className="flex gap-3">
         <button
           onClick={() => setContrast(c => !c)}
-          className={`px-4 py-2 rounded-full text-white font-bold transition-all hover:scale-110 shadow-md hover:shadow-lg ${
+          className={`px-4 py-2 rounded-full text-white font-bold transition-all hover:scale-110 shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 focus-visible:ring-offset-2 ${
             contrast
               ? 'bg-gradient-to-r from-gray-700 to-gray-900 hover:from-gray-800 hover:to-black'
               : 'bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700'
@@ -81,7 +82,7 @@ export default function A11yBar() {
         </button>
         <button
           onClick={runAxeCheck}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-full text-white font-bold hover:from-blue-700 hover:to-indigo-700 transition-all hover:scale-110 shadow-md hover:shadow-lg"
+          className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-full text-white font-bold hover:from-blue-700 hover:to-indigo-700 transition-all hover:scale-110 shadow-md hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
         >
           🔍 Run A11y Check
         </button>
