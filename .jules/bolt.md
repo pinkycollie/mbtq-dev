@@ -7,3 +7,6 @@
 ## 2024-05-24 - Throttling High-Frequency Socket Emits with Closures
 **Learning:** In interactive React applications, combining high-frequency DOM events (like those emitted by `interact.js` at ~60fps) with network operations (`socket.emit`) causes both stale-state closure bugs and massive network congestion. The initial implementation captured stale coordinates in closures, and emitted a barrage of websocket packets per second, grinding the system down.
 **Action:** Always wrap high-frequency network emitters in a `throttle` function (e.g., using a custom `useThrottle` hook), and pass the strictly calculated immediate state object to the throttled emitter (rather than reading from closed-over reactive state) to ensure correct data without overwhelming the network.
+## 2025-02-21 - List Rendering Performance with Custom Event Bus
+**Learning:** The `ActionLog` component prepends new events from the `StateEventBus` singleton. Relying on array indices for React keys in a dynamically prepended list causes O(n) rendering bottlenecks, as React remounts components when indices shift.
+**Action:** Always include a stable, unique identifier (like `crypto.randomUUID()`) at the event emission source (`StateEventBus`) to act as the React key when rendering prepended dynamic lists.
