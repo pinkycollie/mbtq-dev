@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, memo } from 'react';
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 
@@ -32,7 +32,11 @@ const notificationIcons = {
  * VisualNotificationComponent - Deaf-accessible visual notification
  * Replaces audio alerts with prominent visual indicators
  */
-function VisualNotificationComponent({ notification, onDismiss }: VisualNotificationProps) {
+// ⚡ Bolt Optimization: Memoize VisualNotificationComponent
+// 💡 What: Wrapped component in React.memo()
+// 🎯 Why: Prevents re-rendering all active notifications when a new one is added or removed.
+// 📊 Impact: Eliminates O(n) re-renders in the notification list.
+const VisualNotificationComponent = memo(function VisualNotificationComponent({ notification, onDismiss }: VisualNotificationProps) {
   useEffect(() => {
     if (notification.duration) {
       const timer = setTimeout(() => {
@@ -67,7 +71,7 @@ function VisualNotificationComponent({ notification, onDismiss }: VisualNotifica
       </button>
     </div>
   );
-}
+});
 
 /**
  * VisualNotificationSystem - Container for managing multiple visual notifications
@@ -92,9 +96,13 @@ export default function VisualNotificationSystem() {
     };
   }, []);
 
-  const dismissNotification = (id: string) => {
+  // ⚡ Bolt Optimization: Memoize dismiss handler
+  // 💡 What: Used useCallback to memoize the dismissNotification function
+  // 🎯 Why: Passed to VisualNotificationComponent and used in its useEffect dependency array. Without memoization, every new notification triggers a parent re-render, recreating this function, which resets the auto-dismiss timers of ALL active notifications.
+  // 📊 Impact: Fixes auto-dismiss timer bugs and prevents effect churn.
+  const dismissNotification = useCallback((id: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
-  };
+  }, []);
 
   return (
     <div 

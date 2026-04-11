@@ -10,3 +10,6 @@
 ## 2025-02-21 - List Rendering Performance with Custom Event Bus
 **Learning:** The `ActionLog` component prepends new events from the `StateEventBus` singleton. Relying on array indices for React keys in a dynamically prepended list causes O(n) rendering bottlenecks, as React remounts components when indices shift.
 **Action:** Always include a stable, unique identifier (like `crypto.randomUUID()`) at the event emission source (`StateEventBus`) to act as the React key when rendering prepended dynamic lists.
+## 2025-02-21 - Visual Notification Component Memoization Bug
+**Learning:** Found a list rendering component (`VisualNotificationSystem`) passing an unmemoized callback (`dismissNotification`) to a child list item component (`VisualNotificationComponent`). When a new notification appeared, it triggered a state update, causing the parent to re-render, creating a new reference for the unmemoized callback. This new callback reference broke the child's `useEffect` dependencies, triggering unnecessary re-renders of the entire active list and unpredictably resetting the child timers.
+**Action:** Always wrap list items in `React.memo` and strictly use `useCallback` for functions passed down to memoized child components, especially those that manage internal timeouts based on the callback's reference.
