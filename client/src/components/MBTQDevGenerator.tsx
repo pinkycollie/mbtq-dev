@@ -122,7 +122,7 @@ const MBTQDevGenerator = () => {
                     <button
                       key={type}
                       onClick={() => setConfig({...config, type})}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-pink-500 ${
                         config.type === type
                           ? 'bg-pink-500 text-white'
                           : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
@@ -144,7 +144,7 @@ const MBTQDevGenerator = () => {
                     <button
                       key={auth}
                       onClick={() => setConfig({...config, auth})}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 ${
                         config.auth === auth
                           ? 'bg-purple-500 text-white'
                           : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
@@ -166,7 +166,7 @@ const MBTQDevGenerator = () => {
                     <button
                       key={deploy}
                       onClick={() => setConfig({...config, deploy})}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-blue-500 ${
                         config.deploy === deploy
                           ? 'bg-blue-500 text-white'
                           : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
@@ -185,7 +185,7 @@ const MBTQDevGenerator = () => {
                 <span className="text-sm text-slate-300">Accessibility Suite</span>
                 <button
                   onClick={() => setConfig({...config, accessibility: !config.accessibility})}
-                  className={`relative w-12 h-6 rounded-full transition-all ${
+                  className={`relative w-12 h-6 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-green-500 ${
                     config.accessibility ? 'bg-green-500' : 'bg-slate-700'
                   }`}
                   role="switch"
@@ -204,7 +204,7 @@ const MBTQDevGenerator = () => {
             <button
               onClick={generateApp}
               disabled={!prompt || generating}
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 flex items-center justify-center gap-2"
             >
               {generating ? (
                 <>
@@ -281,7 +281,7 @@ const MBTQDevGenerator = () => {
                 </div>
 
                 {/* Deploy Button */}
-                <button className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+                <button className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-green-500">
                   <Rocket className="w-5 h-5" />
                   Deploy to {config.deploy}
                 </button>
