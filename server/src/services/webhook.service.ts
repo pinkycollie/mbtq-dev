@@ -1,7 +1,59 @@
 import { PrismaClient } from '@prisma/client';
 import axios from 'axios';
+import http from 'http';
+import https from 'https';
+import dns from 'dns';
+import ipaddr from 'ipaddr.js';
 
 const prisma = new PrismaClient();
+
+const isInternalIp = (ip: string): boolean => {
+  try {
+    const parsed = ipaddr.parse(ip);
+    const range = parsed.range();
+
+    // Also block IPv4-mapped IPv6 addresses (which might map to internal IPs)
+    // and uniqueLocal (IPv6 private addresses)
+    if (range === 'ipv4Mapped') {
+      const ipv4 = (parsed as ipaddr.IPv6).toIPv4Address();
+      const ipv4Range = ipv4.range();
+      return [
+        'private', 'loopback', 'linkLocal', 'unspecified', 'multicast', 'broadcast'
+      ].includes(ipv4Range);
+    }
+
+    return [
+      'private', 'loopback', 'linkLocal', 'unspecified', 'multicast', 'broadcast', 'uniqueLocal'
+    ].includes(range);
+  } catch (err) {
+    return true; // Fail securely
+  }
+};
+
+const customLookup = (
+  hostname: string,
+  options: dns.LookupOptions,
+  callback: (err: NodeJS.ErrnoException | null, address: string | dns.LookupAddress[], family: number) => void
+) => {
+  dns.lookup(hostname, options, (err, address, family) => {
+    if (err) {
+      return callback(err, address as any, family);
+    }
+
+    const addresses = Array.isArray(address) ? address : [{ address, family }];
+
+    for (const addr of addresses) {
+      if (isInternalIp(addr.address)) {
+        return callback(new Error(`SSRF Prevention: IP ${addr.address} is not allowed`), '', 0);
+      }
+    }
+
+    callback(null, address as any, family);
+  });
+};
+
+const httpAgent = new http.Agent({ lookup: customLookup as any });
+const httpsAgent = new https.Agent({ lookup: customLookup as any });
 
 export interface WebhookPayload {
   event: string;
@@ -60,6 +112,8 @@ export class WebhookService {
         },
         timeout: 10000, // 10 second timeout
         maxRedirects: 0, // Security: Prevent SSRF via HTTP redirects
+        httpAgent,       // Security: Prevent SSRF via DNS rebinding
+        httpsAgent,
       });
 
       // Update webhook event as successful
