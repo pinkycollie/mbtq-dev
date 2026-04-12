@@ -92,22 +92,24 @@ const MBTQDevGenerator = () => {
             
             {/* Prompt Input */}
             <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-lg p-6">
-              <div className="flex justify-between items-center mb-3">
-                <label htmlFor="app-prompt" className="block text-sm font-medium text-slate-300">
-                  Describe Your App <span className="text-pink-500" aria-label="required">*</span>
+              <div className="flex justify-between items-end mb-3">
+                <label htmlFor="app-description" className="block text-sm font-medium text-slate-300">
+                  Describe Your App <span className="text-pink-500" aria-hidden="true">*</span>
+                  <span className="sr-only"> (Required)</span>
                 </label>
                 <span className="text-xs text-slate-500" aria-live="polite">
-                  {prompt.length}/500
+                  {prompt.length === 0 ? "Required to generate" : `${prompt.length} characters`}
                 </span>
               </div>
               <textarea
-                id="app-prompt"
+                id="app-description"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 maxLength={500}
                 aria-required="true"
                 placeholder="e.g., Job board for Deaf designers with video portfolios..."
                 className="w-full h-32 bg-slate-950 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                required
               />
             </div>
 
@@ -122,7 +124,7 @@ const MBTQDevGenerator = () => {
                     <button
                       key={type}
                       onClick={() => setConfig({...config, type})}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-pink-500 ${
                         config.type === type
                           ? 'bg-pink-500 text-white'
                           : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
@@ -144,7 +146,7 @@ const MBTQDevGenerator = () => {
                     <button
                       key={auth}
                       onClick={() => setConfig({...config, auth})}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 ${
                         config.auth === auth
                           ? 'bg-purple-500 text-white'
                           : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
@@ -166,7 +168,7 @@ const MBTQDevGenerator = () => {
                     <button
                       key={deploy}
                       onClick={() => setConfig({...config, deploy})}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-blue-500 ${
                         config.deploy === deploy
                           ? 'bg-blue-500 text-white'
                           : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
@@ -185,7 +187,7 @@ const MBTQDevGenerator = () => {
                 <span className="text-sm text-slate-300">Accessibility Suite</span>
                 <button
                   onClick={() => setConfig({...config, accessibility: !config.accessibility})}
-                  className={`relative w-12 h-6 rounded-full transition-all ${
+                  className={`relative w-12 h-6 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-green-500 ${
                     config.accessibility ? 'bg-green-500' : 'bg-slate-700'
                   }`}
                   role="switch"
@@ -204,7 +206,7 @@ const MBTQDevGenerator = () => {
             <button
               onClick={generateApp}
               disabled={!prompt || generating}
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 flex items-center justify-center gap-2"
             >
               {generating ? (
                 <>
@@ -281,7 +283,7 @@ const MBTQDevGenerator = () => {
                 </div>
 
                 {/* Deploy Button */}
-                <button className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+                <button className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-green-500">
                   <Rocket className="w-5 h-5" />
                   Deploy to {config.deploy}
                 </button>
