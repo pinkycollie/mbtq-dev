@@ -31,16 +31,12 @@ router.post('/register', authenticateApiKey, async (req: AuthRequest, res: Respo
         throw new Error('Invalid protocol');
       }
 
-      // Block local and internal hostnames
+      // Block local and internal hostnames using robust validation to prevent SSRF
       const hostname = parsedUrl.hostname.toLowerCase();
-      const forbiddenHostnames = [
-        'localhost',
-        '127.0.0.1',
-        '0.0.0.0',
-        '169.254.169.254',
-        '[::1]',
-        '::1'
-      ];
+      const cleanIp = hostname.replace(/^\[|\]$/g, '');
+
+      const ipv4Regex = /^(127\.\d+\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+|192\.168\.\d+\.\d+|169\.254\.\d+\.\d+|0\.\d+\.\d+\.\d+)$/;
+      const ipv6Regex = /^((::1)|(::)|(fc|fd)[0-9a-f]{2}:.*|(fe[89ab][0-9a-f]:.*)|(::ffff:.*))$/i;
 
       // Enhanced SSRF protection against loopback/private IP evasion
       // This includes integer, hex, octal IP parsing by URL constructor, and string checking
@@ -50,11 +46,11 @@ router.post('/register', authenticateApiKey, async (req: AuthRequest, res: Respo
                                      /^172\.(?:1[6-9]|2[0-9]|3[0-1])(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){2}$/.test(hostname);
 
       if (
-        forbiddenHostnames.includes(hostname) ||
+        hostname === 'localhost' ||
         hostname.endsWith('.local') ||
         hostname.endsWith('.internal') ||
-        isLoopbackOrPrivateStr ||
-        !hostname.includes('.') && hostname !== 'localhost' && !hostname.startsWith('[') // Block pure integer IPs or non-FQDNs
+        ipv4Regex.test(cleanIp) ||
+        ipv6Regex.test(cleanIp)
       ) {
         throw new Error('Forbidden hostname');
       }
