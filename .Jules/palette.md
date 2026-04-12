@@ -9,3 +9,6 @@
 ## 2025-04-08 - Accessible Dynamic Scrollable Regions
 **Learning:** When creating dynamically updating scrollable regions (like activity logs), they are often invisible to screen reader users and keyboard navigators. They require a specific combination of attributes (`tabIndex={0}`, `role="region"`, `aria-labelledby`, and visible focus rings) to be discoverable, and `aria-live="polite"` to read out new items naturally. Empty states are also critical for providing context before any dynamic content arrives.
 **Action:** Always apply the full accessibility suite (`tabIndex`, `role`, `aria-labelledby`, `focus-visible:ring`, and `aria-live`) to dynamically populating scrollable list containers. Include empty states to prevent confusion for both visual and non-visual users.
+## 2025-04-12 - A11yBar Accessibility Improvements
+**Learning:** Even custom built bottom action bars like `A11yBar` need explicit focus states because users frequently tab through accessibility controls. Additionally, toggle buttons must explicitly announce their states to screen readers using `aria-pressed`.
+**Action:** When creating custom bottom bars or action controls, always ensure interactive elements have clear visual focus indicators (e.g. `focus-visible:ring-4 focus-visible:ring-offset-2`) and use `aria-pressed` for toggles.
