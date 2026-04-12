@@ -105,6 +105,8 @@ const MBTQDevGenerator = () => {
                 id="app-description"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
+                maxLength={500}
+                aria-required="true"
                 placeholder="e.g., Job board for Deaf designers with video portfolios..."
                 className="w-full h-32 bg-slate-950 border border-slate-700 rounded-lg p-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-pink-500"
                 required
