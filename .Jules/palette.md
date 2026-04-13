@@ -9,3 +9,7 @@
 ## 2025-04-08 - Accessible Dynamic Scrollable Regions
 **Learning:** When creating dynamically updating scrollable regions (like activity logs), they are often invisible to screen reader users and keyboard navigators. They require a specific combination of attributes (`tabIndex={0}`, `role="region"`, `aria-labelledby`, and visible focus rings) to be discoverable, and `aria-live="polite"` to read out new items naturally. Empty states are also critical for providing context before any dynamic content arrives.
 **Action:** Always apply the full accessibility suite (`tabIndex`, `role`, `aria-labelledby`, `focus-visible:ring`, and `aria-live`) to dynamically populating scrollable list containers. Include empty states to prevent confusion for both visual and non-visual users.
+
+## 2024-05-25 - Custom Toggle Button Groups
+**Learning:** When creating custom toggle button groups (like size or position selectors) in React/Tailwind, screen readers don't know they are related toggles.
+**Action:** Wrap the group in a container with `role="group"` and an `aria-labelledby` linking to the group's label. Add `aria-pressed={currentValue === optionValue}` to each button, and ensure visible focus states (`focus-visible:ring-2 ... focus:outline-none`) are present.
