@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 
@@ -32,7 +32,7 @@ const notificationIcons = {
  * VisualNotificationComponent - Deaf-accessible visual notification
  * Replaces audio alerts with prominent visual indicators
  */
-function VisualNotificationComponent({ notification, onDismiss }: VisualNotificationProps) {
+function VisualNotificationComponentBase({ notification, onDismiss }: VisualNotificationProps) {
   useEffect(() => {
     if (notification.duration) {
       const timer = setTimeout(() => {
@@ -69,6 +69,12 @@ function VisualNotificationComponent({ notification, onDismiss }: VisualNotifica
   );
 }
 
+// ⚡ Bolt Performance Optimization:
+// Wrap the component in React.memo to prevent unnecessary re-renders when the parent
+// component's state changes (e.g. when other notifications are added or dismissed).
+// This ensures that the local useEffect timers inside this component are not unintentionally reset.
+const VisualNotificationComponent = React.memo(VisualNotificationComponentBase);
+
 /**
  * VisualNotificationSystem - Container for managing multiple visual notifications
  * Designed for deaf users - all notifications are visual, no audio
@@ -92,9 +98,12 @@ export default function VisualNotificationSystem() {
     };
   }, []);
 
-  const dismissNotification = (id: string) => {
+  // ⚡ Bolt Performance Optimization:
+  // Use useCallback so the function reference remains stable across renders.
+  // This prevents child components from re-rendering and resetting their timers.
+  const dismissNotification = useCallback((id: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
-  };
+  }, []);
 
   return (
     <div 
