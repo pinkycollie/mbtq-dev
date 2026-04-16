@@ -9,3 +9,7 @@
 ## 2025-04-08 - Accessible Dynamic Scrollable Regions
 **Learning:** When creating dynamically updating scrollable regions (like activity logs), they are often invisible to screen reader users and keyboard navigators. They require a specific combination of attributes (`tabIndex={0}`, `role="region"`, `aria-labelledby`, and visible focus rings) to be discoverable, and `aria-live="polite"` to read out new items naturally. Empty states are also critical for providing context before any dynamic content arrives.
 **Action:** Always apply the full accessibility suite (`tabIndex`, `role`, `aria-labelledby`, `focus-visible:ring`, and `aria-live`) to dynamically populating scrollable list containers. Include empty states to prevent confusion for both visual and non-visual users.
+
+## 2025-05-18 - Accessible Toggle Groups
+**Learning:** Found custom toggle buttons grouped visually but without semantic relationship or explicit focus indicators. Screen readers need `role="group"` and `aria-labelledby` to understand the grouping, and `aria-pressed` on individual buttons to know their state. Visual users need clear focus indicators for keyboard navigation.
+**Action:** When creating custom toggle button groups, always wrap them in a container with `role="group"` and `aria-labelledby`. Ensure individual toggle buttons use `aria-pressed` to communicate their active state and provide explicit visual focus indicators (e.g., `focus-visible:ring-2`).
