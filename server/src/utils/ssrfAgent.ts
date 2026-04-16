@@ -5,15 +5,19 @@ import ipaddr from 'ipaddr.js';
 
 const isInternalIp = (ipStr: string): boolean => {
   try {
-    if (ipStr.startsWith('::ffff:')) {
-      ipStr = ipStr.substring(7);
-    }
-
     if (!ipaddr.isValid(ipStr)) {
       return false;
     }
 
-    const ip = ipaddr.parse(ipStr);
+    let ip = ipaddr.parse(ipStr);
+
+    if (ip.kind() === 'ipv6') {
+      const ipv6 = ip as ipaddr.IPv6;
+      if (ipv6.isIPv4MappedAddress()) {
+        ip = ipv6.toIPv4Address();
+      }
+    }
+
     const range = ip.range();
 
     // Block typical internal network ranges
