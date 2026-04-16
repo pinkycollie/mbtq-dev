@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, memo } from 'react';
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 
@@ -32,7 +32,11 @@ const notificationIcons = {
  * VisualNotificationComponent - Deaf-accessible visual notification
  * Replaces audio alerts with prominent visual indicators
  */
-function VisualNotificationComponent({ notification, onDismiss }: VisualNotificationProps) {
+// ⚡ Bolt Optimization: Memoize VisualNotificationComponent
+// 💡 What: Wrapped VisualNotificationComponent with React.memo()
+// 🎯 Why: Prevents re-rendering existing notifications when a new notification is added to the list. Unnecessary re-renders would otherwise re-trigger the useEffect cleanup and reset the active timer for dismissing the notification.
+// 📊 Impact: Prevents visual glitches where notifications stay on screen longer than intended because their timers keep resetting on every new notification.
+const VisualNotificationComponent = memo(function VisualNotificationComponent({ notification, onDismiss }: VisualNotificationProps) {
   useEffect(() => {
     if (notification.duration) {
       const timer = setTimeout(() => {
@@ -67,7 +71,7 @@ function VisualNotificationComponent({ notification, onDismiss }: VisualNotifica
       </button>
     </div>
   );
-}
+});
 
 /**
  * VisualNotificationSystem - Container for managing multiple visual notifications
@@ -92,9 +96,13 @@ export default function VisualNotificationSystem() {
     };
   }, []);
 
-  const dismissNotification = (id: string) => {
+  // ⚡ Bolt Optimization: Wrap dismiss handler in useCallback
+  // 💡 What: Wrapped dismissNotification in useCallback.
+  // 🎯 Why: Ensures the function reference remains stable across re-renders of the parent system. This is required for the child's React.memo to be effective.
+  // 📊 Impact: Combined with React.memo on the child, avoids O(n) re-renders of all visible notifications when the list changes.
+  const dismissNotification = useCallback((id: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
-  };
+  }, []);
 
   return (
     <div 
