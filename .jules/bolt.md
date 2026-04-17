@@ -10,3 +10,6 @@
 ## 2025-02-21 - List Rendering Performance with Custom Event Bus
 **Learning:** The `ActionLog` component prepends new events from the `StateEventBus` singleton. Relying on array indices for React keys in a dynamically prepended list causes O(n) rendering bottlenecks, as React remounts components when indices shift.
 **Action:** Always include a stable, unique identifier (like `crypto.randomUUID()`) at the event emission source (`StateEventBus`) to act as the React key when rendering prepended dynamic lists.
+## 2024-05-24 - Dynamic List Rendering with Internal Timeouts
+**Learning:** React components that render dynamic lists and manage internal timeouts via callbacks (e.g., notification systems) can cause child components to re-render, which unintentionally resets active `useEffect` timers.
+**Action:** Always wrap child list items in `React.memo` and parent handlers in `useCallback` to prevent unnecessary component re-renders that reset active `useEffect` timers.
