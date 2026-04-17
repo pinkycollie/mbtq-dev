@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 
@@ -32,7 +32,7 @@ const notificationIcons = {
  * VisualNotificationComponent - Deaf-accessible visual notification
  * Replaces audio alerts with prominent visual indicators
  */
-function VisualNotificationComponent({ notification, onDismiss }: VisualNotificationProps) {
+const VisualNotificationComponent = React.memo(({ notification, onDismiss }: VisualNotificationProps) => {
   useEffect(() => {
     if (notification.duration) {
       const timer = setTimeout(() => {
@@ -67,7 +67,7 @@ function VisualNotificationComponent({ notification, onDismiss }: VisualNotifica
       </button>
     </div>
   );
-}
+});
 
 /**
  * VisualNotificationSystem - Container for managing multiple visual notifications
@@ -92,9 +92,9 @@ export default function VisualNotificationSystem() {
     };
   }, []);
 
-  const dismissNotification = (id: string) => {
+  const dismissNotification = useCallback((id: string) => {
     setNotifications((prev) => prev.filter((n) => n.id !== id));
-  };
+  }, []);
 
   return (
     <div 
