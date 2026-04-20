@@ -12,3 +12,7 @@
 **Vulnerability:** The SSRF protection was incomplete as it only matched `::ffff:` string prefix for IPv4-mapped IPv6 addresses. Alternate representations like `0:0:0:0:0:ffff:127.0.0.1` bypassed this check and bypassed the SSRF filter completely.
 **Learning:** String manipulation on IP addresses is insufficient due to multiple valid representations.
 **Prevention:** Rely on established IP parsing libraries like `ipaddr.js` and natively convert mapped addresses using `.isIPv4MappedAddress()` and `.toIPv4Address()`.
+## 2023-10-25 - Restored Security Middlewares to TypeScript Entrypoint
+**Vulnerability:** The active backend server entrypoint (`server/src/index.ts`) was missing security middlewares (`helmet` and `express-rate-limit`) that were present in the legacy JavaScript entrypoint. This left the application vulnerable to common web attacks (e.g., lack of security headers) and denial-of-service/brute-force attacks (lack of rate limiting).
+**Learning:** During migrations from legacy JS to TS, security configurations can be easily lost if not carefully ported. The legacy `server/index.js` was inactive, but contained vital security features.
+**Prevention:** Always verify that security middlewares and configurations are correctly migrated when refactoring or changing application entrypoints. Regularly review the active entrypoint file to ensure global security layers (like Helmet and Rate Limiting) are applied.
