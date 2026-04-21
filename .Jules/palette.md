@@ -12,3 +12,6 @@
 ## 2024-05-18 - Keyboard Accessibility in A11y Controls
 **Learning:** The `A11yBar` component, while providing accessibility features, lacked proper keyboard focus indicators and `aria-pressed` state for toggle buttons, which is ironic for an accessibility control panel.
 **Action:** Ensure all interactive elements, especially those in custom control bars, have clear `focus-visible` styles and semantic ARIA states like `aria-pressed` for toggles.
+## 2026-04-21 - CaptionWidget Form Accessibility
+**Learning:** Visible labels should explicitly connect to form inputs via htmlFor/id for robust screen reader support, and explicit focus-visible rings are necessary for keyboard navigation confidence.
+**Action:** Always pair labels with inputs using IDs and add focus-visible styles to custom interactive elements.
