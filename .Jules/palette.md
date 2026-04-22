@@ -12,3 +12,6 @@
 ## 2024-05-18 - Keyboard Accessibility in A11y Controls
 **Learning:** The `A11yBar` component, while providing accessibility features, lacked proper keyboard focus indicators and `aria-pressed` state for toggle buttons, which is ironic for an accessibility control panel.
 **Action:** Ensure all interactive elements, especially those in custom control bars, have clear `focus-visible` styles and semantic ARIA states like `aria-pressed` for toggles.
+## 2024-04-22 - [Enhance Keyboard Navigation for Button Groups in SignVisualSystem]
+**Learning:** [Custom toggle buttons grouped together lack explicit context for screen readers to identify them as a related set and the active state is not communicated correctly without aria-pressed.]
+**Action:** [Added `role="group"` with an `aria-labelledby` linking to the group label for explicit grouping structure. Applied `aria-pressed` to individual buttons to reflect their active toggle state. Ensured prominent `focus-visible` styles (`focus-visible:ring-2 focus-visible:ring-offset-2`) are consistently applied for keyboard navigation across all toggle button groups.]
