@@ -12,3 +12,7 @@
 **Vulnerability:** The SSRF protection was incomplete as it only matched `::ffff:` string prefix for IPv4-mapped IPv6 addresses. Alternate representations like `0:0:0:0:0:ffff:127.0.0.1` bypassed this check and bypassed the SSRF filter completely.
 **Learning:** String manipulation on IP addresses is insufficient due to multiple valid representations.
 **Prevention:** Rely on established IP parsing libraries like `ipaddr.js` and natively convert mapped addresses using `.isIPv4MappedAddress()` and `.toIPv4Address()`.
+## 2026-04-22 - Overly Permissive CORS During TS Migration
+**Vulnerability:** The backend server (`server/src/index.ts`) used `cors()` and `origin: '*'` for Socket.IO, allowing any origin to interact with the API.
+**Learning:** During the migration from the legacy `index.js` to TypeScript, security middlewares and strict CORS configurations were dropped.
+**Prevention:** Ensure security configurations are migrated alongside feature code when transitioning to new tech stacks.
