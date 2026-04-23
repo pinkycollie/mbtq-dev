@@ -12,3 +12,7 @@
 **Vulnerability:** The SSRF protection was incomplete as it only matched `::ffff:` string prefix for IPv4-mapped IPv6 addresses. Alternate representations like `0:0:0:0:0:ffff:127.0.0.1` bypassed this check and bypassed the SSRF filter completely.
 **Learning:** String manipulation on IP addresses is insufficient due to multiple valid representations.
 **Prevention:** Rely on established IP parsing libraries like `ipaddr.js` and natively convert mapped addresses using `.isIPv4MappedAddress()` and `.toIPv4Address()`.
+## 2024-05-18 - Restrict CORS Configuration in TypeScript Entrypoint
+**Vulnerability:** The TypeScript entrypoint (`server/src/index.ts`) for the PinkSync API and Socket.IO server used an overly permissive CORS configuration (`origin: '*'` for Socket.IO and default `cors()` for Express).
+**Learning:** This codebase previously migrated from JavaScript (`server/index.js`) to TypeScript, but the legacy JavaScript file contained security headers and strict CORS configuration that were not properly ported over to the new TypeScript entrypoint. This resulted in an active high-severity security regression where any origin could interact with the API and WebSocket server.
+**Prevention:** When migrating from JS to TS, carefully review all middleware in the legacy entrypoint. Ensure environment-driven configurations like `CORS_ORIGIN` are applied to both the Express application and the WebSocket server to prevent unauthorized cross-origin requests.
