@@ -12,3 +12,6 @@
 ## 2024-05-18 - Keyboard Accessibility in A11y Controls
 **Learning:** The `A11yBar` component, while providing accessibility features, lacked proper keyboard focus indicators and `aria-pressed` state for toggle buttons, which is ironic for an accessibility control panel.
 **Action:** Ensure all interactive elements, especially those in custom control bars, have clear `focus-visible` styles and semantic ARIA states like `aria-pressed` for toggles.
+## 2024-04-24 - Custom Toggle Button Groups Accessibility
+**Learning:** Custom interactive UI elements like toggle button groups lack native semantic meaning. Screen readers don't know they belong together or what state they are in.
+**Action:** When creating custom toggle button groups, wrap the group in a container with `role="group"` and `aria-labelledby` pointing to the section label. Add explicit visual focus indicators (`focus-visible:ring-x focus-visible:ring-offset-x`), and communicate individual toggle states using the `aria-pressed` attribute.
