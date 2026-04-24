@@ -214,8 +214,14 @@ export class WebhookService {
       take: 100,
     });
 
-    for (const webhook of failedWebhooks) {
-      await this.sendWebhook(webhook.id);
+    // ⚡ Bolt Optimization: Chunked Concurrent Webhook Retries
+    // 💡 What: Replaced sequential await in a loop with chunked Promise.all execution.
+    // 🎯 Why: A sequential loop blocks for O(N) network calls, causing severe delays for downstream processes. Chunking allows concurrent execution without overwhelming the external APIs or event loop.
+    // 📊 Impact: Reduces total retry duration by up to ~90% for a full batch of 100 failed webhooks.
+    const CHUNK_SIZE = 10;
+    for (let i = 0; i < failedWebhooks.length; i += CHUNK_SIZE) {
+      const chunk = failedWebhooks.slice(i, i + CHUNK_SIZE);
+      await Promise.all(chunk.map((webhook: any) => this.sendWebhook(webhook.id)));
     }
   }
 }
