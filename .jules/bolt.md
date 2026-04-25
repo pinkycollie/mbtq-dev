@@ -13,3 +13,6 @@
 ## 2024-04-18 - [Memoization of Dynamic Notification Lists]
 **Learning:** [When rendering dynamic lists of components that contain internal timeouts (like `VisualNotificationSystem`), failing to wrap child items in `React.memo` and parent handlers in `useCallback` causes O(n) re-renders, which can unintentionally reset the active `useEffect` timers of existing notifications when a new one is added.]
 **Action:** [Always memoize list items and ensure stable handler references using `useCallback` when dealing with time-sensitive or dynamic component arrays in React.]
+## 2025-02-23 - Chunked Concurrent Execution for Network Operations
+**Learning:** Found sequential O(N) network calls in backend retry loops (`await this.sendWebhook(webhook.id)` inside a `for` loop). This blocks the event loop synchronously for the sum total of all request latencies, creating a severe bottleneck. Executing all using standard `Promise.all` would overwhelm external APIs and local connection pools simultaneously.
+**Action:** Replace sequential loops with chunked execution (`Promise.all(chunk.map(...))`) to safely parallelize network tasks (e.g. chunk size 10), significantly improving performance without memory/network spikes. Explicitly type mapping parameters (like `(item: any) =>`) to prevent `TS7006` implicit `any` errors.
