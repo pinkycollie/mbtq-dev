@@ -12,3 +12,8 @@
 **Vulnerability:** The SSRF protection was incomplete as it only matched `::ffff:` string prefix for IPv4-mapped IPv6 addresses. Alternate representations like `0:0:0:0:0:ffff:127.0.0.1` bypassed this check and bypassed the SSRF filter completely.
 **Learning:** String manipulation on IP addresses is insufficient due to multiple valid representations.
 **Prevention:** Rely on established IP parsing libraries like `ipaddr.js` and natively convert mapped addresses using `.isIPv4MappedAddress()` and `.toIPv4Address()`.
+
+## 2024-05-15 - Enforce Secure CORS Restrictions
+**Vulnerability:** The backend application's Express API and Socket.IO servers were configured with overly permissive Cross-Origin Resource Sharing (CORS) policies (`origin: '*'` and default `cors()`), allowing any domain to send cross-origin requests to the API and establish WebSocket connections.
+**Learning:** Both HTTP server frameworks (like Express) and WebSocket implementations (like Socket.IO) must have explicitly configured CORS restrictions. Relying on default configurations or wildcard origins exposes the application to unauthorized cross-origin access.
+**Prevention:** Always explicitly define permitted CORS origins via environment variables (e.g., `CORS_ORIGIN`) for all inbound request channels, including both standard HTTP routes and WebSocket connections, while explicitly setting `credentials: true` when needed and preventing wildcard fallbacks.
