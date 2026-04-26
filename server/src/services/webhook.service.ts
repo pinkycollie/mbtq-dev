@@ -214,8 +214,12 @@ export class WebhookService {
       take: 100,
     });
 
-    for (const webhook of failedWebhooks) {
-      await this.sendWebhook(webhook.id);
+    // ⚡ Bolt Optimization: Batch independent asynchronous network operations using Promise.all() to prevent O(N) network blocking.
+    // Chunking to prevent too many concurrent requests
+    const chunkSize = 10;
+    for (let i = 0; i < failedWebhooks.length; i += chunkSize) {
+      const chunk = failedWebhooks.slice(i, i + chunkSize);
+      await Promise.all(chunk.map((webhook: any) => this.sendWebhook(webhook.id)));
     }
   }
 }
