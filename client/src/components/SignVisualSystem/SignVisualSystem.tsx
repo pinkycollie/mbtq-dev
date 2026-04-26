@@ -114,14 +114,15 @@ export default function SignVisualSystem() {
 
           {/* Panel Configuration */}
           <div className="border-t border-gray-700 pt-6 space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Panel Size</label>
+            <div role="group" aria-labelledby="panel-size-label">
+              <span id="panel-size-label" className="block text-sm font-medium text-gray-400 mb-2">Panel Size</span>
               <div className="flex gap-2">
                 {(['small', 'medium', 'large'] as const).map(size => (
                   <button
                     key={size}
                     onClick={() => setPanelSize(size)}
-                    className={`px-4 py-2 rounded ${panelSize === size ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-300'}`}
+                    aria-pressed={panelSize === size}
+                    className={`px-4 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500 focus-visible:ring-offset-gray-900 transition-colors ${panelSize === size ? 'bg-purple-600 text-white shadow-md' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
                   >
                     {size}
                   </button>
@@ -129,14 +130,15 @@ export default function SignVisualSystem() {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Panel Position</label>
+            <div role="group" aria-labelledby="panel-pos-label">
+              <span id="panel-pos-label" className="block text-sm font-medium text-gray-400 mb-2">Panel Position</span>
               <div className="flex gap-2">
                 {(['left', 'center', 'right'] as const).map(pos => (
                   <button
                     key={pos}
                     onClick={() => setPosition(pos)}
-                    className={`px-4 py-2 rounded ${panelPosition === pos ? 'bg-purple-600 text-white' : 'bg-gray-700 text-gray-300'}`}
+                    aria-pressed={panelPosition === pos}
+                    className={`px-4 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500 focus-visible:ring-offset-gray-900 transition-colors ${panelPosition === pos ? 'bg-purple-600 text-white shadow-md' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
                   >
                     {pos}
                   </button>
