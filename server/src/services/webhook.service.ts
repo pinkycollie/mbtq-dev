@@ -214,8 +214,13 @@ export class WebhookService {
       take: 100,
     });
 
-    for (const webhook of failedWebhooks) {
-      await this.sendWebhook(webhook.id);
+    // ⚡ BOLT OPTIMIZATION: Replaced sequential await with chunked Promise.all
+    // Impact: Eliminates O(N) network blocking by processing webhooks concurrently in chunks
+    // while preventing connection pooling exhaustion or rate limiting.
+    const CHUNK_SIZE = 10;
+    for (let i = 0; i < failedWebhooks.length; i += CHUNK_SIZE) {
+      const chunk = failedWebhooks.slice(i, i + CHUNK_SIZE);
+      await Promise.all(chunk.map((webhook: any) => this.sendWebhook(webhook.id)));
     }
   }
 }
