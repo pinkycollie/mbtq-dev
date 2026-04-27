@@ -16,3 +16,6 @@
 ## 2024-04-25 - Add Keyboard Focus & ARIA to Custom Toggle Groups
 **Learning:** Custom UI toggle groups built with generic HTML elements lack inherent grouping and focus visibility, breaking keyboard navigation and screen reader context.
 **Action:** Always wrap custom button groups in a `role="group"` with an `aria-labelledby` referencing the section title. Add `aria-pressed` to individual toggle buttons and explicit `focus-visible` ring utilities to ensure accessible keyboard navigation.
+## 2026-04-27 - App Header Keyboard Accessibility
+**Learning:** Found that custom App header navigation buttons and selects lacked prominent, high-contrast focus rings for keyboard users, instead relying on low-contrast outline properties.
+**Action:** Use `focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color]-400` consistently for top-level navigation to ensure discoverability.
