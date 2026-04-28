@@ -214,8 +214,12 @@ export class WebhookService {
       take: 100,
     });
 
-    for (const webhook of failedWebhooks) {
-      await this.sendWebhook(webhook.id);
+    // Process webhooks in chunks of 10 to avoid O(N) network blocking
+    // while preventing overwhelming external APIs
+    const chunkSize = 10;
+    for (let i = 0; i < failedWebhooks.length; i += chunkSize) {
+      const chunk = failedWebhooks.slice(i, i + chunkSize);
+      await Promise.all(chunk.map((webhook: any) => this.sendWebhook(webhook.id)));
     }
   }
 }
