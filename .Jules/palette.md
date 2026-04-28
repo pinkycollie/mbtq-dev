@@ -16,3 +16,6 @@
 ## 2024-04-25 - Add Keyboard Focus & ARIA to Custom Toggle Groups
 **Learning:** Custom UI toggle groups built with generic HTML elements lack inherent grouping and focus visibility, breaking keyboard navigation and screen reader context.
 **Action:** Always wrap custom button groups in a `role="group"` with an `aria-labelledby` referencing the section title. Add `aria-pressed` to individual toggle buttons and explicit `focus-visible` ring utilities to ensure accessible keyboard navigation.
+## 2024-04-28 - Focus Rings for Select/Input Elements
+**Learning:** Customizing standard inputs like checkbox and select requires overriding default outlines with prominent, high-contrast focus rings for reliable keyboard accessibility across platforms.
+**Action:** Always include high-contrast `focus-visible:ring-4` styles on native form controls (checkboxes, selects, radios) rather than relying on browser defaults.
