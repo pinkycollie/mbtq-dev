@@ -214,8 +214,13 @@ export class WebhookService {
       take: 100,
     });
 
-    for (const webhook of failedWebhooks) {
-      await this.sendWebhook(webhook.id);
+    // ⚡ Bolt Optimization: Chunk concurrent execution
+    // 💡 What: Process failed webhooks in concurrent chunks of 10 instead of sequentially.
+    // 🎯 Why: Sequential awaits block network execution linearly, causing O(N) delays.
+    const chunkSize = 10;
+    for (let i = 0; i < failedWebhooks.length; i += chunkSize) {
+      const chunk = failedWebhooks.slice(i, i + chunkSize);
+      await Promise.all(chunk.map((webhook: any) => this.sendWebhook(webhook.id)));
     }
   }
 }
