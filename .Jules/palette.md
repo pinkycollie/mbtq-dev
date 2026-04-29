@@ -16,3 +16,6 @@
 ## 2024-04-25 - Add Keyboard Focus & ARIA to Custom Toggle Groups
 **Learning:** Custom UI toggle groups built with generic HTML elements lack inherent grouping and focus visibility, breaking keyboard navigation and screen reader context.
 **Action:** Always wrap custom button groups in a `role="group"` with an `aria-labelledby` referencing the section title. Add `aria-pressed` to individual toggle buttons and explicit `focus-visible` ring utilities to ensure accessible keyboard navigation.
+## 2024-04-29 - [Async Button Loading State]
+**Learning:** Dynamic imports for tools like axe-core can cause noticeable lag on slower connections. Users need immediate visual feedback when an action is triggered, even if the primary operation is async module loading.
+**Action:** Added an explicitly handled `isChecking` boolean state to render a disabled loading spinner on the button with `aria-busy="true"` and `cursor-wait` to communicate background work cleanly.
