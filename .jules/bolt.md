@@ -13,3 +13,6 @@
 ## 2024-04-18 - [Memoization of Dynamic Notification Lists]
 **Learning:** [When rendering dynamic lists of components that contain internal timeouts (like `VisualNotificationSystem`), failing to wrap child items in `React.memo` and parent handlers in `useCallback` causes O(n) re-renders, which can unintentionally reset the active `useEffect` timers of existing notifications when a new one is added.]
 **Action:** [Always memoize list items and ensure stable handler references using `useCallback` when dealing with time-sensitive or dynamic component arrays in React.]
+## 2026-04-30 - [Concurrent Webhook Retries]
+**Learning:** In backend operations that iterate over potentially large datasets and make network calls (like webhook retries), using sequential `await` in a `for...of` loop causes O(N) network blocking, drastically slowing down processing.
+**Action:** Replace sequential `await` operations in loops with chunked concurrent execution using `Promise.all()` (e.g., chunk size of 10) to prevent O(N) network blocking without overwhelming the event loop or external APIs.
