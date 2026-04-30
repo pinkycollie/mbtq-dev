@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import helmet from 'helmet';
+import { rateLimit } from 'express-rate-limit';
 import dotenv from 'dotenv';
 
 // Import routes
@@ -25,6 +27,8 @@ const corsOptions = {
 const io = new Server(server, { cors: corsOptions });
 
 // Middleware
+// Security: Helmet for security headers
+app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -41,6 +45,17 @@ app.get('/', (req: Request, res: Response) => {
     },
   });
 });
+
+
+// Security: Rate limiting
+const limiter = rateLimit({
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS as string) || 15 * 60 * 1000, // 15 minutes
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS as string) || 100,
+  message: "Too many requests from this IP, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use('/api/', limiter);
 
 // API Routes
 app.use('/api/requests', requestsRoutes);
