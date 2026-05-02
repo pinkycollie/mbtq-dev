@@ -20,3 +20,7 @@
 **Vulnerability:** The Express and Socket.io instances in server/src/index.ts were using an overly permissive CORS configuration allowing all origins (`*`).
 **Learning:** The legacy `server/index.js` file correctly used the `CORS_ORIGIN` environment variable, but this was lost when transitioning the running application to TypeScript (`server/src/index.ts`).
 **Prevention:** Ensure security middlewares and correct configurations are ported accurately when migrating or rewriting entry points in new languages.
+## 2024-05-02 - Added Rate Limiting and Security Headers
+**Vulnerability:** Missing rate limiting on API endpoints and missing security headers.
+**Learning:** The Express application was exposed without rate limits or basic security headers (like HSTS, X-Content-Type-Options), which could lead to DoS or exploitation.
+**Prevention:** Always include `helmet` and `express-rate-limit` in the global middleware stack for Express servers to ensure a baseline level of defense in depth.
