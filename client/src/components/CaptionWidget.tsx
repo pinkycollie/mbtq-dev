@@ -70,7 +70,7 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
               type="checkbox"
               checked={isVisible}
               onChange={(e) => setIsVisible(e.target.checked)}
-              className="w-5 h-5"
+              className="w-5 h-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
               aria-label="Show captions"
             />
             <span className="text-sm font-medium">Show Captions</span>
@@ -84,7 +84,7 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
             <select
               value={config.fontSize}
               onChange={(e) => setConfig({ ...config, fontSize: e.target.value as any })}
-              className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+              className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
               aria-label="Caption font size"
             >
               <option value="small">Small</option>
@@ -101,7 +101,7 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
             <select
               value={config.backgroundColor}
               onChange={(e) => setConfig({ ...config, backgroundColor: e.target.value as any })}
-              className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+              className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
               aria-label="Caption background color"
             >
               <option value="black">Black</option>
@@ -118,7 +118,7 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
             <select
               value={config.position}
               onChange={(e) => setConfig({ ...config, position: e.target.value as any })}
-              className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+              className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
               aria-label="Caption position"
             >
               <option value="top">Top</option>
