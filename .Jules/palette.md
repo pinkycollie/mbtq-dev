@@ -16,3 +16,6 @@
 ## 2024-04-25 - Add Keyboard Focus & ARIA to Custom Toggle Groups
 **Learning:** Custom UI toggle groups built with generic HTML elements lack inherent grouping and focus visibility, breaking keyboard navigation and screen reader context.
 **Action:** Always wrap custom button groups in a `role="group"` with an `aria-labelledby` referencing the section title. Add `aria-pressed` to individual toggle buttons and explicit `focus-visible` ring utilities to ensure accessible keyboard navigation.
+## 2024-05-04 - Accessible Form Controls
+**Learning:** Explicit `id` and `htmlFor` pairings for native form controls like `<select>` and `<input>` are essential for reliable screen reader interpretation, and custom navigation/selects need prominent, high-contrast focus rings for keyboard users.
+**Action:** Always provide explicit `id`/`htmlFor` mappings and use `focus-visible:ring-4` for high-visibility keyboard focus states on all form controls, especially over layered or interactive backgrounds.
