@@ -214,8 +214,12 @@ export class WebhookService {
       take: 100,
     });
 
-    for (const webhook of failedWebhooks) {
-      await this.sendWebhook(webhook.id);
+    // ⚡ Bolt Optimization: Process failed webhooks in chunks using Promise.all
+    // instead of sequential awaits to prevent O(N) network blocking while avoiding rate limits.
+    const chunkSize = 10;
+    for (let i = 0; i < failedWebhooks.length; i += chunkSize) {
+      const chunk = failedWebhooks.slice(i, i + chunkSize);
+      await Promise.all(chunk.map((webhook: any) => this.sendWebhook(webhook.id)));
     }
   }
 }
