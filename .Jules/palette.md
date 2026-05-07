@@ -16,3 +16,6 @@
 ## 2024-04-25 - Add Keyboard Focus & ARIA to Custom Toggle Groups
 **Learning:** Custom UI toggle groups built with generic HTML elements lack inherent grouping and focus visibility, breaking keyboard navigation and screen reader context.
 **Action:** Always wrap custom button groups in a `role="group"` with an `aria-labelledby` referencing the section title. Add `aria-pressed` to individual toggle buttons and explicit `focus-visible` ring utilities to ensure accessible keyboard navigation.
+## 2024-05-07 - Explicit form label associations
+**Learning:** Relying solely on nested labels without explicit ID mapping can reduce screen reader reliability for native form controls in React.
+**Action:** Always provide explicit `id` attributes on form controls and matching `htmlFor` attributes on their labels.
