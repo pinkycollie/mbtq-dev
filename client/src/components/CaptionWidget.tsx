@@ -65,8 +65,9 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
         
         <div className="space-y-3">
           {/* Visibility Toggle */}
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label htmlFor="visibility-toggle" className="flex items-center gap-2 cursor-pointer">
             <input
+              id="visibility-toggle"
               type="checkbox"
               checked={isVisible}
               onChange={(e) => setIsVisible(e.target.checked)}
@@ -78,10 +79,11 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
 
           {/* Font Size */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="font-size-select" className="block text-sm font-medium text-gray-700 mb-1">
               Font Size
             </label>
             <select
+              id="font-size-select"
               value={config.fontSize}
               onChange={(e) => setConfig({ ...config, fontSize: e.target.value as any })}
               className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
@@ -95,10 +97,11 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
 
           {/* Background */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="background-select" className="block text-sm font-medium text-gray-700 mb-1">
               Background
             </label>
             <select
+              id="background-select"
               value={config.backgroundColor}
               onChange={(e) => setConfig({ ...config, backgroundColor: e.target.value as any })}
               className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
@@ -112,10 +115,11 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
 
           {/* Position */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="position-select" className="block text-sm font-medium text-gray-700 mb-1">
               Position
             </label>
             <select
+              id="position-select"
               value={config.position}
               onChange={(e) => setConfig({ ...config, position: e.target.value as any })}
               className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
