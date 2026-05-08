@@ -65,12 +65,13 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
         
         <div className="space-y-3">
           {/* Visibility Toggle */}
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label htmlFor="show-captions" className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
               checked={isVisible}
               onChange={(e) => setIsVisible(e.target.checked)}
-              className="w-5 h-5"
+              id="show-captions"
+              className="w-5 h-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Show captions"
             />
             <span className="text-sm font-medium">Show Captions</span>
@@ -78,13 +79,14 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
 
           {/* Font Size */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="font-size" className="block text-sm font-medium text-gray-700 mb-1">
               Font Size
             </label>
             <select
               value={config.fontSize}
               onChange={(e) => setConfig({ ...config, fontSize: e.target.value as any })}
-              className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+              id="font-size"
+              className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Caption font size"
             >
               <option value="small">Small</option>
@@ -95,13 +97,14 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
 
           {/* Background */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="background" className="block text-sm font-medium text-gray-700 mb-1">
               Background
             </label>
             <select
               value={config.backgroundColor}
               onChange={(e) => setConfig({ ...config, backgroundColor: e.target.value as any })}
-              className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+              id="background"
+              className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Caption background color"
             >
               <option value="black">Black</option>
@@ -112,13 +115,14 @@ export default function CaptionWidget(_props: CaptionWidgetProps) {
 
           {/* Position */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="position" className="block text-sm font-medium text-gray-700 mb-1">
               Position
             </label>
             <select
               value={config.position}
               onChange={(e) => setConfig({ ...config, position: e.target.value as any })}
-              className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+              id="position"
+              className="w-full border border-gray-300 rounded px-2 py-1 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label="Caption position"
             >
               <option value="top">Top</option>
