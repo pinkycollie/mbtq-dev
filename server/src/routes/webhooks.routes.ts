@@ -22,13 +22,35 @@ router.post('/register', authenticateApiKey, async (req: AuthRequest, res: Respo
       return;
     }
 
-    // Validate URL format
+    // Validate URL format and prevent SSRF
     try {
-      new URL(webhookUrl);
-    } catch {
+      const parsedUrl = new URL(webhookUrl);
+
+      // Restrict protocols
+      if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+        throw new Error('Invalid protocol');
+      }
+
+      // Block local and internal hostnames using robust validation to prevent SSRF
+      const hostname = parsedUrl.hostname.toLowerCase();
+      const cleanIp = hostname.replace(/^\[|\]$/g, '');
+
+      const ipv4Regex = /^(127\.\d+\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2[0-9]|3[0-1])\.\d+\.\d+|192\.168\.\d+\.\d+|169\.254\.\d+\.\d+|0\.\d+\.\d+\.\d+)$/;
+      const ipv6Regex = /^((::1)|(::)|(fc|fd)[0-9a-f]{2}:.*|(fe[89ab][0-9a-f]:.*)|(::ffff:.*))$/i;
+
+      if (
+        hostname === 'localhost' ||
+        hostname.endsWith('.local') ||
+        hostname.endsWith('.internal') ||
+        ipv4Regex.test(cleanIp) ||
+        ipv6Regex.test(cleanIp)
+      ) {
+        throw new Error('Forbidden hostname');
+      }
+    } catch (e: any) {
       res.status(400).json({
         error: 'Bad Request',
-        message: 'Invalid webhook URL format',
+        message: 'Invalid or forbidden webhook URL',
       });
       return;
     }
