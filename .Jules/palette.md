@@ -20,3 +20,7 @@
 ## 2025-05-24 - Explicit Form Labels & ARIA
 **Learning:** In React components like widgets that lack explicit form containers, standard form controls often miss explicit labels which negatively impacts screen reader reliability, relying instead on nested `<label>` or `aria-label` incorrectly.
 **Action:** Ensure inputs have explicit `id`s and `htmlFor` attributes pointing to their corresponding `<label>` element. Add keyboard focus styling explicitly via classes.
+
+## 2025-05-11 - Prominent Focus Rings for Custom Buttons
+**Learning:** Found an accessibility issue where custom navigation buttons and interactive widgets relied on default or low-contrast `focus:outline-*` properties, making keyboard navigation difficult to track visually.
+**Action:** Always provide explicit, high-contrast visual focus indicators for custom interactive UI elements (e.g., using `focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color]-400 focus-visible:ring-offset-2`) to ensure focus states remain sufficiently visible for keyboard navigation against layered backgrounds.
