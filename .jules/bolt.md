@@ -22,3 +22,6 @@
 ## 2024-05-24 - Prisma Partial Selection for Bulk Operations
 **Learning:** In backend background jobs (like webhook retries), fetching complete records for large tables (like `webhookEvent` containing massive JSON payloads) causes significant memory bloat and database I/O bottlenecks when only the ID is needed for further processing.
 **Action:** Always use `select: { id: true }` in Prisma `findMany` queries when fetching records for subsequent operations that only require the identifier, preventing large blobs from being loaded into the application's memory.
+## 2024-05-16 - [Batching prisma writes in submit endpoint]
+**Learning:** Found sequential `await prisma` calls in the `creators.routes.ts` file for updating the project, request, and creating a status log. Sequential writes require multiple database round trips, increasing network latency and risking inconsistency.
+**Action:** Replace sequential Prisma operations with `await prisma.$transaction([...])`. This guarantees atomicity and executes all writes in a single round trip, reducing event loop blocking time.
