@@ -13,9 +13,6 @@
 ## 2024-04-18 - [Memoization of Dynamic Notification Lists]
 **Learning:** [When rendering dynamic lists of components that contain internal timeouts (like `VisualNotificationSystem`), failing to wrap child items in `React.memo` and parent handlers in `useCallback` causes O(n) re-renders, which can unintentionally reset the active `useEffect` timers of existing notifications when a new one is added.]
 **Action:** [Always memoize list items and ensure stable handler references using `useCallback` when dealing with time-sensitive or dynamic component arrays in React.]
-## 2026-04-30 - [Concurrent Webhook Retries]
-**Learning:** In backend operations that iterate over potentially large datasets and make network calls (like webhook retries), using sequential `await` in a `for...of` loop causes O(N) network blocking, drastically slowing down processing.
-**Action:** Replace sequential `await` operations in loops with chunked concurrent execution using `Promise.all()` (e.g., chunk size of 10) to prevent O(N) network blocking without overwhelming the event loop or external APIs.
 ## 2024-05-24 - Chunked Concurrent Webhook Retries
 **Learning:** Sequential `await` in loops for network requests (like webhook deliveries with 10s timeouts) creates O(N) blocking, stalling the event loop and dramatically slowing down background processes.
 **Action:** Replace sequential `await` with chunked concurrent execution using `Promise.all()` (e.g., chunk size of 10) to optimize throughput without overwhelming external APIs or the Node event loop.
@@ -34,3 +31,6 @@
 ## 2025-02-21 - Prisma $transaction for Sequential Writes
 **Learning:** Sequential `await` operations on database writes (like updating bids, creating logs, updating status sequentially) create O(N) network roundtrips, causing performance bottlenecks and stalling the event loop, especially when atomicity is desired.
 **Action:** Always batch consecutive Prisma database mutations using `await prisma.$transaction([...])` to guarantee atomicity and minimize network latency for significantly faster endpoint execution.
+## 2026-04-30 - [Concurrent Webhook Retries]
+**Learning:** In backend operations that iterate over potentially large datasets and make network calls (like webhook retries), using sequential `await` in a `for...of` loop causes O(N) network blocking, drastically slowing down processing.
+**Action:** Replace sequential `await` operations in loops with chunked concurrent execution using `Promise.all()` (e.g., chunk size of 10) to prevent O(N) network blocking without overwhelming the event loop or external APIs.
