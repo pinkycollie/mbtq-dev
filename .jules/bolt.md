@@ -31,3 +31,6 @@
 ## 2025-02-21 - Prisma $transaction for Sequential Writes
 **Learning:** Sequential `await` operations on database writes (like updating bids, creating logs, updating status sequentially) create O(N) network roundtrips, causing performance bottlenecks and stalling the event loop, especially when atomicity is desired.
 **Action:** Always batch consecutive Prisma database mutations using `await prisma.$transaction([...])` to guarantee atomicity and minimize network latency for significantly faster endpoint execution.
+## 2025-05-11 - Prisma Data Fetching Optimization
+**Learning:** When retrieving records for bulk operations where only the ID is needed (like `retryFailedWebhooks`), failing to use `select: { id: true }` causes Prisma to fetch the entire record, including large JSON payload blobs. This drastically increases memory usage and database I/O for 100+ records.
+**Action:** Always use `select` to restrict fetched fields to only what is necessary, especially in background jobs dealing with potentially large data like webhook payloads.
