@@ -38,3 +38,7 @@
 ## 2025-05-24 - Inline Clear Actions for Textareas
 **Learning:** Generative AI forms often require users to input very long prompts. Providing no quick way to clear the text forces users to manually select all text to delete it, degrading the UX. Additionally, found that standard dismiss/close buttons (like an "×" icon) in custom notification systems often lack keyboard focus rings.
 **Action:** Always include an inline "Clear" action (e.g., a button inside or next to the textarea) for generative AI inputs to improve the editing flow. Always ensure custom dismiss buttons have explicit `focus-visible:ring` styles to guarantee keyboard navigation accessibility.
+
+## 2024-05-18 - High Contrast Focus Styles on Custom Navigation Components
+**Learning:** Custom tab and select elements styled with default `focus:outline-*` can fail to meet accessibility requirements if the color contrast is too low against the background (e.g., `outline-fuchsia-700` against dark or varied backgrounds). Default outlines also don't offset enough to be prominent.
+**Action:** Always prefer `focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color]-400 focus-visible:ring-offset-2` for prominent interactive components (like custom tabs or action bars) to ensure clear, high-contrast visual focus indicators for keyboard navigation.

@@ -19,6 +19,9 @@
 ## 2026-05-10 - React.memo Optimization in SignVisualSystem
 **Learning:** In highly dynamic components like `SignVisualSystem` that frequently emit state updates (e.g., via `eventBus.emit`), child components that rely on derived props from that state (like `SignerPanel` and `ActionLog`) will re-render unnecessarily if not memoized. This creates a performance bottleneck when the parent's state updates are frequent.
 **Action:** Always wrap presentation components in `React.memo` when they receive complex objects as props and are rendered by a parent component that undergoes frequent state changes.
+## 2025-05-11 - Prisma Data Fetching Optimization
+**Learning:** When retrieving records for bulk operations where only the ID is needed (like `retryFailedWebhooks`), failing to use `select: { id: true }` causes Prisma to fetch the entire record, including large JSON payload blobs. This drastically increases memory usage and database I/O for 100+ records.
+**Action:** Always use `select` to restrict fetched fields to only what is necessary, especially in background jobs dealing with potentially large data like webhook payloads.
 ## 2026-05-12 - Prevent large payload fetching in webhook retries
 **Learning:** Using Prisma's `findMany` without `select` for batch processing endpoints pulls all columns into Node.js memory. For webhooks, this includes the potentially large JSON `payload` column, which wastes memory and increases DB I/O when only the ID is needed to trigger a retry.
 **Action:** Always add `select: { id: true }` to Prisma queries used for batch job fetching or iteration when only specific identifier fields are needed for subsequent operations.
