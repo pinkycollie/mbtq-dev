@@ -22,9 +22,3 @@
 ## 2026-05-12 - Prevent large payload fetching in webhook retries
 **Learning:** Using Prisma's `findMany` without `select` for batch processing endpoints pulls all columns into Node.js memory. For webhooks, this includes the potentially large JSON `payload` column, which wastes memory and increases DB I/O when only the ID is needed to trigger a retry.
 **Action:** Always add `select: { id: true }` to Prisma queries used for batch job fetching or iteration when only specific identifier fields are needed for subsequent operations.
-## 2024-05-24 - Prisma Partial Selection for Bulk Operations
-**Learning:** In backend background jobs (like webhook retries), fetching complete records for large tables (like `webhookEvent` containing massive JSON payloads) causes significant memory bloat and database I/O bottlenecks when only the ID is needed for further processing.
-**Action:** Always use `select: { id: true }` in Prisma `findMany` queries when fetching records for subsequent operations that only require the identifier, preventing large blobs from being loaded into the application's memory.
-## 2025-02-21 - Prisma $transaction for Sequential Writes
-**Learning:** Sequential `await` operations on database writes (like updating bids, creating logs, updating status sequentially) create O(N) network roundtrips, causing performance bottlenecks and stalling the event loop, especially when atomicity is desired.
-**Action:** Always batch consecutive Prisma database mutations using `await prisma.$transaction([...])` to guarantee atomicity and minimize network latency for significantly faster endpoint execution.
