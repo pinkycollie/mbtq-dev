@@ -20,3 +20,11 @@
 **Vulnerability:** The Express and Socket.io instances in server/src/index.ts were using an overly permissive CORS configuration allowing all origins (`*`).
 **Learning:** The legacy `server/index.js` file correctly used the `CORS_ORIGIN` environment variable, but this was lost when transitioning the running application to TypeScript (`server/src/index.ts`).
 **Prevention:** Ensure security middlewares and correct configurations are ported accurately when migrating or rewriting entry points in new languages.
+## 2024-05-02 - Added Rate Limiting and Security Headers
+**Vulnerability:** Missing rate limiting on API endpoints and missing security headers.
+**Learning:** The Express application was exposed without rate limits or basic security headers (like HSTS, X-Content-Type-Options), which could lead to DoS or exploitation.
+**Prevention:** Always include `helmet` and `express-rate-limit` in the global middleware stack for Express servers to ensure a baseline level of defense in depth.
+## 2024-06-10 - Fix SSRF Bypass via IPv4-mapped IPv6 Addresses in Webhook Registration
+**Vulnerability:** The webhook registration endpoint's initial SSRF validation used weak regexes that only caught `::ffff:` string prefixes for IPv4-mapped IPv6 addresses, allowing alternate representations (e.g., `0:0:0:0:0:ffff:127.0.0.1`) to bypass the filter and register internal IPs.
+**Learning:** String manipulation and regexes are insufficient for validating IP addresses due to multiple valid representations.
+**Prevention:** Rely on established IP parsing libraries like `ipaddr.js` to parse and natively evaluate IP addresses, including converting mapped addresses using `.isIPv4MappedAddress()` and `.toIPv4Address()`.
