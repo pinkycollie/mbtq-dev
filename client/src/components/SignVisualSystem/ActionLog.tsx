@@ -6,8 +6,7 @@ interface ActionLogProps {
   events: AgentStateEvent[];
 }
 
-// ⚡ Bolt Optimization: Added React.memo to prevent unnecessary re-renders when parent state updates.
-export const ActionLog: React.FC<ActionLogProps> = React.memo(({ events }) => {
+export const ActionLog: React.FC<ActionLogProps> = ({ events }) => {
   return (
     <div
       className="bg-gray-900 rounded-lg p-4 max-h-64 overflow-y-auto focus-visible:ring-2 focus-visible:ring-purple-500 focus:outline-none"
@@ -42,4 +41,4 @@ export const ActionLog: React.FC<ActionLogProps> = React.memo(({ events }) => {
       )}
     </div>
   );
-});
+};
