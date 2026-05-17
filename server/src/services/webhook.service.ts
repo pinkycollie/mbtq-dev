@@ -204,7 +204,10 @@ export class WebhookService {
    * Retry failed webhooks
    */
   static async retryFailedWebhooks(maxAttempts: number = 3) {
-    // ⚡ Bolt Optimization: Added select: { id: true } to prevent fetching large payload JSON blobs into memory.
+    // ⚡ Bolt Optimization: Added select: { id: true }
+    // 💡 What: Only fetch the webhook IDs instead of the entire records.
+    // 🎯 Why: Prevents fetching large JSON payload and response blobs into memory for 100 failed webhooks, reducing database I/O and application memory footprint.
+    // 📊 Impact: Significantly reduces memory allocation and database transfer size during retry operations.
     const failedWebhooks = await prisma.webhookEvent.findMany({
       where: {
         status: 'FAILED',
@@ -212,7 +215,9 @@ export class WebhookService {
           lt: maxAttempts,
         },
       },
-      select: { id: true },
+      select: {
+        id: true,
+      },
       take: 100,
     });
 
