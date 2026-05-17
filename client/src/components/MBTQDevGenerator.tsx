@@ -97,20 +97,9 @@ const MBTQDevGenerator = () => {
                   Describe Your App <span className="text-pink-500" aria-hidden="true">*</span>
                   <span className="sr-only"> (Required)</span>
                 </label>
-                <div className="flex items-center gap-3">
-                  {prompt.length > 0 && (
-                    <button
-                      onClick={() => setPrompt('')}
-                      className="text-xs text-pink-400 hover:text-pink-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded px-1 transition-colors"
-                      aria-label="Clear description"
-                    >
-                      Clear
-                    </button>
-                  )}
-                  <span className="text-xs text-slate-500" aria-live="polite">
-                    {prompt.length === 0 ? "Required to generate" : `${prompt.length} characters`}
-                  </span>
-                </div>
+                <span className="text-xs text-slate-500" aria-live="polite">
+                  {prompt.length === 0 ? "Required to generate" : `${prompt.length} characters`}
+                </span>
               </div>
               <textarea
                 id="app-description"

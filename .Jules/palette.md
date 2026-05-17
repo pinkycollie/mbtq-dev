@@ -16,25 +16,3 @@
 ## 2024-04-25 - Add Keyboard Focus & ARIA to Custom Toggle Groups
 **Learning:** Custom UI toggle groups built with generic HTML elements lack inherent grouping and focus visibility, breaking keyboard navigation and screen reader context.
 **Action:** Always wrap custom button groups in a `role="group"` with an `aria-labelledby` referencing the section title. Add `aria-pressed` to individual toggle buttons and explicit `focus-visible` ring utilities to ensure accessible keyboard navigation.
-
-## 2024-05-18 - High Contrast Focus Styles on Custom Navigation Components
-**Learning:** Custom tab and select elements styled with default `focus:outline-*` can fail to meet accessibility requirements if the color contrast is too low against the background (e.g., `outline-fuchsia-700` against dark or varied backgrounds). Default outlines also don't offset enough to be prominent.
-**Action:** Always prefer `focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color]-400 focus-visible:ring-offset-2` for prominent interactive components (like custom tabs or action bars) to ensure clear, high-contrast visual focus indicators for keyboard navigation.
-## 2024-04-29 - [Async Button Loading State]
-**Learning:** Dynamic imports for tools like axe-core can cause noticeable lag on slower connections. Users need immediate visual feedback when an action is triggered, even if the primary operation is async module loading.
-**Action:** Added an explicitly handled `isChecking` boolean state to render a disabled loading spinner on the button with `aria-busy="true"` and `cursor-wait` to communicate background work cleanly.
-
-## 2025-05-24 - Explicit Form Labels & ARIA
-**Learning:** In React components like widgets that lack explicit form containers, standard form controls often miss explicit labels which negatively impacts screen reader reliability, relying instead on nested `<label>` or `aria-label` incorrectly.
-**Action:** Ensure inputs have explicit `id`s and `htmlFor` attributes pointing to their corresponding `<label>` element. Add keyboard focus styling explicitly via classes.
-
-## 2025-05-24 - High-Contrast Focus Rings for Keyboard Accessibility
-**Learning:** Found instances where custom interactive UI elements, especially those overriding default outline styles, used low-contrast or hard-to-see `focus:outline-*` properties, or had poor default browser focus styles.
-**Action:** When creating custom interactive UI elements, always provide prominent, high-contrast visual focus indicators using Tailwind's `focus-visible:ring-*` utilities (e.g., `focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color]-400 focus-visible:ring-offset-2`).
-
-## 2024-05-25 - Focus Visible Rings on Icon-Only Buttons
-**Learning:** Encountered an accessibility issue where icon-only buttons (like the `×` dismiss button in `VisualNotificationSystem`) lacked ANY keyboard focus indicator. While the visual design didn't originally include a focus state, it is critically important for keyboard users to know where their focus lies.
-**Action:** Always provide explicit, high-contrast visual focus indicators using Tailwind's `focus-visible:ring-*` utilities for all interactive UI elements, especially icon-only buttons. Add `focus-visible:outline-none` and `focus-visible:ring-4 focus-visible:ring-white/50` or similar for clear focus visibility against varied colored backgrounds.
-## 2025-05-24 - Inline Clear Actions for Textareas
-**Learning:** Generative AI forms often require users to input very long prompts. Providing no quick way to clear the text forces users to manually select all text to delete it, degrading the UX. Additionally, found that standard dismiss/close buttons (like an "×" icon) in custom notification systems often lack keyboard focus rings.
-**Action:** Always include an inline "Clear" action (e.g., a button inside or next to the textarea) for generative AI inputs to improve the editing flow. Always ensure custom dismiss buttons have explicit `focus-visible:ring` styles to guarantee keyboard navigation accessibility.
