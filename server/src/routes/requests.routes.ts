@@ -246,21 +246,24 @@ router.patch('/:id/status', authenticateApiKey, async (req: AuthRequest, res: Re
 
     const oldStatus = request.status;
 
-    const updatedRequest = await prisma.request.update({
-      where: { id },
-      data: { status },
-    });
-
-    // Log status change
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: id,
-        oldStatus,
-        newStatus: status,
-        changedBy: companyId,
-        notes,
-      },
-    });
+    // Batch database writes for atomicity and performance
+    const [updatedRequest, _] = await prisma.$transaction([
+      // Update request status
+      prisma.request.update({
+        where: { id },
+        data: { status },
+      }),
+      // Log status change
+      prisma.requestStatusLog.create({
+        data: {
+          requestId: id,
+          oldStatus,
+          newStatus: status,
+          changedBy: companyId,
+          notes,
+        },
+      })
+    ]);
 
     // Send webhook notification
     await WebhookService.notifyRequestStatusChange(id, oldStatus, status);

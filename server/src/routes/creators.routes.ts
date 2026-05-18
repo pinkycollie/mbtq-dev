@@ -195,38 +195,40 @@ router.post('/projects/:id/submit', async (req, res: Response) => {
 
     const oldStatus = project.status;
 
-    // Update project
-    const updatedProject = await prisma.project.update({
-      where: { id },
-      data: {
-        status: 'SUBMITTED',
-        deliverableUrl,
-        notes,
-        completedAt: new Date(),
-      },
-      include: {
-        request: true,
-        creator: true,
-      },
-    });
-
-    // Update request status
     const oldRequestStatus = project.request.status;
-    await prisma.request.update({
-      where: { id: project.requestId },
-      data: { status: 'COMPLETED' },
-    });
 
-    // Log status change
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: project.requestId,
-        oldStatus: oldRequestStatus,
-        newStatus: 'COMPLETED',
-        changedBy: project.creatorId,
-        notes: 'Project submitted by creator',
-      },
-    });
+    // Batch database writes for atomicity and performance
+    const [updatedProject, _, __] = await prisma.$transaction([
+      // Update project
+      prisma.project.update({
+        where: { id },
+        data: {
+          status: 'SUBMITTED',
+          deliverableUrl,
+          notes,
+          completedAt: new Date(),
+        },
+        include: {
+          request: true,
+          creator: true,
+        },
+      }),
+      // Update request status
+      prisma.request.update({
+        where: { id: project.requestId },
+        data: { status: 'COMPLETED' },
+      }),
+      // Log status change
+      prisma.requestStatusLog.create({
+        data: {
+          requestId: project.requestId,
+          oldStatus: oldRequestStatus,
+          newStatus: 'COMPLETED',
+          changedBy: project.creatorId,
+          notes: 'Project submitted by creator',
+        },
+      })
+    ]);
 
     // Send webhook notification
     await WebhookService.notifyProjectCompleted(id);

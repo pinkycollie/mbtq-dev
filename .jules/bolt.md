@@ -31,3 +31,6 @@
 ## 2025-02-21 - Prisma $transaction for Sequential Writes
 **Learning:** Sequential `await` operations on database writes (like updating bids, creating logs, updating status sequentially) create O(N) network roundtrips, causing performance bottlenecks and stalling the event loop, especially when atomicity is desired.
 **Action:** Always batch consecutive Prisma database mutations using `await prisma.$transaction([...])` to guarantee atomicity and minimize network latency for significantly faster endpoint execution.
+## 2025-02-21 - Prisma $transaction for Sequential Writes
+**Learning:** Sequential `await` operations on database writes (like updating bids, creating logs, updating status sequentially) create O(N) network roundtrips, causing performance bottlenecks and stalling the event loop, especially when atomicity is desired.
+**Action:** Always batch consecutive Prisma database mutations using `await prisma.$transaction([...])` to guarantee atomicity and minimize network latency for significantly faster endpoint execution.
