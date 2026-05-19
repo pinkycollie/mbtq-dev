@@ -120,7 +120,6 @@ export default function App() {
             value={theme}
             onChange={(e) => setTheme(e.target.value as 'rainbow' | 'sunset' | 'ocean')}
             className="px-3 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full hover:from-pink-600 hover:to-purple-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-fuchsia-400 focus-visible:ring-offset-2 cursor-pointer transition-all font-bold text-sm"
-            className="px-3 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full hover:from-pink-600 hover:to-purple-600 focus:outline-none focus-visible:ring-4 focus-visible:ring-fuchsia-400 focus-visible:ring-offset-2 cursor-pointer transition-all font-bold text-sm"
             aria-label="Select color theme"
           >
             <option value="rainbow">🌈 Rainbow</option>
@@ -133,7 +132,6 @@ export default function App() {
               triggerCelebration();
             }}
             className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full hover:from-purple-700 hover:to-pink-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-400 focus-visible:ring-offset-2 transition-all hover:scale-110 font-bold shadow-lg hover:shadow-xl"
-            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full hover:from-purple-700 hover:to-pink-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-purple-400 focus-visible:ring-offset-2 transition-all hover:scale-110 font-bold shadow-lg hover:shadow-xl"
             aria-expanded={showGenerator}
             aria-label={showGenerator ? "Return to Dashboard" : "Open Generator"}
           >
@@ -145,7 +143,6 @@ export default function App() {
               triggerCelebration();
             }}
             className="px-4 py-2 bg-blue-700 text-white rounded-full hover:bg-fuchsia-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-fuchsia-400 focus-visible:ring-offset-2 transition-all hover:scale-110 hover:rotate-3 font-bold shadow-lg hover:shadow-xl"
-            className="px-4 py-2 bg-blue-700 text-white rounded-full hover:bg-fuchsia-600 focus:outline-none focus-visible:ring-4 focus-visible:ring-fuchsia-400 focus-visible:ring-offset-2 transition-all hover:scale-110 hover:rotate-3 font-bold shadow-lg hover:shadow-xl"
             aria-expanded={showManifesto}
             aria-label={showManifesto ? "Hide Manifesto" : "Show Manifesto"}
           >
@@ -158,7 +155,6 @@ export default function App() {
               triggerCelebration();
             }}
             className="px-4 py-2 bg-gradient-to-r from-gray-700 to-purple-700 text-white rounded-full hover:from-gray-800 hover:to-purple-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-purple-400 focus-visible:ring-offset-2 transition-all hover:scale-110 font-bold shadow-lg hover:shadow-xl"
-            className="px-4 py-2 bg-gradient-to-r from-gray-700 to-purple-700 text-white rounded-full hover:from-gray-800 hover:to-purple-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-purple-400 focus-visible:ring-offset-2 transition-all hover:scale-110 font-bold shadow-lg hover:shadow-xl"
             aria-expanded={showSignSystem}
             aria-label={showSignSystem ? "Return to Dashboard" : "Open Sign System"}
           >
