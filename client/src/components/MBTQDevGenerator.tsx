@@ -100,7 +100,7 @@ const MBTQDevGenerator = () => {
                 <div className="flex items-center gap-3">
                   {prompt.length > 0 && (
                     <button
-                      onClick={() => setPrompt('')}
+                      onClick={() => { setPrompt(''); setTimeout(() => document.getElementById('app-description')?.focus(), 0); }}
                       className="text-xs text-pink-400 hover:text-pink-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded px-1 transition-colors"
                       aria-label="Clear description"
                     >
@@ -212,23 +212,26 @@ const MBTQDevGenerator = () => {
             </div>
 
             {/* Generate Button */}
+            <div className={(!prompt || generating) ? "cursor-not-allowed" : ""} title={!prompt ? "Please describe your app to generate a stack" : generating ? "Generating..." : ""}>
             <button
               onClick={generateApp}
               disabled={!prompt || generating}
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 flex items-center justify-center gap-2"
+              aria-busy={generating}
+              className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 flex items-center justify-center gap-2"
             >
               {generating ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
                   Magicians Working...
                 </>
               ) : (
                 <>
-                  <Rocket className="w-5 h-5" />
+                  <Rocket className="w-5 h-5" aria-hidden="true" />
                   Generate Stack
                 </>
               )}
             </button>
+            </div>
 
           </div>
 
