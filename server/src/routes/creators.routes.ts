@@ -195,38 +195,40 @@ router.post('/projects/:id/submit', async (req, res: Response) => {
 
     const oldStatus = project.status;
 
-    // Update project
-    const updatedProject = await prisma.project.update({
-      where: { id },
-      data: {
-        status: 'SUBMITTED',
-        deliverableUrl,
-        notes,
-        completedAt: new Date(),
-      },
-      include: {
-        request: true,
-        creator: true,
-      },
-    });
-
-    // Update request status
     const oldRequestStatus = project.request.status;
-    await prisma.request.update({
-      where: { id: project.requestId },
-      data: { status: 'COMPLETED' },
-    });
 
-    // Log status change
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: project.requestId,
-        oldStatus: oldRequestStatus,
-        newStatus: 'COMPLETED',
-        changedBy: project.creatorId,
-        notes: 'Project submitted by creator',
-      },
-    });
+    // ⚡ Bolt Optimization: Batch sequential database writes in a transaction
+    // 💡 What: Replaced three sequential Prisma awaits (update project, update request, create log) with a single $transaction.
+    // 🎯 Why: Sequential awaits create O(N) network roundtrips to the database. Transactions guarantee atomicity and minimize network latency.
+    // 📊 Impact: Reduces database network trips from 3 to 1, significantly speeding up the endpoint execution.
+    const [updatedProject] = await prisma.$transaction([
+      prisma.project.update({
+        where: { id },
+        data: {
+          status: 'SUBMITTED',
+          deliverableUrl,
+          notes,
+          completedAt: new Date(),
+        },
+        include: {
+          request: true,
+          creator: true,
+        },
+      }),
+      prisma.request.update({
+        where: { id: project.requestId },
+        data: { status: 'COMPLETED' },
+      }),
+      prisma.requestStatusLog.create({
+        data: {
+          requestId: project.requestId,
+          oldStatus: oldRequestStatus,
+          newStatus: 'COMPLETED',
+          changedBy: project.creatorId,
+          notes: 'Project submitted by creator',
+        },
+      })
+    ]);
 
     // Send webhook notification
     await WebhookService.notifyProjectCompleted(id);
