@@ -38,3 +38,7 @@
 ## 2025-05-24 - Inline Clear Actions for Textareas
 **Learning:** Generative AI forms often require users to input very long prompts. Providing no quick way to clear the text forces users to manually select all text to delete it, degrading the UX. Additionally, found that standard dismiss/close buttons (like an "×" icon) in custom notification systems often lack keyboard focus rings.
 **Action:** Always include an inline "Clear" action (e.g., a button inside or next to the textarea) for generative AI inputs to improve the editing flow. Always ensure custom dismiss buttons have explicit `focus-visible:ring` styles to guarantee keyboard navigation accessibility.
+
+## 2025-05-24 - Tooltips for Disabled States
+**Learning:** Using the native `disabled` attribute removes interactive elements from the tab sequence. Screen reader users tab right past them and miss the context entirely, creating confusion.
+**Action:** Instead of `disabled`, use `aria-disabled="true"`, prevent the click action in the handler, retain keyboard focusability, and add a tooltip or `aria-live` region explaining exactly *why* the action is disabled.
