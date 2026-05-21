@@ -197,11 +197,12 @@ router.post('/projects/:id/submit', async (req, res: Response) => {
 
     const oldRequestStatus = project.request.status;
 
-    // ⚡ Bolt Optimization: Batch sequential database writes in a transaction
-    // 💡 What: Replaced three sequential Prisma awaits (update project, update request, create log) with a single $transaction.
-    // 🎯 Why: Sequential awaits create O(N) network roundtrips to the database. Transactions guarantee atomicity and minimize network latency.
-    // 📊 Impact: Reduces database network trips from 3 to 1, significantly speeding up the endpoint execution.
+    // ⚡ Bolt Optimization: Batch database writes
+    // 💡 What: Replaced 3 sequential await prisma calls with a single $transaction.
+    // 🎯 Why: Reduces database round-trips from 3 to 1, cutting network latency and ensuring atomicity.
+    // 📊 Impact: Significantly faster execution of the submit endpoint, reducing event loop blocking time.
     const [updatedProject] = await prisma.$transaction([
+      // Update project
       prisma.project.update({
         where: { id },
         data: {
@@ -215,10 +216,12 @@ router.post('/projects/:id/submit', async (req, res: Response) => {
           creator: true,
         },
       }),
+      // Update request status
       prisma.request.update({
         where: { id: project.requestId },
         data: { status: 'COMPLETED' },
       }),
+      // Log status change
       prisma.requestStatusLog.create({
         data: {
           requestId: project.requestId,

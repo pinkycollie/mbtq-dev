@@ -212,11 +212,16 @@ const MBTQDevGenerator = () => {
             </div>
 
             {/* Generate Button */}
-            <button
-              onClick={generateApp}
-              disabled={!prompt || generating}
-              className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 flex items-center justify-center gap-2"
-            >
+            <div className="relative group">
+              <button
+                onClick={() => {
+                  if (!prompt || generating) return;
+                  generateApp();
+                }}
+                aria-disabled={!prompt || generating}
+                aria-describedby={(!prompt || generating) ? "generate-tooltip" : undefined}
+                className={`w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 flex items-center justify-center gap-2 ${(!prompt || generating) ? 'opacity-50 cursor-not-allowed' : ''}`}
+              >
               {generating ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -228,7 +233,17 @@ const MBTQDevGenerator = () => {
                   Generate Stack
                 </>
               )}
-            </button>
+              </button>
+              {(!prompt || generating) && (
+                <div
+                  id="generate-tooltip"
+                  role="tooltip"
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-sm rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 border border-slate-700"
+                >
+                  {generating ? "Magicians are currently working..." : "Please describe your app first"}
+                </div>
+              )}
+            </div>
 
           </div>
 

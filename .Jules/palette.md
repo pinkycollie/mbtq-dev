@@ -27,6 +27,9 @@
 ## 2025-05-24 - Explicit Form Labels & ARIA
 **Learning:** In React components like widgets that lack explicit form containers, standard form controls often miss explicit labels which negatively impacts screen reader reliability, relying instead on nested `<label>` or `aria-label` incorrectly.
 **Action:** Ensure inputs have explicit `id`s and `htmlFor` attributes pointing to their corresponding `<label>` element. Add keyboard focus styling explicitly via classes.
+## 2024-05-10 - Add prominent focus visible rings
+**Learning:** Default Tailwind `focus:outline-*` properties provide insufficient visual contrast for keyboard navigation on colorful gradients. Using `focus-visible:ring-*` with `ring-offset` provides a much clearer, high-contrast indicator for accessibility.
+**Action:** Always prefer `focus-visible:ring-4 focus-visible:ring-[color]-400` with offsets over default outlines for interactive elements, especially on layered or gradient backgrounds.
 
 ## 2025-05-24 - High-Contrast Focus Rings for Keyboard Accessibility
 **Learning:** Found instances where custom interactive UI elements, especially those overriding default outline styles, used low-contrast or hard-to-see `focus:outline-*` properties, or had poor default browser focus styles.
@@ -38,3 +41,7 @@
 ## 2025-05-24 - Inline Clear Actions for Textareas
 **Learning:** Generative AI forms often require users to input very long prompts. Providing no quick way to clear the text forces users to manually select all text to delete it, degrading the UX. Additionally, found that standard dismiss/close buttons (like an "×" icon) in custom notification systems often lack keyboard focus rings.
 **Action:** Always include an inline "Clear" action (e.g., a button inside or next to the textarea) for generative AI inputs to improve the editing flow. Always ensure custom dismiss buttons have explicit `focus-visible:ring` styles to guarantee keyboard navigation accessibility.
+
+## 2025-05-24 - Tooltips for Disabled States
+**Learning:** Using the native `disabled` attribute removes interactive elements from the tab sequence. Screen reader users tab right past them and miss the context entirely, creating confusion.
+**Action:** Instead of `disabled`, use `aria-disabled="true"`, prevent the click action in the handler, retain keyboard focusability, and add a tooltip or `aria-live` region explaining exactly *why* the action is disabled.
