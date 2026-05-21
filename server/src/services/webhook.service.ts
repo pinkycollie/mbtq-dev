@@ -204,10 +204,6 @@ export class WebhookService {
    * Retry failed webhooks
    */
   static async retryFailedWebhooks(maxAttempts: number = 3) {
-    // ⚡ Bolt Optimization: Added select: { id: true }
-    // 💡 What: Only fetch the webhook IDs instead of the entire records.
-    // 🎯 Why: Prevents fetching large JSON payload and response blobs into memory for 100 failed webhooks, reducing database I/O and application memory footprint.
-    // 📊 Impact: Significantly reduces memory allocation and database transfer size during retry operations.
     const failedWebhooks = await prisma.webhookEvent.findMany({
       where: {
         status: 'FAILED',
@@ -215,23 +211,11 @@ export class WebhookService {
           lt: maxAttempts,
         },
       },
-      select: {
-        id: true,
-      },
       take: 100,
     });
 
-    // ⚡ Bolt Optimization: Chunked Concurrent Webhook Retries
-    // 💡 What: Replaced sequential await loop with Promise.all() in chunks of 10.
-    // 🎯 Why: Previously, failed webhooks were retried sequentially. 100 webhooks at 500ms each = 50 seconds of blocking.
-    // Chunking allows concurrent processing without overwhelming the external API or Node's connection pool.
-    // 📊 Impact: Reduces webhook retry processing time from O(N) to O(N/10).
-    const chunkSize = 10;
-    for (let i = 0; i < failedWebhooks.length; i += chunkSize) {
-      const chunk = failedWebhooks.slice(i, i + chunkSize);
-      await Promise.all(
-        chunk.map((webhook: { id: string }) => this.sendWebhook(webhook.id))
-      );
+    for (const webhook of failedWebhooks) {
+      await this.sendWebhook(webhook.id);
     }
   }
 }

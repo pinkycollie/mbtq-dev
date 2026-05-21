@@ -97,20 +97,9 @@ const MBTQDevGenerator = () => {
                   Describe Your App <span className="text-pink-500" aria-hidden="true">*</span>
                   <span className="sr-only"> (Required)</span>
                 </label>
-                <div className="flex items-center gap-3">
-                  {prompt.length > 0 && (
-                    <button
-                      onClick={() => setPrompt('')}
-                      className="text-xs text-pink-400 hover:text-pink-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 rounded px-1 transition-colors"
-                      aria-label="Clear description"
-                    >
-                      Clear
-                    </button>
-                  )}
-                  <span className="text-xs text-slate-500" aria-live="polite">
-                    {prompt.length === 0 ? "Required to generate" : `${prompt.length} characters`}
-                  </span>
-                </div>
+                <span className="text-xs text-slate-500" aria-live="polite">
+                  {prompt.length === 0 ? "Required to generate" : `${prompt.length} characters`}
+                </span>
               </div>
               <textarea
                 id="app-description"
@@ -212,16 +201,11 @@ const MBTQDevGenerator = () => {
             </div>
 
             {/* Generate Button */}
-            <div className="relative group">
-              <button
-                onClick={() => {
-                  if (!prompt || generating) return;
-                  generateApp();
-                }}
-                aria-disabled={!prompt || generating}
-                aria-describedby={(!prompt || generating) ? "generate-tooltip" : undefined}
-                className={`w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 flex items-center justify-center gap-2 ${(!prompt || generating) ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
+            <button
+              onClick={generateApp}
+              disabled={!prompt || generating}
+              className="w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white py-4 rounded-lg font-bold text-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-purple-500 flex items-center justify-center gap-2"
+            >
               {generating ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -233,17 +217,7 @@ const MBTQDevGenerator = () => {
                   Generate Stack
                 </>
               )}
-              </button>
-              {(!prompt || generating) && (
-                <div
-                  id="generate-tooltip"
-                  role="tooltip"
-                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 text-white text-sm rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 border border-slate-700"
-                >
-                  {generating ? "Magicians are currently working..." : "Please describe your app first"}
-                </div>
-              )}
-            </div>
+            </button>
 
           </div>
 
