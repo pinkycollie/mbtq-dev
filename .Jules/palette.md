@@ -45,3 +45,6 @@
 ## 2025-05-24 - Tooltips for Disabled States
 **Learning:** Using the native `disabled` attribute removes interactive elements from the tab sequence. Screen reader users tab right past them and miss the context entirely, creating confusion.
 **Action:** Instead of `disabled`, use `aria-disabled="true"`, prevent the click action in the handler, retain keyboard focusability, and add a tooltip or `aria-live` region explaining exactly *why* the action is disabled.
+## 2025-05-24 - Tooltips for Disabled Async Buttons
+**Learning:** In A11yBar.tsx, using the native `disabled` attribute on the 'Run A11y Check' button removed it from the tab sequence, causing screen readers to miss context.
+**Action:** Changed to `aria-disabled="true"`, added a tooltip explaining the wait state, and linked it via `aria-describedby` to maintain focusability and provide context.
