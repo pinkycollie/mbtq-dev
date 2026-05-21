@@ -85,23 +85,35 @@ export default function A11yBar() {
         >
           {contrast ? "🌙 Disable" : "☀️ Enable"} High Contrast
         </button>
-        <button
-          onClick={runAxeCheck}
-          disabled={isChecking}
-          className={`bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-full text-white font-bold transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 flex items-center gap-2 ${
-            isChecking ? 'opacity-75 cursor-wait' : 'hover:from-blue-700 hover:to-indigo-700 hover:scale-110 hover:shadow-lg'
-          }`}
-          aria-busy={isChecking}
-        >
-          {isChecking ? (
-            <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
-              Checking...
-            </>
-          ) : (
-            "🔍 Run A11y Check"
+        <div className="relative group flex">
+          <button
+            onClick={isChecking ? undefined : runAxeCheck}
+            aria-disabled={isChecking}
+            aria-describedby={isChecking ? "a11y-check-tooltip" : undefined}
+            className={`bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-full text-white font-bold transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 flex items-center gap-2 ${
+              isChecking ? 'opacity-75 cursor-not-allowed' : 'hover:from-blue-700 hover:to-indigo-700 hover:scale-110 hover:shadow-lg'
+            }`}
+            aria-busy={isChecking}
+          >
+            {isChecking ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+                Checking...
+              </>
+            ) : (
+              "🔍 Run A11y Check"
+            )}
+          </button>
+          {isChecking && (
+            <div
+              id="a11y-check-tooltip"
+              role="tooltip"
+              className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50"
+            >
+              Accessibility check is currently running. Please wait.
+            </div>
           )}
-        </button>
+        </div>
       </div>
     </div>
   );
