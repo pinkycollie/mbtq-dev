@@ -16,6 +16,10 @@
 **Vulnerability:** The SSRF protection was incomplete as it only matched `::ffff:` string prefix for IPv4-mapped IPv6 addresses. Alternate representations like `0:0:0:0:0:ffff:127.0.0.1` bypassed this check and bypassed the SSRF filter completely.
 **Learning:** String manipulation on IP addresses is insufficient due to multiple valid representations.
 **Prevention:** Rely on established IP parsing libraries like `ipaddr.js` and natively convert mapped addresses using `.isIPv4MappedAddress()` and `.toIPv4Address()`.
+## 2026-04-26 - [Secure CORS Configuration]
+**Vulnerability:** Overly permissive CORS configuration (`origin: '*'`) in Socket.IO and Express.
+**Learning:** Using a wildcard origin allows any site to connect to the backend, which could expose sensitive data or actions to CSRF attacks if combined with credentials.
+**Prevention:** Always restrict CORS to known origins using an environment variable like `CORS_ORIGIN`, and ensure credentials are set appropriately.
 ## 2025-04-24 - [Fix Overly Permissive CORS Configuration]
 **Vulnerability:** The Express and Socket.io instances in server/src/index.ts were using an overly permissive CORS configuration allowing all origins (`*`).
 **Learning:** The legacy `server/index.js` file correctly used the `CORS_ORIGIN` environment variable, but this was lost when transitioning the running application to TypeScript (`server/src/index.ts`).
