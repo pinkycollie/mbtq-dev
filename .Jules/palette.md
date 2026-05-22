@@ -45,3 +45,7 @@
 ## 2025-05-24 - Tooltips for Disabled States
 **Learning:** Using the native `disabled` attribute removes interactive elements from the tab sequence. Screen reader users tab right past them and miss the context entirely, creating confusion.
 **Action:** Instead of `disabled`, use `aria-disabled="true"`, prevent the click action in the handler, retain keyboard focusability, and add a tooltip or `aria-live` region explaining exactly *why* the action is disabled.
+
+## 2024-05-18 - Replacing disabled with aria-disabled on async buttons
+**Learning:** Native `disabled` attributes completely remove buttons from the tab order, preventing screen reader users from discovering state changes (like "Checking..."). In this project's custom Tailwind tooltips, using `aria-disabled` along with a `group-hover/group-focus-within` tooltip ensures the button remains focusable and correctly announces its "busy" state to assistive technologies while preserving visual consistency.
+**Action:** When updating asynchronous buttons, prefer `aria-disabled="true"` with custom `onClick` guards over the native `disabled` attribute, and use `group` containers for related tooltips to keep them accessible to keyboard navigation.
