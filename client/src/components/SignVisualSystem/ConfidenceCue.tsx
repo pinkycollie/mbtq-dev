@@ -5,7 +5,11 @@ interface ConfidenceCueProps {
   type?: 'bar';
 }
 
-export const ConfidenceCue: React.FC<ConfidenceCueProps> = ({ confidence }) => {
+// ⚡ Bolt Optimization: Added React.memo to prevent unnecessary re-renders
+// 💡 What: Wrapped ConfidenceCue in React.memo.
+// 🎯 Why: SignVisualSystem frequently updates other states (like eventLog), which causes this component to re-render unnecessarily.
+// 📊 Impact: Reduces rendering overhead in highly dynamic event-driven container components.
+export const ConfidenceCue: React.FC<ConfidenceCueProps> = React.memo(({ confidence }) => {
   const getColor = () => {
     if (confidence >= 0.8) return 'bg-green-500';
     if (confidence >= 0.5) return 'bg-yellow-500';
@@ -35,4 +39,4 @@ export const ConfidenceCue: React.FC<ConfidenceCueProps> = ({ confidence }) => {
       </span>
     </div>
   );
-};
+});

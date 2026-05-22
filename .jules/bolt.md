@@ -40,3 +40,6 @@
 ## 2025-05-24 - Prisma $transaction for Sequential Writes in Project Submission
 **Learning:** Sequential `await` operations on database writes (like updating projects, requests, and creating logs sequentially) create O(N) network roundtrips, causing performance bottlenecks and stalling the event loop, especially when atomicity is desired.
 **Action:** Always batch consecutive Prisma database mutations using `await prisma.$transaction([...])` to guarantee atomicity and minimize network latency for significantly faster endpoint execution.
+## 2024-05-15 - React.memo on dynamic child components
+**Learning:** In highly dynamic frontend components (like `SignVisualSystem`) that frequently emit state updates (e.g., via `eventBus`), child presentation components that take props should be wrapped in `React.memo` to prevent unnecessary React render cycles when the parent state updates other disconnected elements.
+**Action:** Always verify if a pure presentational child component is rendered within a frequently-updating container and wrap it in `React.memo` if its props don't change on every container update.
