@@ -86,17 +86,25 @@ export default function A11yBar() {
           {contrast ? "🌙 Disable" : "☀️ Enable"} High Contrast
         </button>
         <button
-          onClick={runAxeCheck}
-          disabled={isChecking}
-          className={`bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-full text-white font-bold transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 flex items-center gap-2 ${
+          onClick={isChecking ? undefined : runAxeCheck}
+          aria-disabled={isChecking}
+          className={`bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-full text-white font-bold transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 flex items-center gap-2 group relative ${
             isChecking ? 'opacity-75 cursor-wait' : 'hover:from-blue-700 hover:to-indigo-700 hover:scale-110 hover:shadow-lg'
           }`}
           aria-busy={isChecking}
+          aria-describedby={isChecking ? "checking-tooltip" : undefined}
         >
           {isChecking ? (
             <>
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
               Checking...
+              <div
+                id="checking-tooltip"
+                role="tooltip"
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50"
+              >
+                Check in progress, please wait
+              </div>
             </>
           ) : (
             "🔍 Run A11y Check"
