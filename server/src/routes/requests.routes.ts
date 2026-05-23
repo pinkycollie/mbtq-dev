@@ -24,38 +24,45 @@ router.post('/', authenticateApiKey, async (req: AuthRequest, res: Response) => 
       return;
     }
 
-    // Create the request
-    const request = await prisma.request.create({
-      data: {
-        companyId,
-        title,
-        description,
-        requirements,
-        serviceType,
-        budget: budget ? parseFloat(budget) : null,
-        deadline: deadline ? new Date(deadline) : null,
-        status: 'PENDING',
-      },
-      include: {
-        company: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
+    // ⚡ Bolt Optimization: Batch database writes using transaction
+    // 💡 What: Replaced sequential await calls for request.create and requestStatusLog.create with interactive prisma.$transaction.
+    // 🎯 Why: Sequential writes require multiple database round trips, increasing network latency and risking inconsistency.
+    // 📊 Impact: Guarantees atomicity and reduces event loop blocking time.
+    const request = await prisma.$transaction(async (tx) => {
+      const newRequest = await tx.request.create({
+        data: {
+          companyId,
+          title,
+          description,
+          requirements,
+          serviceType,
+          budget: budget ? parseFloat(budget) : null,
+          deadline: deadline ? new Date(deadline) : null,
+          status: 'PENDING',
+        },
+        include: {
+          company: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    // Log status
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: request.id,
-        oldStatus: null,
-        newStatus: 'PENDING',
-        changedBy: companyId,
-        notes: 'Request created',
-      },
+      // Log status
+      await tx.requestStatusLog.create({
+        data: {
+          requestId: newRequest.id,
+          oldStatus: null,
+          newStatus: 'PENDING',
+          changedBy: companyId,
+          notes: 'Request created',
+        },
+      });
+
+      return newRequest;
     });
 
     res.status(201).json({
@@ -246,21 +253,25 @@ router.patch('/:id/status', authenticateApiKey, async (req: AuthRequest, res: Re
 
     const oldStatus = request.status;
 
-    const updatedRequest = await prisma.request.update({
-      where: { id },
-      data: { status },
-    });
-
-    // Log status change
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: id,
-        oldStatus,
-        newStatus: status,
-        changedBy: companyId,
-        notes,
-      },
-    });
+    // ⚡ Bolt Optimization: Batch database writes using transaction
+    // 💡 What: Replaced sequential await calls for request.update and requestStatusLog.create with prisma.$transaction.
+    // 🎯 Why: Sequential writes require multiple database round trips, increasing network latency and risking inconsistency.
+    // 📊 Impact: Guarantees atomicity and reduces event loop blocking time.
+    const [updatedRequest] = await prisma.$transaction([
+      prisma.request.update({
+        where: { id },
+        data: { status },
+      }),
+      prisma.requestStatusLog.create({
+        data: {
+          requestId: id,
+          oldStatus,
+          newStatus: status,
+          changedBy: companyId,
+          notes,
+        },
+      })
+    ]);
 
     // Send webhook notification
     await WebhookService.notifyRequestStatusChange(id, oldStatus, status);
