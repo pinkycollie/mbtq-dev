@@ -45,3 +45,6 @@
 ## 2025-05-24 - Tooltips for Disabled States
 **Learning:** Using the native `disabled` attribute removes interactive elements from the tab sequence. Screen reader users tab right past them and miss the context entirely, creating confusion.
 **Action:** Instead of `disabled`, use `aria-disabled="true"`, prevent the click action in the handler, retain keyboard focusability, and add a tooltip or `aria-live` region explaining exactly *why* the action is disabled.
+## 2025-02-14 - Use aria-disabled with prop guard instead of native disabled
+**Learning:** Using the native `disabled` attribute on interactive elements (like buttons) completely removes them from the keyboard tab sequence. This means screen reader users and keyboard navigators can't access them to trigger tooltips or read their state when they are temporarily disabled (e.g., during a loading or checking state).
+**Action:** When a button's state needs to be communicated while it's temporarily disabled, use `aria-disabled="true"` coupled with a conditional prop guard on `onClick` (e.g. `onClick={isChecking ? undefined : handler}`) instead of `disabled={true}`. Wrap the button in a `group` and provide a tooltip (using `group-hover` and `group-focus-within`) that explains the state.
