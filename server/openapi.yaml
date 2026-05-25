@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: MBTQ Content Fulfillment API
   description: |
-    API for managing video requests and creator fulfillment between `videos.mbtq.dev` and `creators.pinksync.io`.
+    API for managing video requests and creator fulfillment between `contents.mbtq.dev` and `creators.pinksync.io`.
     
     This API enables:
     - Corporate clients to submit video requests
@@ -22,7 +22,7 @@ info:
 servers:
   - url: http://localhost:4000
     description: Development server
-  - url: https://api.videos.mbtq.dev
+  - url: https://contents.mbtq.dev
     description: Production server
 
 components:
