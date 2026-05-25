@@ -1,6 +1,6 @@
 # MBTQ Content Fulfillment API
 
-Backend API for managing video requests and creator fulfillment between `videos.mbtq.dev` (request platform) and `creators.pinksync.io` (creator workspace).
+Backend API for managing video requests and creator fulfillment between `contents.mbtq.dev` (request platform) and `creators.pinksync.io` (creator workspace).
 
 ## Features
 
