@@ -100,9 +100,9 @@ jobs:
       - name: Run security audit
         run: |
           echo "Running security audit for client..."
-          cd client && npm audit --audit-level=moderate
+          cd client && pnpm audit --audit-level=moderate
           echo "Running security audit for server..."
-          cd ../server && npm audit --audit-level=moderate
+          cd ../server && pnpm audit --audit-level=moderate
         continue-on-error: false
 
   build:
