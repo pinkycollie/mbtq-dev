@@ -1,4 +1,4 @@
-import { useState, memo } from 'react';
+import { useState, memo, useRef } from 'react';
 import { Code, Database, Rocket, Zap, Shield, Eye } from 'lucide-react';
 
 interface Config {
@@ -34,6 +34,7 @@ const MBTQDevGenerator = () => {
     deploy: 'docker'
   });
   const [generating, setGenerating] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [output, setOutput] = useState<Output | null>(null);
 
   const generateApp = async () => {
@@ -114,6 +115,7 @@ const MBTQDevGenerator = () => {
               </div>
               <textarea
                 id="app-description"
+                  ref={textareaRef}
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="e.g., Job board for Deaf designers with video portfolios..."
@@ -315,7 +317,13 @@ const MBTQDevGenerator = () => {
             ) : (
               <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-lg p-12 text-center">
                 <Eye className="w-16 h-16 text-slate-700 mx-auto mb-4" />
-                <p className="text-slate-500">Configure and generate to see output</p>
+                <p className="text-slate-500 mb-4">Configure and generate to see output</p>
+                <button
+                  onClick={() => textareaRef.current?.focus()}
+                  className="px-6 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-pink-500"
+                >
+                  Start Describing Your App
+                </button>
               </div>
             )}
 

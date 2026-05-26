@@ -48,3 +48,6 @@
 ## 2025-02-14 - Use aria-disabled with prop guard instead of native disabled
 **Learning:** Using the native `disabled` attribute on interactive elements (like buttons) completely removes them from the keyboard tab sequence. This means screen reader users and keyboard navigators can't access them to trigger tooltips or read their state when they are temporarily disabled (e.g., during a loading or checking state).
 **Action:** When a button's state needs to be communicated while it's temporarily disabled, use `aria-disabled="true"` coupled with a conditional prop guard on `onClick` (e.g. `onClick={isChecking ? undefined : handler}`) instead of `disabled={true}`. Wrap the button in a `group` and provide a tooltip (using `group-hover` and `group-focus-within`) that explains the state.
+## 2026-05-26 - Added CTA to Empty State in MBTQDevGenerator
+**Learning:** Users often stall at empty states without clear next steps. Adding a CTA that focuses the primary input provides clear guidance.
+**Action:** Always provide an actionable CTA in empty states to direct the user's focus to the required input field.
