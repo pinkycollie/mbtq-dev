@@ -12,12 +12,14 @@
     "handshake": "deafauth verify"
   },
   "dependencies": {
-    "@angular/cdk": "^17.0.0",
+    "@angular/cdk": "^19.2.16",
+    "@angular/common": "^19.2.22",
+    "@angular/core": "19.2.22",
     "@clerk/nextjs": "latest",
     "@supabase/supabase-js": "latest",
     "clsx": "^2.1.0",
     "lucide-react": "latest",
-    "next": "^14.2.35",
+    "next": "^15.5.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.2.0"
@@ -27,11 +29,19 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.35",
+    "postcss": "^8.5.15",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
   },
   "engines": {
     "node": ">=18.17.0"
+  },
+  "overrides": {
+    "postcss": "^8.5.15"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss": "^8.5.15"
+    }
   }
 }
