@@ -54,7 +54,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: 'npm'
+          cache: 'pnpm'
           cache-dependency-path: |
             client/package-lock.json
             server/package-lock.json
@@ -87,7 +87,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: 'npm'
+          cache: 'pnpm'
           cache-dependency-path: |
             client/package-lock.json
             server/package-lock.json
@@ -117,7 +117,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
-          cache: 'npm'
+          cache: 'pnpm'
           cache-dependency-path: client/package-lock.json
 
       - name: Install dependencies
