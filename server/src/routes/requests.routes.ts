@@ -24,38 +24,41 @@ router.post('/', authenticateApiKey, async (req: AuthRequest, res: Response) => 
       return;
     }
 
-    // Create the request
-    const request = await prisma.request.create({
-      data: {
-        companyId,
-        title,
-        description,
-        requirements,
-        serviceType,
-        budget: budget ? parseFloat(budget) : null,
-        deadline: deadline ? new Date(deadline) : null,
-        status: 'PENDING',
-      },
-      include: {
-        company: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
+    // Create the request and log status in a single transaction
+    const request = await prisma.$transaction(async (tx: any) => {
+      const newRequest = await tx.request.create({
+        data: {
+          companyId,
+          title,
+          description,
+          requirements,
+          serviceType,
+          budget: budget ? parseFloat(budget) : null,
+          deadline: deadline ? new Date(deadline) : null,
+          status: 'PENDING',
+        },
+        include: {
+          company: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    // Log status
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: request.id,
-        oldStatus: null,
-        newStatus: 'PENDING',
-        changedBy: companyId,
-        notes: 'Request created',
-      },
+      await tx.requestStatusLog.create({
+        data: {
+          requestId: newRequest.id,
+          oldStatus: null,
+          newStatus: 'PENDING',
+          changedBy: companyId,
+          notes: 'Request created',
+        },
+      });
+
+      return newRequest;
     });
 
     res.status(201).json({
@@ -246,21 +249,21 @@ router.patch('/:id/status', authenticateApiKey, async (req: AuthRequest, res: Re
 
     const oldStatus = request.status;
 
-    const updatedRequest = await prisma.request.update({
-      where: { id },
-      data: { status },
-    });
-
-    // Log status change
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: id,
-        oldStatus,
-        newStatus: status,
-        changedBy: companyId,
-        notes,
-      },
-    });
+    const [updatedRequest] = await prisma.$transaction([
+      prisma.request.update({
+        where: { id },
+        data: { status },
+      }),
+      prisma.requestStatusLog.create({
+        data: {
+          requestId: id,
+          oldStatus,
+          newStatus: status,
+          changedBy: companyId,
+          notes,
+        },
+      })
+    ]);
 
     // Send webhook notification
     await WebhookService.notifyRequestStatusChange(id, oldStatus, status);

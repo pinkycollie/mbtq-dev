@@ -43,3 +43,6 @@
 ## 2024-05-25 - Prisma Partial Selection for List Endpoints
 **Learning:** Fetching complete records in paginated list endpoints (like `/events`) when tables contain large JSON or TEXT columns (`payload`, `response`) causes memory bloat and slows down the API, even if the payload isn't rendered in the list view.
 **Action:** Always use explicit `select` in Prisma `findMany` queries for list endpoints to exclude large text or JSON columns that are only needed for detail views.
+## 2024-05-27 - Prisma $transaction for Sequential Writes in Requests
+**Learning:** Sequential `await` operations on database writes (like creating a request and then its log, or updating a request and its log) create O(N) network roundtrips, causing performance bottlenecks and stalling the event loop.
+**Action:** Always batch consecutive Prisma database mutations using `await prisma.$transaction([...])` or an interactive transaction to guarantee atomicity and minimize network latency for significantly faster endpoint execution.
