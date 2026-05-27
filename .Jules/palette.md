@@ -48,3 +48,7 @@
 ## 2025-02-14 - Use aria-disabled with prop guard instead of native disabled
 **Learning:** Using the native `disabled` attribute on interactive elements (like buttons) completely removes them from the keyboard tab sequence. This means screen reader users and keyboard navigators can't access them to trigger tooltips or read their state when they are temporarily disabled (e.g., during a loading or checking state).
 **Action:** When a button's state needs to be communicated while it's temporarily disabled, use `aria-disabled="true"` coupled with a conditional prop guard on `onClick` (e.g. `onClick={isChecking ? undefined : handler}`) instead of `disabled={true}`. Wrap the button in a `group` and provide a tooltip (using `group-hover` and `group-focus-within`) that explains the state.
+
+## 2024-05-27 - Destination Area Loading Context
+**Learning:** Found a UX issue where triggering an async action showed a loading state on the button, but the destination area (where the result would appear) remained in a confusing "empty/initial" state. Users need immediate visual feedback in the location where the change will occur, not just on the trigger.
+**Action:** When creating async actions that populate destination areas, always render a dedicated loading state (like a spinner or skeleton) in the destination area itself, ensuring it uses `role="status"` and `aria-live="polite"`.

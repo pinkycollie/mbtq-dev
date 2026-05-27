@@ -312,6 +312,15 @@ const MBTQDevGenerator = () => {
                   Deploy to {config.deploy}
                 </button>
               </>
+            ) : generating ? (
+              <div
+                className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-lg p-12 text-center flex flex-col items-center justify-center"
+                role="status"
+                aria-live="polite"
+              >
+                <div className="w-16 h-16 border-4 border-slate-700 border-t-pink-500 rounded-full animate-spin mb-4" aria-hidden="true" />
+                <p className="text-slate-400 font-medium animate-pulse">Summoning Magicians...</p>
+              </div>
             ) : (
               <div className="bg-slate-900/50 backdrop-blur border border-slate-800 rounded-lg p-12 text-center">
                 <Eye className="w-16 h-16 text-slate-700 mx-auto mb-4" />
