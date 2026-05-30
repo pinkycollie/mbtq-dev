@@ -81,21 +81,22 @@ export class WebhookService {
 
       return true;
     } catch (error: any) {
-      // Update webhook event as failed
-      const webhookEvent = await prisma.webhookEvent.findUnique({
-        where: { id: webhookEventId },
-      });
-
-      if (webhookEvent) {
+      // ⚡ Bolt Optimization: Avoid refetching webhookEvent from database on failure
+      // 💡 What: Replaced the redundant `findUnique` query with a direct `update` using `increment`.
+      // 🎯 Why: When a webhook fails, the catch block previously queried the database again just to get the current attempts count before updating. Using Prisma's atomic `increment` operation avoids this extra database roundtrip.
+      // 📊 Impact: Eliminates an unnecessary database read query on every webhook failure, improving failure processing speed and reducing DB load.
+      try {
         await prisma.webhookEvent.update({
           where: { id: webhookEventId },
           data: {
             status: 'FAILED',
-            attempts: webhookEvent.attempts + 1,
+            attempts: { increment: 1 },
             lastAttempt: new Date(),
             response: error.message,
           },
         });
+      } catch (updateError) {
+        // Ignore update error if the record doesn't exist
       }
 
       console.error('Webhook delivery failed:', error.message);

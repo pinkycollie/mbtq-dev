@@ -46,3 +46,6 @@
 ## 2024-05-27 - Prisma $transaction for Sequential Writes in Requests
 **Learning:** Sequential `await` operations on database writes (like creating a request and then its log, or updating a request and its log) create O(N) network roundtrips, causing performance bottlenecks and stalling the event loop.
 **Action:** Always batch consecutive Prisma database mutations using `await prisma.$transaction([...])` or an interactive transaction to guarantee atomicity and minimize network latency for significantly faster endpoint execution.
+## 2025-05-29 - Prisma Atomic Increment
+**Learning:** Found sequential `findUnique` and `update` queries when handling webhook delivery failures, just to increment the `attempts` counter. This requires two database roundtrips for a simple counter update.
+**Action:** For performance optimizations involving Prisma counter updates (e.g., incrementing retry attempts), utilize the atomic `increment` operation (e.g., `attempts: { increment: 1 }`) within an `update` query instead of performing a sequential `findUnique` query followed by an `update`. This eliminates unnecessary database reads and improves execution speed.
