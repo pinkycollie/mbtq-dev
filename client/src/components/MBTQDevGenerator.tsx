@@ -35,6 +35,16 @@ const MBTQDevGenerator = () => {
   });
   const [generating, setGenerating] = useState(false);
   const [output, setOutput] = useState<Output | null>(null);
+  const [deployStatus, setDeployStatus] = useState<'idle' | 'deploying' | 'success'>('idle');
+
+  const handleDeploy = () => {
+    if (deployStatus !== 'idle') return;
+    setDeployStatus('deploying');
+    setTimeout(() => {
+      setDeployStatus('success');
+      setTimeout(() => setDeployStatus('idle'), 3000);
+    }, 1500);
+  };
 
   const generateApp = async () => {
     setGenerating(true);
@@ -325,9 +335,31 @@ const MBTQDevGenerator = () => {
                 </div>
 
                 {/* Deploy Button */}
-                <button className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-green-500">
-                  <Rocket className="w-5 h-5" />
-                  Deploy to {config.deploy}
+                <button
+                  onClick={handleDeploy}
+                  aria-disabled={deployStatus !== 'idle'}
+                  className={`w-full py-4 rounded-lg font-bold flex items-center justify-center gap-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 focus-visible:ring-green-500 ${
+                    deployStatus === 'success'
+                      ? 'bg-green-600 text-white'
+                      : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:opacity-90'
+                  } ${deployStatus === 'deploying' ? 'opacity-75 cursor-wait' : ''}`}
+                >
+                  {deployStatus === 'deploying' ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+                      Deploying...
+                    </>
+                  ) : deployStatus === 'success' ? (
+                    <>
+                      <span className="text-xl" aria-hidden="true">✅</span>
+                      Successfully Deployed!
+                    </>
+                  ) : (
+                    <>
+                      <Rocket className="w-5 h-5" />
+                      Deploy to {config.deploy}
+                    </>
+                  )}
                 </button>
               </>
             ) : (
