@@ -121,11 +121,26 @@ router.get('/events', authenticateApiKey, async (req: AuthRequest, res: Response
     }
 
     const [events, total] = await Promise.all([
+      // ⚡ Bolt Optimization: Added select to omit large payload and response blobs
+      // 💡 What: Only fetch metadata fields needed for the list view.
+      // 🎯 Why: Prevents fetching large JSON payload and response columns for every event in the paginated list, reducing database I/O and application memory footprint.
+      // 📊 Impact: Significantly reduces memory allocation and database transfer size for list endpoints.
       prisma.webhookEvent.findMany({
         where,
         skip,
         take: limitNum,
         orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          companyId: true,
+          event: true,
+          url: true,
+          status: true,
+          attempts: true,
+          lastAttempt: true,
+          createdAt: true,
+          updatedAt: true,
+        },
       }),
       prisma.webhookEvent.count({ where }),
     ]);
