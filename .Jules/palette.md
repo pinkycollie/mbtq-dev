@@ -55,3 +55,7 @@
 ## 2025-05-24 - Keyboard Shortcut Hints for Form Submission
 **Learning:** Found that long textareas (like for generative AI prompts) often force keyboard users to tab out to find the submit button, which can be frustrating. Adding a keyboard shortcut like Cmd/Ctrl + Enter is standard, but if it is not visible, users won't know it exists.
 **Action:** When adding keyboard shortcuts for primary actions (like form submission), always include a visual hint (e.g., `(⌘/Ctrl + Enter)`) in the submit button or nearby, and make sure to use `aria-hidden="true"` so screen readers don't read out the exact keystrokes redundantly if not necessary, but keep it visible for power users.
+
+## 2025-05-31 - Add feedback states to end-of-flow primary actions
+**Learning:** Found that primary call-to-actions at the end of a long generative flow (like a "Deploy" button) lacked active feedback upon click, making the UI feel unresponsive or broken.
+**Action:** Always add interactive loading and success states (e.g. `deploying` and `success`) with corresponding visual changes and `aria-disabled` properties to primary asynchronous action buttons.
