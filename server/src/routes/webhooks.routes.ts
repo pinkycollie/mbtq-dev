@@ -126,6 +126,19 @@ router.get('/events', authenticateApiKey, async (req: AuthRequest, res: Response
         skip,
         take: limitNum,
         orderBy: { createdAt: 'desc' },
+        // ⚡ Bolt Optimization: Prisma Partial Selection for List Endpoints
+        // 💡 What: Added explicit select to exclude large JSON and text columns (payload, response).
+        // 🎯 Why: Fetching complete records in paginated list endpoints when tables contain large JSON or TEXT columns causes memory bloat and slows down the API.
+        // 📊 Impact: Significantly reduces memory footprint and database I/O for the webhook events list endpoint.
+        select: {
+          id: true,
+          companyId: true,
+          event: true,
+          url: true,
+          status: true,
+          attempts: true,
+          createdAt: true
+        }
       }),
       prisma.webhookEvent.count({ where }),
     ]);
