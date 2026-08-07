@@ -4,9 +4,12 @@ export default function A11yBar() {
   const [contrast, setContrast] = useState(false);
   const [checkCount, setCheckCount] = useState(0);
   const [showBadges, setShowBadges] = useState(false);
+  const [isChecking, setIsChecking] = useState(false);
 
   const runAxeCheck = async () => {
+    if (isChecking) return;
     try {
+      setIsChecking(true);
       // Dynamic import to handle axe-core
       const React = await import("react");
       const ReactDOM = await import("react-dom");
@@ -20,6 +23,8 @@ export default function A11yBar() {
     } catch (error) {
       console.error("Error running axe check:", error);
       console.log("Check console for accessibility analysis.");
+    } finally {
+      setIsChecking(false);
     }
   };
 
@@ -80,12 +85,35 @@ export default function A11yBar() {
         >
           {contrast ? "🌙 Disable" : "☀️ Enable"} High Contrast
         </button>
-        <button
-          onClick={runAxeCheck}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-full text-white font-bold hover:from-blue-700 hover:to-indigo-700 transition-all hover:scale-110 shadow-md hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-        >
-          🔍 Run A11y Check
-        </button>
+        <div className="relative group">
+          <button
+            onClick={isChecking ? undefined : runAxeCheck}
+            aria-disabled={isChecking}
+            aria-describedby={isChecking ? "a11y-check-tooltip" : undefined}
+            className={`bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-full text-white font-bold transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 flex items-center gap-2 ${
+              isChecking ? 'opacity-75 cursor-wait' : 'hover:from-blue-700 hover:to-indigo-700 hover:scale-110 hover:shadow-lg'
+            }`}
+            aria-busy={isChecking}
+          >
+            {isChecking ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" aria-hidden="true" />
+                Checking...
+              </>
+            ) : (
+              "🔍 Run A11y Check"
+            )}
+          </button>
+          {isChecking && (
+            <div
+              id="a11y-check-tooltip"
+              role="tooltip"
+              className="absolute bottom-[120%] left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 border border-gray-700"
+            >
+              Accessibility check is running...
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

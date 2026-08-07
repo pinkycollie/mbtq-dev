@@ -1,0 +1,85 @@
+id: "mbtq-project-runtime"
+version: "3.0"
+
+repository_runtime:
+
+  detection:
+
+    scoring:
+      weights:
+        readme: 10
+        dependency_manifest: 20
+        build_config: 15
+        tests: 20
+        ci_pipeline: 15
+        source_structure: 10
+        documentation: 10
+
+    thresholds:
+      discover: 0
+      plan: 20
+      scaffold: 40
+      build: 60
+      refine: 80
+
+  modes:
+
+    DISCOVER:
+      description: "Unknown or fragmented repository"
+
+    PLAN:
+      description: "Requirements + architecture generation"
+
+    SCAFFOLD:
+      description: "Generate initial runtime structure"
+
+    BUILD:
+      description: "Implement features + tests"
+
+    REFINE:
+      description: "Optimization + hardening"
+
+  orchestration:
+
+    dynamic_agent_selection: true
+
+    capabilities:
+
+      architecture:
+        agents:
+          - architecture-planner
+          - requirement-analyzer
+
+      scaffolding:
+        agents:
+          - repo-scaffolder
+          - config-generator
+
+      implementation:
+        agents:
+          - code-generator
+          - test-generator
+
+      optimization:
+        agents:
+          - refactor-assistant
+          - performance-reviewer
+
+      governance:
+        agents:
+          - policy-validator
+          - accessibility-auditor
+
+  execution_rules:
+
+    fail_closed: true
+
+    requires:
+      - trace_id
+      - repository_snapshot
+      - runtime_mode
+
+    prohibit:
+      - direct_main_branch_execution
+      - unsafe_dependency_install
+      - uncontrolled_agent_spawn

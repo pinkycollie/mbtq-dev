@@ -24,38 +24,41 @@ router.post('/', authenticateApiKey, async (req: AuthRequest, res: Response) => 
       return;
     }
 
-    // Create the request
-    const request = await prisma.request.create({
-      data: {
-        companyId,
-        title,
-        description,
-        requirements,
-        serviceType,
-        budget: budget ? parseFloat(budget) : null,
-        deadline: deadline ? new Date(deadline) : null,
-        status: 'PENDING',
-      },
-      include: {
-        company: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
+    // Create the request and log status in a single transaction
+    const request = await prisma.$transaction(async (tx: any) => {
+      const newRequest = await tx.request.create({
+        data: {
+          companyId,
+          title,
+          description,
+          requirements,
+          serviceType,
+          budget: budget ? parseFloat(budget) : null,
+          deadline: deadline ? new Date(deadline) : null,
+          status: 'PENDING',
+        },
+        include: {
+          company: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    // Log status
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: request.id,
-        oldStatus: null,
-        newStatus: 'PENDING',
-        changedBy: companyId,
-        notes: 'Request created',
-      },
+      await tx.requestStatusLog.create({
+        data: {
+          requestId: newRequest.id,
+          oldStatus: null,
+          newStatus: 'PENDING',
+          changedBy: companyId,
+          notes: 'Request created',
+        },
+      });
+
+      return newRequest;
     });
 
     res.status(201).json({
@@ -246,21 +249,21 @@ router.patch('/:id/status', authenticateApiKey, async (req: AuthRequest, res: Re
 
     const oldStatus = request.status;
 
-    const updatedRequest = await prisma.request.update({
-      where: { id },
-      data: { status },
-    });
-
-    // Log status change
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: id,
-        oldStatus,
-        newStatus: status,
-        changedBy: companyId,
-        notes,
-      },
-    });
+    const [updatedRequest] = await prisma.$transaction([
+      prisma.request.update({
+        where: { id },
+        data: { status },
+      }),
+      prisma.requestStatusLog.create({
+        data: {
+          requestId: id,
+          oldStatus,
+          newStatus: status,
+          changedBy: companyId,
+          notes,
+        },
+      })
+    ]);
 
     // Send webhook notification
     await WebhookService.notifyRequestStatusChange(id, oldStatus, status);
@@ -326,48 +329,48 @@ router.post('/:id/accept-bid', authenticateApiKey, async (req: AuthRequest, res:
       return;
     }
 
-    // Update bid status to accepted
-    await prisma.bid.update({
-      where: { id: bidId },
-      data: { status: 'ACCEPTED' },
-    });
-
-    // Reject other bids
-    await prisma.bid.updateMany({
-      where: {
-        requestId: id,
-        id: { not: bidId },
-        status: 'PENDING',
-      },
-      data: { status: 'REJECTED' },
-    });
-
-    // Update request status
     const oldStatus = request.status;
-    await prisma.request.update({
-      where: { id },
-      data: { status: 'BID_ACCEPTED' },
-    });
 
-    // Create project
-    const project = await prisma.project.create({
-      data: {
-        requestId: id,
-        creatorId: bid.creatorId,
-        status: 'IN_PROGRESS',
-      },
-    });
-
-    // Log status change
-    await prisma.requestStatusLog.create({
-      data: {
-        requestId: id,
-        oldStatus,
-        newStatus: 'BID_ACCEPTED',
-        changedBy: companyId,
-        notes: `Accepted bid from creator ${bid.creatorId}`,
-      },
-    });
+    // Batch all database writes in a transaction for performance and atomicity
+    const [_, __, ___, project] = await prisma.$transaction([
+      // Update bid status to accepted
+      prisma.bid.update({
+        where: { id: bidId },
+        data: { status: 'ACCEPTED' },
+      }),
+      // Reject other bids
+      prisma.bid.updateMany({
+        where: {
+          requestId: id,
+          id: { not: bidId },
+          status: 'PENDING',
+        },
+        data: { status: 'REJECTED' },
+      }),
+      // Update request status
+      prisma.request.update({
+        where: { id },
+        data: { status: 'BID_ACCEPTED' },
+      }),
+      // Create project
+      prisma.project.create({
+        data: {
+          requestId: id,
+          creatorId: bid.creatorId,
+          status: 'IN_PROGRESS',
+        },
+      }),
+      // Log status change
+      prisma.requestStatusLog.create({
+        data: {
+          requestId: id,
+          oldStatus,
+          newStatus: 'BID_ACCEPTED',
+          changedBy: companyId,
+          notes: `Accepted bid from creator ${bid.creatorId}`,
+        },
+      })
+    ]);
 
     // Send webhook notification
     await WebhookService.notifyRequestStatusChange(id, oldStatus, 'BID_ACCEPTED');

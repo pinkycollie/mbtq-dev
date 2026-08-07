@@ -2,6 +2,9 @@ import express, { Request, Response } from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
+import helmet from 'helmet';
+import { rateLimit } from 'express-rate-limit';
+
 import dotenv from 'dotenv';
 
 // Import routes
@@ -14,6 +17,7 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+
 // Security: CORS configuration
 const corsOptions = {
   origin: process.env.CORS_ORIGIN?.split(",") || ["http://localhost:5173"],
@@ -23,8 +27,39 @@ const corsOptions = {
 
 const io = new Server(server, { cors: corsOptions });
 
+
+// Security: Helmet and Rate Limiting
+app.use(helmet());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: { error: 'Too many requests, please try again later.' }
+});
+
+app.use('/api', limiter);
+
 // Middleware
 app.use(cors(corsOptions));
+
+// Security: Helmet for HTTP headers
+app.use(helmet());
+
+// Security: Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  message: {
+    error: 'Too Many Requests',
+    message: 'Too many requests from this IP, please try again after 15 minutes.'
+  }
+});
+app.use('/api/', limiter);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -84,3 +119,4 @@ server.listen(PORT, () => {
 });
 
 export default app;
+routing-edge.ts

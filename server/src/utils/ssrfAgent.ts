@@ -3,7 +3,7 @@ import https from 'https';
 import dns from 'dns';
 import ipaddr from 'ipaddr.js';
 
-const isInternalIp = (ipStr: string): boolean => {
+export const isInternalIp = (ipStr: string): boolean => {
   try {
     if (!ipaddr.isValid(ipStr)) {
       return false;
