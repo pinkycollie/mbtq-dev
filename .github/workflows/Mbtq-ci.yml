@@ -1,0 +1,50 @@
+name: MBTQ Platform CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      deafauth:
+        image: node:24-alpine
+      pinksync:
+        image: node:24-alpine
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+
+    - name: Install dependencies
+      run: |
+        cd deafauth && npm install
+        cd ../pinksync && npm install
+        cd ../accessibility && npm install
+        cd ../fibonrose && npm install
+
+    - name: Run Accessibility Scan
+      run: |
+        # Mock scan for CI
+        node accessibility/index.js &
+        sleep 5
+        curl -X POST -H "Content-Type: application/json" -d '{"url":"http://localhost:3000"}' http://localhost:3003/scan
+
+    - name: Validate Schemas
+      run: |
+        python3 scripts/validate-schema.py
+
+    - name: Pre-deployment checks
+      run: |
+        bash scripts/test-nodes.sh
