@@ -5,6 +5,11 @@ on:
     - cron: '0 0 * * *' # Runs daily at midnight UTC
   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
 
+permissions:
+  contents: read
+  pull-requests: read
+  issues: write
+
 jobs:
   sweep-pull-requests:
     runs-on: ubuntu-latest
