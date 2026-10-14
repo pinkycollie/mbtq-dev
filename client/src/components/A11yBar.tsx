@@ -85,13 +85,13 @@ export default function A11yBar() {
         >
           {contrast ? "🌙 Disable" : "☀️ Enable"} High Contrast
         </button>
-        <div className="relative group flex">
+        <div className="relative group">
           <button
             onClick={isChecking ? undefined : runAxeCheck}
             aria-disabled={isChecking}
             aria-describedby={isChecking ? "a11y-check-tooltip" : undefined}
             className={`bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 rounded-full text-white font-bold transition-all shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 flex items-center gap-2 ${
-              isChecking ? 'opacity-75 cursor-not-allowed' : 'hover:from-blue-700 hover:to-indigo-700 hover:scale-110 hover:shadow-lg'
+              isChecking ? 'opacity-75 cursor-wait' : 'hover:from-blue-700 hover:to-indigo-700 hover:scale-110 hover:shadow-lg'
             }`}
             aria-busy={isChecking}
           >
@@ -108,9 +108,9 @@ export default function A11yBar() {
             <div
               id="a11y-check-tooltip"
               role="tooltip"
-              className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50"
+              className="absolute bottom-[120%] left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg shadow-xl opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 border border-gray-700"
             >
-              Accessibility check is currently running. Please wait.
+              Accessibility check is running...
             </div>
           )}
         </div>
