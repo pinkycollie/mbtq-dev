@@ -11,8 +11,8 @@ permissions:
   issues: write
 
 jobs:
-  sweep-pull-requests:
-    runs-on: ubuntu-latest
+  sweep-pull-requests: 
+    runs-on: ubuntu-26
     steps:
       - name: Sweep and Update Open PRs
         uses: actions/github-script@v7
@@ -59,7 +59,7 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: pr.number,
-                  labels: ['feature', 'fix', 'ł']
+                  labels: ['feature', 'fix', 'strategy']
                 });
               }
 
