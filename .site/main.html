@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MBTQ.dev - Generative AI Platform for Full-Stack Development with Supabase Integration">
+    <title>MBTQ.dev - AI-Powered Full-Stack Development Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #fbbf24;
+            color: #78350f;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .notice-box {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #78350f;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 5px solid #78350f;
+        }
+
+        .notice-box h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .code-section {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .code-section pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-top: 2rem;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .migration-info {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .migration-info h2 {
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌈 MBTQ.dev</h1>
+            <p class="subtitle">AI-Powered Full-Stack Development Platform</p>
+            <p class="subtitle">Generative AI Platform for Building with Supabase & Modern Frameworks</p>
+            <span class="badge">🚀 Built by Community, Powered by AI</span>
+        </header>
+
+        <main class="main-content">
+            <div class="notice-box">
+                <h2>📢 Platform Evolution Notice</h2>
+                <p><strong>Important Update:</strong> MBTQ.dev was originally created as a platform to help deaf entrepreneurs with idea validation, building, growth, and management. These core business features have now been migrated to the <strong>BUSINESS MAGICIAN</strong> platform powered by 360 Magicians (Generative AI).</p>
+                <p style="margin-top: 1rem;"><strong>Current Focus:</strong> MBTQ.dev now serves as a transparent, open-source generative AI development platform that teaches and guides developers to build full-stack applications with modern tools.</p>
+            </div>
+
+            <section>
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #667eea;">✨ What MBTQ.dev Offers Today</h2>
+                
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Generative AI Integration</h3>
+                        <p>Learn how to integrate AI models (GPT-4, Claude, Gemini) into your full-stack applications with best practices and examples.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔌</div>
+                        <h3>Supabase Backend</h3>
+                        <p>Complete guides for connecting your frontend to Supabase - authentication, real-time database, storage, and edge functions.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Modern Frameworks</h3>
+                        <p>Examples and starter kits using Next.js, React, and other modern frameworks for rapid development.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">♿</div>
+                        <h3>Accessibility First</h3>
+                        <p>WCAG-compliant components, screen reader optimization, and deaf/queer-friendly design patterns built into every template.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>API Discovery</h3>
+                        <p>Learn how to find, integrate, and work with third-party APIs to enhance your applications.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3>Full-Stack Templates</h3>
+                        <p>Production-ready templates with authentication, database, and API integrations already configured.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="migration-info">
+                <h2>🎯 Business Features → BUSINESS MAGICIAN Platform</h2>
+                <p>Looking for business idea validation, market analysis, and entrepreneurship tools specifically designed for deaf entrepreneurs? These features are now available on the <strong>BUSINESS MAGICIAN</strong> platform, powered by 360 Magicians AI agents.</p>
+                <ul style="margin-top: 1rem; margin-left: 2rem;">
+                    <li>✓ Idea Validation & Market Research</li>
+                    <li>✓ Business Plan Generation</li>
+                    <li>✓ Growth Strategy Planning</li>
+                    <li>✓ Managed Services for Entrepreneurs</li>
+                </ul>
+            </div>
+
+            <section>
+                <h2 style="text-align: center; margin-bottom: 2rem; color: #667eea;">🚀 Quick Start with Supabase</h2>
+                
+                <div class="code-section">
+                    <pre># 1. Install Supabase Client
+npm install @supabase/supabase-js
+
+# 2. Initialize in your app
+import { createClient } from '@supabase/supabase-js'
+
+const supabase = createClient(
+  'YOUR_SUPABASE_URL',
+  'YOUR_SUPABASE_ANON_KEY'
+)
+
+# 3. Start building!
+// Authentication
+await supabase.auth.signUp({ email, password })
+
+// Database queries
+const { data } = await supabase.from('users').select('*')
+
+// Real-time subscriptions
+supabase.channel('public:posts')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, 
+    payload => console.log(payload)
+  )
+  .subscribe()</pre>
+                </div>
+            </section>
+
+            <div class="cta-buttons">
+                <a href="/mbtq-dev/app/" class="btn btn-primary">
+                    🚀 Launch React App
+                </a>
+                <a href="https://github.com/pinkycollie/mbtq-dev" class="btn btn-primary" target="_blank">
+                    📖 View Documentation on GitHub
+                </a>
+                <a href="https://github.com/pinkycollie/mbtq-dev/blob/main/llm-deno-supabase.md" class="btn btn-secondary" target="_blank">
+                    🎓 Read Full AI Integration Guide
+                </a>
+            </div>
+        </main>
+
+        <footer>
+            <p><strong>MBTQ.dev</strong> © 2025 | Community. Culture. Power. 💜</p>
+            <p style="margin-top: 1rem;">Open Source • Accessibility First • AI-Powered</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="https://github.com/pinkycollie/mbtq-dev" style="color: #667eea; text-decoration: none; font-weight: 600;">
+                    ⭐ Star on GitHub
+                </a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
